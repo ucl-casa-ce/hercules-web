@@ -39,14 +39,15 @@
         function initMap() {
             const layer = new deck.BitmapLayer({
                 id: 'bitmap-layer',
-                bounds: [-122.5190, 37.7045, -122.355, 37.829],
-                image: 'https://raw.githubusercontent.com/visgl/deck.gl-data/master/website/sf-districts.png'
+                //[[40.685544, -74.024034], [40.734470, -74.034341], [40.740193, -73.938146], [40.679816, -73.942956]]
+                bounds: [-74.024034, 40.685544, -73.938146, 40.740193],
+                image: 'p2.png'
             });
 
             const map = new google.maps.Map(document.getElementById("map"), {
                 center: { lat: 40.72, lng: -74 },
                 mapId: "fae05836df2dc8bb",
-                tilt: 45,
+                tilt: 0,
                 zoom: 15,
             });
             let currentTime = 0;
@@ -73,7 +74,7 @@
                 });
 
                 overlay.setProps({
-                    layers: [tripsLayer, layer],
+                    layers: [layer, tripsLayer],
                 });
                 window.requestAnimationFrame(animate);
             };
