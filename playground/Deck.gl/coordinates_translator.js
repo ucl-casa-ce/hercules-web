@@ -11,7 +11,7 @@ function translatePathCoordinates(jsonObject) {
         const wRatio = (w - wRange.min) / (wRange.max - wRange.min);
         const longitude = longitudeRange.min + iRatio * (longitudeRange.max - longitudeRange.min);
         const latitude = latitudeRange.min + wRatio * (latitudeRange.max - latitudeRange.min);
-        return [longitude, latitude];
+        return [latitude, longitude];
     }
 
     // Iterate over each object in the JSON array
@@ -27,30 +27,30 @@ function translatePathCoordinates(jsonObject) {
 }
 
 //Usage Example:
-//let jsonObject = [
-//    {
-//      "vendor": 0,
-//      "path": [
-//        [
-//          0,
-//          0
-//        ],
-//        [
-//          3.738,
-//          6.596
-//        ],
-//        [
-//          5.389,
-//          5.838
-//        ]
-//      ],
-//      "timestamps": [
-//             0,
-//             60,
-//             60,
-//      ]
-//    }
-//  ];
-//
-//  let translatedJsonObject = translatePathCoordinates(jsonObject);
-//  console.log(JSON.stringify(translatedJsonObject, null, 2));
+let jsonObject = [
+    {
+        "vendor": 0,
+        "path": [
+            [
+                0,
+                0
+            ],
+            [
+                3.738,
+                6.596
+            ],
+            [
+                5.389,
+                5.838
+            ]
+        ],
+        "timestamps": [
+            0,
+            60,
+            60,
+        ]
+    }
+];
+
+let translatedJsonObject = translatePathCoordinates(jsonObject);
+console.log(JSON.stringify(translatedJsonObject, null, 2));
