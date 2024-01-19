@@ -2,8 +2,8 @@ function translatePathCoordinates(jsonObject) {
     // Define the ranges for i, w, longitude, and latitude
     const iRange = { min: 0, max: 35 };
     const wRange = { min: 0, max: 20 };
-    const longitudeRange = { min: 40.65000, max: 40.75000 };
-    const latitudeRange = { min: -74.0066, max: -73.97000 };
+    const longitudeRange = { min: 40.685544, max: 40.740193 };
+    const latitudeRange = { min: -74.024034, max: -73.938146 };
 
     // Function to translate coordinates
     function translateCoordinates(i, w) {
