@@ -11,10 +11,12 @@
     <script src="https://unpkg.com/@deck.gl/layers@^8.9.22/dist.min.js"></script>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
     <script src="https://unpkg.com/deck.gl@8.9.22/dist.min.js"></script>
-
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://unpkg.com/@deck.gl/core@^8.9.22/dist.min.js"></script>
+
     <script src="https://unpkg.com/@deck.gl/layers@^8.9.22/dist.min.js"></script>
-    <script src="app.js" defer></script>
+
     <style>
         body {
             margin: 0;
@@ -23,9 +25,15 @@
             overflow: hidden;
         }
     </style>
+
 </head>
 
 <body>
+    <div class="container mt-6 justify-content-center">
+        <label for="formControlRange">Patient time-lapse</label>
+        <input type="range" class="form-control-range" id="formControlRange" min="0" max="5920">
+        <p id="rangeValue">0</p>
+    </div>
     <!-- 
       The `defer` attribute causes the callback to execute after the full HTML
       document has been parsed. For non-blocking uses, avoiding race conditions,
@@ -39,6 +47,102 @@
         defer></script>
 
         -->
+    <script defer>
+
+        /**
+         * @license
+         * Copyright 2021 Google LLC.
+         * SPDX-License-Identifier: Apache-2.0
+         */
+        // TODO Use imports when Deck.gl works in more bundlers
+        // https://github.com/visgl/deck.gl/issues/6351#issuecomment-1079424167
+        // import { GoogleMapsOverlay } from "https://cdn.skypack.dev/@deck.gl/google-maps";
+        // import { TripsLayer } from "https://cdn.skypack.dev/deck.gl";
+
+        const INITIAL_VIEW_STATE = {
+            latitude: 40.715,
+            longitude: -73.98,
+            zoom: 12,
+            bearing: 0,
+            pitch: 0
+        };
+
+
+        const TripsLayer = deck.TripsLayer;
+        const DATA_URL =
+            "one_patient_translated.json";
+        const LOOP_LENGTH = 5920;
+        const VENDOR_COLORS = [
+            [255, 0, 0],
+            [0, 0, 255], // vendor #1
+        ];
+        let currentTime = 0;
+
+        const tripProps = {
+            id: "trips",
+            data: DATA_URL,
+            getPath: (d) => d.path,
+            getTimestamps: (d) => d.timestamps,
+            getColor: (d) => VENDOR_COLORS[d.vendor],
+            opacity: 3,
+            widthMinPixels: 4,
+            trailLength: 250,
+            currentTime,
+            shadowEnabled: true,
+        };
+
+        const bitmapProps = {
+            id: 'bitmap-layer',
+            bounds: [-74.024034, 40.685544, -73.938146, 40.740193],
+            image: 'p2.png'
+        };
+
+        var mainDeck;
+
+        const animate = () => {
+            //currentTime = (currentTime + 1) % LOOP_LENGTH;
+            const tripsLayer = new TripsLayer({
+                ...tripProps,
+                currentTime,
+            });
+            const bitmapLayer = new deck.BitmapLayer({
+                ...bitmapProps
+            });
+            mainDeck.setProps({
+                layers: [bitmapLayer, tripsLayer],
+            });
+
+            window.requestAnimationFrame(animate);
+        };
+
+
+        async function initMap() {
+            console.log("initMap()");
+            mainDeck = new deck.Deck({
+                initialViewState: INITIAL_VIEW_STATE,
+                layers: [
+                    new TripsLayer({
+                        tripProps
+                    }),
+                    new deck.BitmapLayer({
+                        bitmapProps
+                    })
+                ]
+            });
+            window.requestAnimationFrame(animate);
+        }
+
+        window.initMap = initMap;
+        console.log(" window.initMap");
+        initMap();
+        $(document).ready(function () {
+            $('#formControlRange').on('input', function () {
+                $('#rangeValue').text($(this).val());
+                currentTime = parseInt($(this).val());
+            });
+        });
+
+    </script>
 </body>
 
 </html>
