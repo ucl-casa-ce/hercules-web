@@ -24,6 +24,13 @@
             height: 300px;
             overflow: hidden;
         }
+
+        .patient-select {
+            width: 200px;
+            /* Adjust the size as needed */
+            margin-left: 0;
+            float: left;
+        }
     </style>
 
 </head>
@@ -32,7 +39,17 @@
     <div class="container mt-6 justify-content-center">
         <label for="formControlRange">Patient time-lapse</label>
         <input type="range" class="form-control-range" id="formControlRange" min="0" max="5920">
-        <p id="rangeValue">0</p>
+        <p id="rangeValue"> </p>
+        <div class="patient-select">
+            <label for="formControlRange">Select a patient ID:</label>
+            <ul class="list-group" id="itemList">
+                <li class="list-group-item">114</li>
+                <li class="list-group-item">115</li>
+                <li class="list-group-item">116</li>
+                <li class="list-group-item">117</li>
+                <li class="list-group-item">118</li>
+            </ul>
+        </div>
     </div>
     <!-- 
       The `defer` attribute causes the callback to execute after the full HTML
@@ -69,8 +86,8 @@
 
 
         const TripsLayer = deck.TripsLayer;
-        const DATA_URL =
-            "one_patient_translated.json";
+        var DATA_URL =
+            "patient_114.json";
         const LOOP_LENGTH = 5920;
         const VENDOR_COLORS = [
             [255, 0, 0],
@@ -137,8 +154,31 @@
         initMap();
         $(document).ready(function () {
             $('#formControlRange').on('input', function () {
-                $('#rangeValue').text($(this).val());
+                //$('#rangeValue').text($(this).val());
                 currentTime = parseInt($(this).val());
+            });
+        });
+
+        $(document).ready(function () {
+            $('#itemList .list-group-item').click(function () {
+                $('#itemList .list-group-item').removeClass('active');
+                // Add 'active' class to the clicked item
+                $(this).addClass('active');
+                DATA_URL = 'patient_' + $(this).text() + '.json';
+                tripProps.data = 'patient_' + $(this).text() + '.json';
+                const tripsLayer = new TripsLayer({
+                    ...tripProps,
+                    currentTime,
+                });
+                const bitmapLayer = new deck.BitmapLayer({
+                    ...bitmapProps
+                });
+                mainDeck.setProps({
+                    layers: [bitmapLayer, tripsLayer],
+                });
+
+                window.requestAnimationFrame(animate);
+                //alert('You clicked: ' + $(this).text());
             });
         });
 
