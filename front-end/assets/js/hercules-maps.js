@@ -8,7 +8,7 @@ var mapGLLayers = [];
 
 const initialViewState = {
     longitude: 0.0011182,
-    latitude:  0.0020000,
+    latitude: 0.0020000,
     zoom: 5,
     minZoom: 5,
     maxZoom: 15,
@@ -24,23 +24,22 @@ const COLOR_RANGE = [
     [209, 55, 78]
 ];
 
-const {DeckGL, LineLayer, HexagonLayer} = deck;
 
 (function ($) {
     'use strict';
     $(function () {
 
-        if(experiment == null){
+        if (experiment == null) {
             // Assume Experiment 1
             experiment = "1";
-            backgroundImage = "p"+experiment+"-ubi-grid.png";
+            backgroundImage = "p" + experiment + "-ubi-grid.png";
         }
 
         function generateRandomId() {
             const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
             let randomId = '';
             for (let i = 0; i < 5; i++) {
-              randomId += characters.charAt(Math.floor(Math.random() * characters.length));
+                randomId += characters.charAt(Math.floor(Math.random() * characters.length));
             }
             return randomId;
         }
@@ -59,15 +58,15 @@ const {DeckGL, LineLayer, HexagonLayer} = deck;
             table.append(newRow);
         }
 
-        $("#addPatient").click(function(){
+        $("#addPatient").click(function () {
             var userEntry = $("#patient_entry").val();
             userEntry = userEntry.replace(/[^a-zA-Z0-9]/g, '');
-            if(userEntry != ""){        
-                lookupPatient(userEntry, function(patData){
+            if (userEntry != "") {
+                lookupPatient(userEntry, function (patData) {
                     console.log(patData);
-                    if(patData.patient.length == 0){
+                    if (patData.patient.length == 0) {
                         alert("Patient ID not found");
-                    }else{
+                    } else {
                         addLayerRow(patData);
                     }
                 });
@@ -75,19 +74,19 @@ const {DeckGL, LineLayer, HexagonLayer} = deck;
         });
 
         function lookupPatient(pat_id, callback) {
-            const url = 'http://localhost:3000/api/data/'+ parseInt(experiment) + '/'+pat_id;
+            const url = 'http://localhost:3000/api/data/' + parseInt(experiment) + '/' + pat_id;
             console.log(url);
             fetch(url)
                 .then(response => response.json())
                 .then(data => callback(data))
                 .catch(error => callback(error, null));
-          }
+        }
 
         function addLayerRow(data) {
             var layer_id = generateRandomId();
 
             var patient_info = [data.patient[0].patient_id, data.patient[0].condition, data.patient[0].visit_length, data.patient[0].day_of_week];
-            
+
             // Add Layer To Global Layers Array
             var pointData = data.point_data.map(d => ({
                 position: [d.y_location, d.x_location],
@@ -95,7 +94,7 @@ const {DeckGL, LineLayer, HexagonLayer} = deck;
                 size: 5
             }));
 
-            layers.push({"id": layer_id, "type": "ScatterPlot" ,"point_data": pointData, "opacity": 100});
+            layers.push({ "id": layer_id, "type": "ScatterPlot", "point_data": pointData, "opacity": 100 });
 
             const table = $('#layerTable');
             if (!table || table.length === 0) {
@@ -103,19 +102,19 @@ const {DeckGL, LineLayer, HexagonLayer} = deck;
                 return;
             }
             const newRow = $('<tr>');
-        
+
             $.each(patient_info, function (index, value) {
                 const newCell = $('<td>').text(value);
                 newRow.append(newCell);
             });
-            
-            const slider = $('<td>').html(" <input id='slider_"+layer_id+"' type='text' data-slider-min='0' data-slider-max='100' data-slider-step='1' data-slider-value='100'/>");
+
+            const slider = $('<td>').html(" <input id='slider_" + layer_id + "' type='text' data-slider-min='0' data-slider-max='100' data-slider-step='1' data-slider-value='100'/>");
             newRow.append(slider);
-            newRow.append( $('<td>').html('<i class="mdi mdi-delete"></i>') );
+            newRow.append($('<td>').html('<i class="mdi mdi-delete"></i>'));
             table.append(newRow);
 
             $('#slider_' + layer_id).slider({
-                formatter: function(value) {
+                formatter: function (value) {
                     return 'Current value: ' + value;
                 }
             });
@@ -127,23 +126,22 @@ const {DeckGL, LineLayer, HexagonLayer} = deck;
             reloadLayers();
         }
 
-        function reloadLayers(){
-            // Clear Layers
-            deckgl.setProps({ layers: [] });
+        function reloadLayers() {
+            const animate = () => {
+                //currentTime = (currentTime + 1) % LOOP_LENGTH;
+                const tripsLayer = new TripsLayer({
+                    ...tripProps,
+                    currentTime,
+                });
+                const bitmapLayer = new deck.BitmapLayer({
+                    ...bitmapProps
+                });
+                mainDeck.setProps({
+                    layers: [bitmapLayer, tripsLayer],
+                });
 
-            var localLayers = [];
-            localLayers.push(createBitmapLayer(initialViewState));
-
-            // Loop Around Layers
-            layers.forEach(function(layer){
-                var opacity_slider = $('#slider_' + layer.id).val();
-                if(layer.type == "ScatterPlot"){
-                    localLayers.push(createScatterplotLayer(initialViewState, layer.point_data, layer.id, opacity_slider));
-                }
-            });
-
-            deckgl.setProps({ layers: localLayers });
-            deckgl.redraw(true);
+                window.requestAnimationFrame(animate);
+            };
         };
 
         function loadTableData(data) {
@@ -157,78 +155,159 @@ const {DeckGL, LineLayer, HexagonLayer} = deck;
 
             for (var i = 0; i < count; i++) {
                 var row = data[i];
-                addTableRow([i+1, row.patient_id, row.location, row.start_time, row.end_time, row.step_length]);
+                addTableRow([i + 1, row.patient_id, row.location, row.start_time, row.end_time, row.step_length]);
             }
         }
 
-        changeExperiment = function changeExperiment(expID){
-            experiment = parseInt(expID);    
-            backgroundImage = "p"+experiment+"-ubi-grid.png";
+        changeExperiment = function changeExperiment(expID) {
+            experiment = parseInt(expID);
+            backgroundImage = "p" + experiment + "-ubi-grid.png";
             deckgl.setProps({ layers: [] });
             deckgl.redraw(true);
-            grabHexData(experiment);    
+            grabHexData(experiment);
         }
 
-        function grabHexData(experiment){
+        function grabHexData(experiment) {
             var data = {};
             const apiUrl = 'http://localhost:3000/api/data/hex/all/exp/' + parseInt(experiment);
-    
+
             let jsonData;
-    
+
             $.ajax({
                 url: apiUrl,
                 type: 'GET',
                 dataType: 'json',
                 async: false,
-                success: function(data) {
+                success: function (data) {
                     jsonData = data;
                     loadTableData(jsonData.point_data);
                     loadMapData();
                     renderLayer(jsonData.point_data);
                 },
-                error: function(xhr, status, error) {
+                error: function (xhr, status, error) {
                     console.error('Error:', error);
                 }
             });
         }
 
-        function loadMapData(){
-            
-            deckgl = new DeckGL({
-                mapStyle: 'https://basemaps.cartocdn.com/gl/dark-matter-nolabels-gl-style/style.json',
-                initialViewState: initialViewState,
-                controller: true
-              });
-    
-            document.getElementById('deck-gl-wrapper').appendChild(deckgl.canvas);
+        function loadMapData() {
+            const INITIAL_VIEW_STATE = {
+                latitude: 40.715,
+                longitude: -73.98,
+                zoom: 12,
+                bearing: 0,
+                pitch: 0
+            };
+
+
+            const TripsLayer = deck.TripsLayer;
+            console.log(TripsLayer);
+            var DATA_URL =
+                "http://localhost:8000/playground/Deck.gl/patient_114.json";
+            const LOOP_LENGTH = 5920;
+            const VENDOR_COLORS = [
+                [255, 0, 0],
+                [0, 0, 255], // vendor #1
+            ];
+            let currentTime = 0;
+
+            const tripProps = {
+                id: "trips",
+                data: DATA_URL,
+                getPath: (d) => d.path,
+                getTimestamps: (d) => d.timestamps,
+                getColor: (d) => VENDOR_COLORS[d.vendor],
+                opacity: 3,
+                widthMinPixels: 4,
+                trailLength: 250000,
+                currentTime,
+                shadowEnabled: false,
+            };
+
+            const bitmapProps = {
+                id: 'bitmap-layer',
+                bounds: [-74.024034, 40.685544, -73.938146, 40.740193],
+                image: 'p2.png'
+            };
+
+            var mainDeck;
+
+            const animate = () => {
+                //currentTime = (currentTime + 1) % LOOP_LENGTH;
+                const tripsLayer = new TripsLayer({
+                    ...tripProps,
+                    currentTime,
+                });
+                const bitmapLayer = new deck.BitmapLayer({
+                    ...bitmapProps
+                });
+                mainDeck.setProps({
+                    layers: [bitmapLayer, tripsLayer],
+                });
+
+                window.requestAnimationFrame(animate);
+            };
+
+
+            async function initMap() {
+                console.log("initMap()");
+                mainDeck = new deck.Deck({
+                    container: 'deck-gl-wrapper',
+                    initialViewState: INITIAL_VIEW_STATE,
+                    layers: [
+                        new TripsLayer({
+                            id: "trips",
+                            data: DATA_URL,
+                            getPath: (d) => d.path,
+                            getTimestamps: (d) => d.timestamps,
+                            getColor: (d) => VENDOR_COLORS[d.vendor],
+                            opacity: 3,
+                            widthMinPixels: 4,
+                            trailLength: 250000,
+                            currentTime,
+                            shadowEnabled: false
+                        }),
+                        new deck.BitmapLayer({
+                            bitmapProps
+                        })
+                    ]
+                });
+                window.requestAnimationFrame(animate);
+            }
+
+            window.initMap = initMap;
+            console.log(" window.initMap");
+            initMap();
+
+            document.getElementById('deck-gl-wrapper').appendChild(mainDeck.canvas);
         }
 
         grabHexData(experiment);
 
-        function changeOpacityOfLayer(layer_id, opacity){
+        function changeOpacityOfLayer(layer_id, opacity) {
             reloadLayers();
         }
 
-        function renderLayer(data) {      
+        function renderLayer(data) {
             console.log(data);
             const hexagonLayer = new HexagonLayer({
-              id: 'heatmap',
-              coverage: 1,
-              lowerPercentile: 50,
-              radius: 1,
-              upperPercentile: 100,
-              colorRange: COLOR_RANGE,
-              data,
-              elevationRange: [0, 1000],
-              elevationScale: 250,
-              extruded: true,
-              getPosition: d => [d.lng, d.lat]
+                id: 'heatmap',
+                coverage: 1,
+                lowerPercentile: 50,
+                radius: 1,
+                upperPercentile: 100,
+                colorRange: COLOR_RANGE,
+                data,
+                elevationRange: [0, 1000],
+                elevationScale: 250,
+                extruded: true,
+                getPosition: d => [d.lng, d.lat]
             });
-      
+
             deckgl.setProps({
-              layers: [hexagonLayer]
+                layers: [hexagonLayer]
             });
-          }
+        }
 
         function createBitmapLayer(initialViewState) {
             return new BitmapLayer({
@@ -236,7 +315,7 @@ const {DeckGL, LineLayer, HexagonLayer} = deck;
                 image: './assets/floorplans/' + backgroundImage,
                 coordinateSystem: COORDINATE_SYSTEM.CARTESIAN,
                 //ransparentColor: [0, 0, 0, 255],
-                tintColor: [52,52,52],
+                tintColor: [52, 52, 52],
                 bounds: [-initialViewState.width / 2, initialViewState.height / 2, initialViewState.width / 2, -initialViewState.height / 2],
             });
         }
@@ -272,15 +351,15 @@ const {DeckGL, LineLayer, HexagonLayer} = deck;
                 { start: [0, 0], end: [18.209, 34.441], color: [0, 0, 255] },
                 { start: [0, 18.209], end: [34.441, 0], color: [255, 0, 0] },
                 { start: [0, 9.1045], end: [34.441, 9.1045], color: [0, 255, 0] }
-              ];
+            ];
 
-              const scaledData = data.map(d => ({
+            const scaledData = data.map(d => ({
                 sourcePosition: [xScale(d.start[0]) - initialViewState.width / 2, initialViewState.height / 2 - yScale(d.start[1]), 0],
-                targetPosition: [xScale(d.end[0])  - initialViewState.width / 2, initialViewState.height / 2 - yScale(d.end[1]), 0],
+                targetPosition: [xScale(d.end[0]) - initialViewState.width / 2, initialViewState.height / 2 - yScale(d.end[1]), 0],
                 color: d.color
-              }));
-            
-            
+            }));
+
+
             return new LineLayer({
                 data: scaledData,
                 getSourcePosition: d => d.start,
@@ -288,20 +367,20 @@ const {DeckGL, LineLayer, HexagonLayer} = deck;
                 getColor: d => d.color,
                 getWidth: 5
             });
-          }
+        }
 
-        $(".map_reset_button").click(function() {
-            deckgl.setProps({viewState: initialViewState});
+        $(".map_reset_button").click(function () {
+            deckgl.setProps({ viewState: initialViewState });
         });
 
-        $(".layer_reset_button").click(function() {
+        $(".layer_reset_button").click(function () {
             deckgl.setProps({ layers: [createBitmapLayer(initialViewState)] });
-            deckgl.redraw(true);    
+            deckgl.redraw(true);
         });
 
-        $(".all_experiment_button").click(function() {
+        $(".all_experiment_button").click(function () {
             deckgl.setProps({ layers: [] });
-            deckgl.redraw(true);    
+            deckgl.redraw(true);
             grabAllData(experiment);
         });
 
