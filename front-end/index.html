@@ -32,31 +32,29 @@
         <li class="nav-item nav-category">
           <span class="nav-link">Navigation</span>
         </li>
-
-        <li class="nav-item menu-items">
-          <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+        <li class="nav-item menu-items active">
+          <a class="nav-link" href="index.html">
             <span class="menu-icon">
-              <i class="mdi mdi-laptop"></i>
+              <i class="mdi mdi-home"></i>
             </span>
-            <span class="menu-title">Experiments</span>
-            <i class="menu-arrow"></i>
+            <span class="menu-title">Home</span>
           </a>
-          <div class="collapse" id="ui-basic">
-            <ul class="nav flex-column sub-menu">
-              <li class="nav-item">
-                <a class="nav-link" href="#" onclick="changeExperiment(1);">Experiment 1</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#" onclick="changeExperiment(2)">Experiment 2</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#" onclick="changeExperiment(3)">Experiment 3</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#" onclick="changeExperiment(4)">Experiment 4</a>
-              </li>
-            </ul>
-          </div>
+        </li>
+        <li class="nav-item menu-items">
+          <a class="nav-link" href="patient-locations.html">
+            <span class="menu-icon">
+              <i class="mdi mdi-crosshairs-gps"></i>
+            </span>
+            <span class="menu-title">Patient locations</span>
+          </a>
+        </li>
+        <li class="nav-item menu-items">
+          <a class="nav-link" href="patient-flow.html">
+            <span class="menu-icon">
+              <i class="mdi mdi-run"></i>
+            </span>
+            <span class="menu-title">Patient flow</span>
+          </a>
         </li>
       </ul>
     </nav>
@@ -82,170 +80,6 @@
       <!-- partial -->
       <div class="main-panel">
         <div class="content-wrapper">
-
-          <!-- ----------------------   MAP  ------------------------------------- -->
-
-          <div class="row">
-            <div class="col-12 grid-margin">
-              <div class="card">
-                <div class="card-body">
-                  <h4 class="card-title">Visualisation</h4>
-
-                  <div id="deck-gl-wrapper">
-                    <div id="tooltip"></div>
-                    <div id="deck-gl"></div>
-                  </div>
-
-                  <br />
-                  <div class="btn-group" role="group" aria-label="Basic example">
-                    <button type="button" class="btn btn-outline-secondary map_reset_button">Reset View</button>
-                  </div>
-                  <button type="button" class="btn btn-outline-secondary layer_reset_button">Remove All Layers</button>
-
-                  <button type="button" class="btn btn-outline-secondary all_experiment_button">Load All Experiment
-                    Data</button>
-
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- ---------------------- CONTROLS ----------------------------------- -->
-
-          <div class="row">
-            <div class="col-12 grid-margin">
-              <div class="card">
-                <div class="card-body">
-                  <h4 class="card-title">Controls</h4>
-                  <span class="btn-group-title">Days &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                  <div class="btn-group" role="group" aria-label="Basic example">
-                    <button type="button" class="btn btn-outline-secondary">
-                      Monday
-                    </button>
-                    <button type="button" class="btn btn-outline-secondary">
-                      Tuesday
-                    </button>
-                    <button type="button" class="btn btn-outline-secondary">
-                      Wednesday
-                    </button>
-                    <button type="button" class="btn btn-outline-secondary">
-                      Thursday
-                    </button>
-                    <button type="button" class="btn btn-outline-secondary">
-                      Friday
-                    </button>
-                  </div>
-
-                  <br /><br />
-                  <span class="btn-group-title">Pathway</span>
-                  <div class="btn-group" role="group" aria-label="Basic example">
-                    <button type="button" class="btn btn-outline-secondary">
-                      G - Glaucoma
-                    </button>
-                    <button type="button" class="btn btn-outline-secondary">
-                      R - Retina
-                    </button>
-                    <button type="button" class="btn btn-outline-secondary">
-                      C - Cataract
-                    </button>
-                    <button type="button" class="btn btn-outline-secondary">
-                      S - Staff
-                    </button>
-                  </div>
-
-                  <br /><br />
-                  <form class="form-inline">
-                    <div class="form-group">
-                      <label>Add Patient</label>
-                      <!-- <input type="file" name="img[]" class="file-upload-default"> -->
-                      <div class="input-group col-xs-1">
-                        <input id="patient_entry" type="text" class="form-control" placeholder="G1234">
-                        <span class="input-group-append">
-                          <button id="addPatient" class="btn btn-primary" type="button">Add Patient</button>
-                        </span>
-                      </div>
-                    </div>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- ----------------------  LAYERS  ------------------------------------ -->
-
-          <div class="row ">
-            <div class="col-12 grid-margin">
-              <div class="card">
-                <div class="card-body">
-                  <h4 class="card-title">Patient Layers</h4>
-                  <div class="table-responsive">
-                    <table class="table" id="layerTable">
-                      <thead>
-                        <tr>
-                          <th> Patient ID </th>
-                          <th> Condition</th>
-                          <th> Visit Length </th>
-                          <th> Day of Week </th>
-                          <th> Opacity </th>
-                          <th> </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- ----------------------  QUERY  ------------------------------------ -->
-
-          <div class="row">
-            <div class="col-lg-12 grid-margin stretch-card">
-              <div class="card">
-                <div class="card-body">
-                  <h4 class="card-title">Query Executed</h4>
-                  <p class="card-description">Query Executed - Returned <span class="num_rows">XX</span> Results</p>
-
-                  <code id="query_view">
-                      SELECT * FROM p1_input where patient_id = 'G0132' order by start_time_ts ;
-                    </code>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- --------------------- DATA TABLE ----------------------------------- -->
-
-          <div class="row">
-            <div class="col-lg-12 grid-margin stretch-card">
-              <div class="card">
-                <div class="card-body">
-                  <h4 class="card-title">Data Returned</h4>
-                  <p class="card-description">Query Returned <span class="num_rows">XX</span> Results</p>
-                  <div class="table-responsive">
-                    <table class="table table-bordered dataTable" id="dataTable">
-                      <thead>
-                        <tr>
-                          <th>#</th>
-                          <th>Patient ID</th>
-                          <th>Location</th>
-                          <th>Start Time</th>
-                          <th>End Time</th>
-                          <th>Step Length</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-
         </div>
 
         <footer class="footer">
@@ -269,14 +103,6 @@
   <script src="assets/js/todolist.js"></script>
   <script src="assets/js/dashboard.js"></script>
 
-  <!-- Hercules Additions -->
-  <!-- Add Deck.gl -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/bootstrap-slider.min.js"></script>
-  <script src="https://unpkg.com/deck.gl@^8.0.0/dist.min.js"></script>
-  <script src="https://unpkg.com/mapbox-gl/dist/mapbox-gl.js"></script>
-  <script src="https://unpkg.com/d3"></script>
-
-  <script src="assets/js/hercules.js"></script>
 
 </body>
 

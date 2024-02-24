@@ -42,33 +42,23 @@
         <li class="nav-item nav-category">
           <span class="nav-link">Navigation</span>
         </li>
-
         <li class="nav-item menu-items">
-          <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+          <a class="nav-link" href="index.html">
             <span class="menu-icon">
-              <i class="mdi mdi-blur"></i>
+              <i class="mdi mdi-home"></i>
             </span>
-            <span class="menu-title">Location points</span>
-            <i class="menu-arrow"></i>
+            <span class="menu-title">Home</span>
           </a>
-          <div class="collapse" id="ui-basic">
-            <ul class="nav flex-column sub-menu">
-              <li class="nav-item">
-                <a class="nav-link" href="#" onclick="changeExperiment(1);">Experiment 1</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#" onclick="changeExperiment(2)">Experiment 2</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#" onclick="changeExperiment(3)">Experiment 3</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#" onclick="changeExperiment(4)">Experiment 4</a>
-              </li>
-            </ul>
-          </div>
         </li>
         <li class="nav-item menu-items">
+          <a class="nav-link" href="patient-locations.html">
+            <span class="menu-icon">
+              <i class="mdi mdi-crosshairs-gps"></i>
+            </span>
+            <span class="menu-title">Patient locations</span>
+          </a>
+        </li>
+        <li class="nav-item menu-items active">
           <a class="nav-link" data-bs-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
             <span class="menu-icon">
               <i class="mdi mdi-run"></i>
@@ -76,10 +66,10 @@
             <span class="menu-title">Patient flow</span>
             <i class="menu-arrow"></i>
           </a>
-          <div class="collapse" id="auth">
+          <div class="collapse show" id="auth">
             <ul class="nav flex-column sub-menu">
               <li class="nav-item">
-                <a class="nav-link" href="#" onclick="changeExperiment(1);">Experiment 1</a>
+                <a class="nav-link active" href="#" onclick="changeExperiment(1);">Experiment 1</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#" onclick="changeExperiment(2)">Experiment 2</a>

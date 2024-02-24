@@ -1,7 +1,7 @@
-#deck-gl-wrapper{
+#deck-gl-wrapper {
     position: relative;
     height: 633px;
-    width: 1200px;
+    width: 100%;
     border: 2px solid rgb(19, 19, 19);
     margin: 0 auto;
 }
@@ -11,9 +11,9 @@
     position: absolute;
     top: 0;
     left: 0;
-  }
+}
 
-.btn-group-title{
+.btn-group-title {
     display: inline;
     margin-right: 10px;
 }
@@ -21,16 +21,16 @@
 .form-control:focus {
     color: white;
 }
-  
-.map_reset_button{
+
+.map_reset_button {
     margin-left: 20px;
 }
 
-.layer_reset_button{
+.layer_reset_button {
     margin-left: 20px;
 }
 
-.all_experiment_button{
+.all_experiment_button {
     margin-left: 20px;
     float: right;
 }
