@@ -126,24 +126,6 @@ const COLOR_RANGE = [
             reloadLayers();
         }
 
-        function reloadLayers() {
-            const animate = () => {
-                //currentTime = (currentTime + 1) % LOOP_LENGTH;
-                const tripsLayer = new TripsLayer({
-                    ...tripProps,
-                    currentTime,
-                });
-                const bitmapLayer = new deck.BitmapLayer({
-                    ...bitmapProps
-                });
-                mainDeck.setProps({
-                    layers: [bitmapLayer, tripsLayer],
-                });
-
-                window.requestAnimationFrame(animate);
-            };
-        };
-
         function loadTableData(data) {
             // loop around data json array
             $(".num_rows").html(data.length);
@@ -201,7 +183,6 @@ const COLOR_RANGE = [
 
 
             const TripsLayer = deck.TripsLayer;
-            console.log(TripsLayer);
             var DATA_URL =
                 "http://localhost:8000/playground/Deck.gl/patient_114.json";
             const LOOP_LENGTH = 5920;
@@ -233,7 +214,7 @@ const COLOR_RANGE = [
             var mainDeck;
 
             const animate = () => {
-                //currentTime = (currentTime + 1) % LOOP_LENGTH;
+                currentTime = (currentTime + 1) % LOOP_LENGTH;
                 const tripsLayer = new TripsLayer({
                     ...tripProps,
                     currentTime,
@@ -256,16 +237,7 @@ const COLOR_RANGE = [
                     initialViewState: INITIAL_VIEW_STATE,
                     layers: [
                         new TripsLayer({
-                            id: "trips",
-                            data: DATA_URL,
-                            getPath: (d) => d.path,
-                            getTimestamps: (d) => d.timestamps,
-                            getColor: (d) => VENDOR_COLORS[d.vendor],
-                            opacity: 3,
-                            widthMinPixels: 4,
-                            trailLength: 250000,
-                            currentTime,
-                            shadowEnabled: false
+                            tripProps
                         }),
                         new deck.BitmapLayer({
                             bitmapProps
