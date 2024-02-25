@@ -175,9 +175,9 @@ const COLOR_RANGE = [
 
         function loadMapData(data) {
             const INITIAL_VIEW_STATE = {
-                latitude: 0.28,
-                longitude: 0.45,
-                zoom: 9.5,
+                latitude: 0.090,
+                longitude: 0.171,
+                zoom: 10.99,
                 bearing: 0,
                 pitch: 0
             };
@@ -206,8 +206,8 @@ const COLOR_RANGE = [
 
             const bitmapProps = {
                 id: 'bitmap-layer',
-                bounds: [0.0, 0.0, 0.914112, 0.54649],
-                image: 'p2.png'
+                bounds: [0.0, 0.0, 0.34441, 0.18209],
+                image: './assets/floorplans/' + backgroundImage
             };
 
             var mainDeck;
