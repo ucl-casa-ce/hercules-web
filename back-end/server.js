@@ -503,7 +503,7 @@ function getPatientPath(patient_db_array, overall_startTime){
     }
     lng_x_coord = parseFloat((patient_db_array[i].x_location / LAT_LONG_MULTIPLIER).toFixed(9));
 
-    patient_flowPath_obj.path.push([lat_y_coord, lng_x_coord]);
+    patient_flowPath_obj.path.push([lng_x_coord, lat_y_coord]);
 
     var row_timeSecs = moment(patient_db_array[i].start_time).diff(moment(overall_startTime), 'seconds');
     var row_timeTick = Math.round(row_timeSecs * TICKS_PER_SEC);
