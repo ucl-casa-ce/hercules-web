@@ -89,10 +89,11 @@ const COLOR_RANGE = [
         }
 
         changeExperiment = function changeExperiment(expID) {
+            $("#exp"+experiment).removeClass("active");
             experiment = parseInt(expID);
+            $("#exp"+experiment).addClass("active");
             backgroundImage = "p" + experiment + "-ubi-grid.png";
-            deckgl.setProps({ layers: [] });
-            deckgl.redraw(true);
+            loadMapData();
         }
 
         function loadMapData(data) {
