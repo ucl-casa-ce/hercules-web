@@ -64,17 +64,18 @@ const COLOR_RANGE = [
             if (userEntry != "") {
                 lookupPatient(userEntry, function (patData) {
                     console.log(patData);
-                    if (patData.patient.length == 0) {
-                        alert("Patient ID not found");
-                    } else {
-                        addLayerRow(patData);
-                    }
+                    //if (patData.patient.length == 0) {
+                    //    alert("Patient ID not found");
+                    //} else {
+                    //    addLayerRow(patData);
+                    //}
+                    loadMapData(patData);
                 });
             }
         });
 
         function lookupPatient(pat_id, callback) {
-            const url = 'http://localhost:3000/api/data/' + parseInt(experiment) + '/' + pat_id;
+            const url = 'http://localhost:3000/api/data/flows/single/' + parseInt(experiment) + '/' + pat_id;
             console.log(url);
             fetch(url)
                 .then(response => response.json())
@@ -163,7 +164,7 @@ const COLOR_RANGE = [
                 success: function (data) {
                     jsonData = data;
                     loadTableData(jsonData.point_data);
-                    loadMapData();
+                    //loadMapData();
                     renderLayer(jsonData.point_data);
                 },
                 error: function (xhr, status, error) {
@@ -172,19 +173,17 @@ const COLOR_RANGE = [
             });
         }
 
-        function loadMapData() {
+        function loadMapData(data) {
             const INITIAL_VIEW_STATE = {
-                latitude: 40.715,
-                longitude: -73.98,
-                zoom: 12.4,
+                latitude: 0.28,
+                longitude: 0.45,
+                zoom: 9.5,
                 bearing: 0,
                 pitch: 0
             };
 
 
             const TripsLayer = deck.TripsLayer;
-            var DATA_URL =
-                "http://localhost:8000/playground/Deck.gl/patient_114.json";
             const LOOP_LENGTH = 5920;
             const VENDOR_COLORS = [
                 [255, 0, 0],
@@ -194,7 +193,7 @@ const COLOR_RANGE = [
 
             const tripProps = {
                 id: "trips",
-                data: DATA_URL,
+                data: data.paths,
                 getPath: (d) => d.path,
                 getTimestamps: (d) => d.timestamps,
                 getColor: (d) => VENDOR_COLORS[d.vendor],
@@ -207,7 +206,7 @@ const COLOR_RANGE = [
 
             const bitmapProps = {
                 id: 'bitmap-layer',
-                bounds: [-74.024034, 40.685544, -73.938146, 40.740193],
+                bounds: [0.0, 0.0, 0.914112, 0.54649],
                 image: 'p2.png'
             };
 
