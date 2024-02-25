@@ -176,7 +176,7 @@ const COLOR_RANGE = [
             const INITIAL_VIEW_STATE = {
                 latitude: 40.715,
                 longitude: -73.98,
-                zoom: 12,
+                zoom: 12.4,
                 bearing: 0,
                 pitch: 0
             };
@@ -289,55 +289,6 @@ const COLOR_RANGE = [
                 //ransparentColor: [0, 0, 0, 255],
                 tintColor: [52, 52, 52],
                 bounds: [-initialViewState.width / 2, initialViewState.height / 2, initialViewState.width / 2, -initialViewState.height / 2],
-            });
-        }
-
-        function createScatterplotLayer(initialViewState, data, layer_id, opacity) {
-            //     const xScale = d3.scaleLinear().domain([0, initialViewState.width]).range([0, 18.209]);
-            //     const yScale = d3.scaleLinear().domain([0, initialViewState.height]).range([0, 34.441]);
-
-            const xScale = d3.scaleLinear().domain([0, 18.209]).range([0, initialViewState.width]);
-            const yScale = d3.scaleLinear().domain([0, 34.441]).range([0, initialViewState.height]);
-
-            return new ScatterplotLayer({
-                id: layer_id,
-                // data: [
-                //     { position: [0, 0], color: [0, 0, 0] },
-                //     { position: [9.1045, 17.2205], color: [0, 255, 0] },
-                //     { position: [18.209, 34.441], color: [0, 0, 255] },
-                // ],
-                data: data,
-                getPosition: d => [xScale(d.position[0]) - initialViewState.width / 2, initialViewState.height / 2 - yScale(d.position[1])],
-                getFillColor: d => d.color,
-                opacity: opacity / 100,
-                getRadius: 3
-            });
-        }
-
-        function createLineLayer(initialViewState) {
-
-            const xScale = d3.scaleLinear().domain([0, 18.209]).range([0, initialViewState.width]);
-            const yScale = d3.scaleLinear().domain([0, 34.441]).range([0, initialViewState.height]);
-
-            data = [
-                { start: [0, 0], end: [18.209, 34.441], color: [0, 0, 255] },
-                { start: [0, 18.209], end: [34.441, 0], color: [255, 0, 0] },
-                { start: [0, 9.1045], end: [34.441, 9.1045], color: [0, 255, 0] }
-            ];
-
-            const scaledData = data.map(d => ({
-                sourcePosition: [xScale(d.start[0]) - initialViewState.width / 2, initialViewState.height / 2 - yScale(d.start[1]), 0],
-                targetPosition: [xScale(d.end[0]) - initialViewState.width / 2, initialViewState.height / 2 - yScale(d.end[1]), 0],
-                color: d.color
-            }));
-
-
-            return new LineLayer({
-                data: scaledData,
-                getSourcePosition: d => d.start,
-                getTargetPosition: d => d.end,
-                getColor: d => d.color,
-                getWidth: 5
             });
         }
 
