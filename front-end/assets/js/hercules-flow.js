@@ -5,14 +5,14 @@ var backgroundImage = null;
 
 var layers = [];
 var mapGLLayers = [];
+var mainDeck;
 
-const initialViewState = {
-    longitude: 0.0011182,
-    latitude: 0.0020000,
-    zoom: 5,
-    minZoom: 5,
-    maxZoom: 15,
-    pitch: 40.5
+const INITIAL_VIEW_STATE = {
+    latitude: 0.090,
+    longitude: 0.171,
+    zoom: 10.99,
+    bearing: 0,
+    pitch: 0
 };
 
 const COLOR_RANGE = [
@@ -24,7 +24,6 @@ const COLOR_RANGE = [
     [209, 55, 78]
 ];
 
-
 (function ($) {
     'use strict';
     $(function () {
@@ -33,15 +32,6 @@ const COLOR_RANGE = [
             // Assume Experiment 1
             experiment = "1";
             backgroundImage = "p" + experiment + "-ubi-grid.png";
-        }
-
-        function generateRandomId() {
-            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-            let randomId = '';
-            for (let i = 0; i < 5; i++) {
-                randomId += characters.charAt(Math.floor(Math.random() * characters.length));
-            }
-            return randomId;
         }
 
         function addTableRow(data) {
@@ -83,50 +73,6 @@ const COLOR_RANGE = [
                 .catch(error => callback(error, null));
         }
 
-        function addLayerRow(data) {
-            var layer_id = generateRandomId();
-
-            var patient_info = [data.patient[0].patient_id, data.patient[0].condition, data.patient[0].visit_length, data.patient[0].day_of_week];
-
-            // Add Layer To Global Layers Array
-            var pointData = data.point_data.map(d => ({
-                position: [d.y_location, d.x_location],
-                color: [255, 0, 0],
-                size: 5
-            }));
-
-            layers.push({ "id": layer_id, "type": "ScatterPlot", "point_data": pointData, "opacity": 100 });
-
-            const table = $('#layerTable');
-            if (!table || table.length === 0) {
-                console.error('Error: table not found');
-                return;
-            }
-            const newRow = $('<tr>');
-
-            $.each(patient_info, function (index, value) {
-                const newCell = $('<td>').text(value);
-                newRow.append(newCell);
-            });
-
-            const slider = $('<td>').html(" <input id='slider_" + layer_id + "' type='text' data-slider-min='0' data-slider-max='100' data-slider-step='1' data-slider-value='100'/>");
-            newRow.append(slider);
-            newRow.append($('<td>').html('<i class="mdi mdi-delete"></i>'));
-            table.append(newRow);
-
-            $('#slider_' + layer_id).slider({
-                formatter: function (value) {
-                    return 'Current value: ' + value;
-                }
-            });
-
-            $('#slider_' + layer_id).on('slideStop', function () {
-                changeOpacityOfLayer(layer_id, $(this).val());
-            });
-
-            reloadLayers();
-        }
-
         function loadTableData(data) {
             // loop around data json array
             $(".num_rows").html(data.length);
@@ -147,42 +93,9 @@ const COLOR_RANGE = [
             backgroundImage = "p" + experiment + "-ubi-grid.png";
             deckgl.setProps({ layers: [] });
             deckgl.redraw(true);
-            grabHexData(experiment);
-        }
-
-        function grabHexData(experiment) {
-            var data = {};
-            const apiUrl = 'http://localhost:3000/api/data/hex/all/exp/' + parseInt(experiment);
-
-            let jsonData;
-
-            $.ajax({
-                url: apiUrl,
-                type: 'GET',
-                dataType: 'json',
-                async: false,
-                success: function (data) {
-                    jsonData = data;
-                    loadTableData(jsonData.point_data);
-                    //loadMapData();
-                    renderLayer(jsonData.point_data);
-                },
-                error: function (xhr, status, error) {
-                    console.error('Error:', error);
-                }
-            });
         }
 
         function loadMapData(data) {
-            const INITIAL_VIEW_STATE = {
-                latitude: 0.090,
-                longitude: 0.171,
-                zoom: 10.99,
-                bearing: 0,
-                pitch: 0
-            };
-
-
             const TripsLayer = deck.TripsLayer;
             const LOOP_LENGTH = 5920;
             const VENDOR_COLORS = [
@@ -190,10 +103,10 @@ const COLOR_RANGE = [
                 [0, 0, 255], // vendor #1
             ];
             let currentTime = 0;
-
+            
             const tripProps = {
                 id: "trips",
-                data: data.paths,
+                data: data?.paths,
                 getPath: (d) => d.path,
                 getTimestamps: (d) => d.timestamps,
                 getColor: (d) => VENDOR_COLORS[d.vendor],
@@ -210,7 +123,6 @@ const COLOR_RANGE = [
                 image: './assets/floorplans/' + backgroundImage
             };
 
-            var mainDeck;
 
             const animate = () => {
                 currentTime = (currentTime + 1) % LOOP_LENGTH;
@@ -253,33 +165,6 @@ const COLOR_RANGE = [
             document.getElementById('deck-gl-wrapper').appendChild(mainDeck.canvas);
         }
 
-        grabHexData(experiment);
-
-        function changeOpacityOfLayer(layer_id, opacity) {
-            reloadLayers();
-        }
-
-        function renderLayer(data) {
-            console.log(data);
-            const hexagonLayer = new HexagonLayer({
-                id: 'heatmap',
-                coverage: 1,
-                lowerPercentile: 50,
-                radius: 1,
-                upperPercentile: 100,
-                colorRange: COLOR_RANGE,
-                data,
-                elevationRange: [0, 1000],
-                elevationScale: 250,
-                extruded: true,
-                getPosition: d => [d.lng, d.lat]
-            });
-
-            deckgl.setProps({
-                layers: [hexagonLayer]
-            });
-        }
-
         function createBitmapLayer(initialViewState) {
             return new BitmapLayer({
                 id: 'background-image',
@@ -305,6 +190,8 @@ const COLOR_RANGE = [
             deckgl.redraw(true);
             grabAllData(experiment);
         });
+
+        loadMapData();
 
     });
 })(jQuery);
