@@ -7,6 +7,8 @@ var layers = [];
 var mapGLLayers = [];
 var mainDeck;
 
+const baseURL = 'http://localhost:3000';
+
 const patients1 = ["G0132",
 "G0167",
 "G0501",
@@ -3030,7 +3032,7 @@ const COLOR_RANGE = [
         });
 
         function lookupPatient(pat_id, callback) {
-            const url = 'http://localhost:3000/api/data/flows/single/' + parseInt(experiment) + '/' + pat_id;
+            const url = baseURL + '/api/data/flows/single/' + parseInt(experiment) + '/' + pat_id;
             console.log(url);
             fetch(url)
                 .then(response => response.json())
@@ -3039,7 +3041,7 @@ const COLOR_RANGE = [
         }
 
         function lookupPatients(callback) {
-            const url = 'http://localhost:3000/api/data/flows/group/' + parseInt(experiment);
+            const url = baseURL + '/api/data/flows/group/' + parseInt(experiment);
             console.log(url);
             fetch(url, {
      

@@ -6,6 +6,8 @@ var backgroundImage = null;
 var layers = [];
 var mapGLLayers = [];
 
+const baseURL = 'http://localhost:3000';
+
 const initialViewState = {
     x: 0,
     y: 0,
@@ -66,7 +68,7 @@ const { DeckGL, BitmapLayer, ScatterplotLayer, LineLayer, COORDINATE_SYSTEM, Ort
         });
 
         function lookupPatient(pat_id, callback) {
-            const url = 'http://localhost:3000/api/data/'+ parseInt(experiment) + '/'+pat_id;
+            const url = baseURL + '/api/data/'+ parseInt(experiment) + '/'+pat_id;
             console.log(url);
             fetch(url)
                 .then(response => response.json())
@@ -162,8 +164,7 @@ const { DeckGL, BitmapLayer, ScatterplotLayer, LineLayer, COORDINATE_SYSTEM, Ort
 
         function grabAllData(experiment){
             var data = {};
-            //const apiUrl = 'http://localhost:3000/api/data/'+experiment+'/G0132';
-            const apiUrl = 'http://localhost:3000/api/data/all/exp/' + parseInt(experiment);
+            const apiUrl = baseURL + '/api/data/all/exp/' + parseInt(experiment);
     
             let jsonData;
     
