@@ -107,33 +107,32 @@
               <div class="card">
                 <div class="card-body">
                   <h4 class="card-title">Visualisation</h4>
+                  <h4 class="card-title">Patients in this experiment</h4>
+                  <p class="card-description"> Select a patient to start animation </p>
+                  <div class="table-responsive">
+                    <select id="patient-menu" class="form-select" aria-label="Default select example">
+                      <option selected>Not selected</option>
+                    </select>
+                  </div>
+                  <br />
 
                   <div id="deck-gl-wrapper">
                     <div id="tooltip"></div>
                     <div id="deck-gl"></div>
                   </div>
 
-                  <br />
-                  <div class="btn-group" role="group" aria-label="Basic example">
-                    <button type="button" class="btn btn-outline-secondary map_reset_button">Reset View</button>
-                  </div>
-                  <button type="button" class="btn btn-outline-secondary layer_reset_button">Remove All Layers</button>
-
-                  <button type="button" class="btn btn-outline-secondary all_experiment_button">Load All Experiment
-                    Data</button>
-
+                  
                 </div>
               </div>
             </div>
           </div>
-
           <!-- ---------------------- CONTROLS ----------------------------------- -->
 
           <div class="row">
             <div class="col-12 grid-margin">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">Controls</h4>
+                  <h4 class="card-title">Filters</h4>
                   <span class="btn-group-title">Days &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
                   <div class="btn-group" role="group" aria-label="Basic example">
                     <button type="button" class="btn btn-outline-secondary">
@@ -173,61 +172,21 @@
                   <br /><br />
                   <form class="form-inline">
                     <div class="form-group">
-                      <label>Add Patient</label>
+                      <label>Select patient manually</label>
                       <!-- <input type="file" name="img[]" class="file-upload-default"> -->
                       <div class="input-group col-xs-1">
                         <input id="patient_entry" type="text" class="form-control" placeholder="G1234">
                         <span class="input-group-append">
-                          <button id="addPatient" class="btn btn-primary" type="button">Add Patient</button>
+                          <button id="addPatient" class="btn btn-primary" type="button">Show patient flow</button>
                         </span>
                       </div>
                     </div>
                   </form>
-                </div>
-              </div>
-            </div>
-          </div>
 
-          <!-- ----------------------  LAYERS  ------------------------------------ -->
-
-          <div class="row ">
-            <div class="col-12 grid-margin">
-              <div class="card">
-                <div class="card-body">
-                  <h4 class="card-title">Patient Layers</h4>
-                  <div class="table-responsive">
-                    <table class="table" id="layerTable">
-                      <thead>
-                        <tr>
-                          <th> Patient ID </th>
-                          <th> Condition</th>
-                          <th> Visit Length </th>
-                          <th> Day of Week </th>
-                          <th> Opacity </th>
-                          <th> </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                      </tbody>
-                    </table>
+                  <div class="btn-group" role="group" aria-label="Basic example">
+                    <button type="button" class="btn btn-outline-secondary map_reset_button">Multiple patients (API not stable)
+                    </button>
                   </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- ----------------------  QUERY  ------------------------------------ -->
-
-          <div class="row">
-            <div class="col-lg-12 grid-margin stretch-card">
-              <div class="card">
-                <div class="card-body">
-                  <h4 class="card-title">Query Executed</h4>
-                  <p class="card-description">Query Executed - Returned <span class="num_rows">XX</span> Results</p>
-
-                  <code id="query_view">
-                      SELECT * FROM p1_input where patient_id = 'G0132' order by start_time_ts ;
-                    </code>
                 </div>
               </div>
             </div>
