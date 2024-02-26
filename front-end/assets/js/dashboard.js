@@ -63,11 +63,11 @@
     }
     if ($("#transaction-history").length) {
       var areaData = {
-        labels: ["Paypal", "Stripe","Cash"],
+        labels: ["Glaucoma", "Retina","Cataract"],
         datasets: [{
-            data: [55, 25, 20],
+            data: [1548, 1043, 331],
             backgroundColor: [
-              "#111111","#00d25b","#ffab00"
+              "#11abaa","#00d25b","#ffab00"
             ]
           }
         ]
@@ -102,7 +102,7 @@
           ctx.textBaseline = "middle";
           ctx.fillStyle = "#ffffff";
       
-          var text = "$1200", 
+          var text = "2,922 Patient", 
               textX = Math.round((width - ctx.measureText(text).width) / 2),
               textY = height / 2.4;
       

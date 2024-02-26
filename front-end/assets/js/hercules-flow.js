@@ -3035,7 +3035,7 @@ const COLOR_RANGE = [
             fetch(url)
                 .then(response => response.json())
                 .then(data => callback(data))
-                .catch(error => callback(error, null));
+                .catch(error => callback(error, function(){alert("Server error");}));
         }
 
         function lookupPatients(callback) {
@@ -3062,7 +3062,7 @@ const COLOR_RANGE = [
             })
                 .then(response => response.json())
                 .then(data => callback(data))
-                .catch(error => callback(error, null));
+                .catch(error => callback(error, function(){alert("Server error");}));
         }
 
         function loadTableData(data) {
