@@ -388,8 +388,20 @@ app.post('/api/data/:expID/period', async (req, res) => {
 ////////////////////////////////////////////////////////////////////////////////////
 
 // Pass a list of patients and return the flow data for alls patients in the list
-//      -- JSON OF THE ARRAY - "[G0122,R1291,C12323]"
-//      NOT FULLY TESTED YET! - But gives back some data :)
+/* Payload example:
+{
+  "group": [
+      "R0520",
+      "R0501",
+      "R0521",
+      "R0521"
+  ]
+} */
+
+// zerostart parameter could be 1 in case all ticks are wanted  to start from zero,
+// and could be 0 when all ticks are wanted to be relative to the earliest start time
+//For example, this means flows/group/ID/zerostart/0 when user selects a day of week, 
+//and flows/group/ID/zerostart/1 when user selects condition type.
 app.post('/api/data/flows/group/:expID/zerostart/:zerostart', async (req, res) => {
   try {
   var expID = parseInt(req.params.expID);
