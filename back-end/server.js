@@ -390,8 +390,10 @@ app.post('/api/data/:expID/period', async (req, res) => {
 // Pass a list of patients and return the flow data for alls patients in the list
 //      -- JSON OF THE ARRAY - "[G0122,R1291,C12323]"
 //      NOT FULLY TESTED YET! - But gives back some data :)
-app.post('/api/data/flows/group/:expID', async (req, res) => {
+app.post('/api/data/flows/group/:expID/zerostart/:zerostart', async (req, res) => {
+  try {
   var expID = parseInt(req.params.expID);
+  var zerostart = parseInt(req.params.zerostart);
   var json_body = req.body;
   var group_array = json_body.group;
   var expID_group = "p"+expID+"_input";
@@ -424,8 +426,12 @@ app.post('/api/data/flows/group/:expID', async (req, res) => {
       var sql = format("SELECT * FROM %I where patient_id = '%s' order by start_time_ts", expID_group ,patID);
       console.log(sql)
       var pat_result = await pool.query(sql);
-      var patientPath = getPatientPath(pat_result.rows, moment(flowObject.startTime));
-      
+      var patientPath;
+      if(zerostart == 1){
+        patientPath = getPatientPath(pat_result.rows, moment(pat_result.rows[0].start_time));
+      } else {
+        patientPath = getPatientPath(pat_result.rows, moment(flowObject.startTime));
+      }
       flowObject.paths.push(patientPath);
 
     }
