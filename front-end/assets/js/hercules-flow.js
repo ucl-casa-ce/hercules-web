@@ -3105,7 +3105,7 @@ const COLOR_RANGE = [
                 data: data?.paths,
                 getPath: (d) => d.path,
                 getTimestamps: (d) => d.timestamps,
-                getColor: (d) => VENDOR_COLORS[1],//d.vendor
+                getColor: (d) => d.vendor,//d.vendor
                 opacity: 3,
                 widthMinPixels: 4,
                 trailLength: 250000,
