@@ -438,6 +438,10 @@ app.post('/api/data/flows/group/:expID/zerostart/:zerostart', async (req, res) =
     flowObject.group = group_array;
     res.json(flowObject); 
   }
+   } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
 });
 
 // Pass a single patient and return the flow data for that patient
