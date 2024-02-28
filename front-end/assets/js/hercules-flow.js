@@ -3185,6 +3185,10 @@ const COLOR_RANGE = [
             });
         });
 
+        $('#reset').click(function() {
+            location.reload();
+        });
+
         $(".layer_reset_button").click(function () {
             deckgl.setProps({ layers: [createBitmapLayer(initialViewState)] });
             deckgl.redraw(true);
