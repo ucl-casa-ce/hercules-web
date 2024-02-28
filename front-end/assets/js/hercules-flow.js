@@ -3028,7 +3028,9 @@ const COLOR_RANGE = [
             lookupPatient(valueSelected, function (patData) {
                 loadMapData(patData);
             });
-
+            $('[id*="condition"]').removeClass("active");
+            $('[id*="day"]').removeClass("active");
+            $('[id*="-tod"]').removeClass("active");
         });
 
         function lookupPatient(pat_id, callback) {
@@ -3172,32 +3174,77 @@ const COLOR_RANGE = [
             });
         }
 
-        $(".map_reset_button").click(function () {
-            //deckgl.setProps({ viewState: initialViewState });
-            lookupPatients(function (patData) {
-                console.log(patData);
-                //if (patData.patient.length == 0) {
-                //    alert("Patient ID not found");
-                //} else {
-                //    addLayerRow(patData);
-                //}
-                loadMapData(patData);
-            });
-        });
-
         $('#reset').click(function() {
             location.reload();
         });
 
-        $(".layer_reset_button").click(function () {
-            deckgl.setProps({ layers: [createBitmapLayer(initialViewState)] });
-            deckgl.redraw(true);
+
+        $('[id*="condition"]').click(function () {
+            $('[id*="condition"]').removeClass("active");
+            console.log(this.id);
+            $(this).addClass("active");
         });
 
-        $(".all_experiment_button").click(function () {
-            deckgl.setProps({ layers: [] });
-            deckgl.redraw(true);
-            grabAllData(experiment);
+        $('[id*="day"]').click(function () {
+            $('[id*="day"]').removeClass("active");
+            console.log(this.id);
+            $(this).addClass("active");
+        });
+
+        $('[id*="-tod"]').click(function () {
+            $('[id*="-tod"]').removeClass("active");
+            console.log(this.id);
+            $(this).addClass("active");
+        });
+
+        $('#visualise-results').click(function () {
+            var selectedCondition = $('[id*="condition"]').filter(function () {
+                return ($(this).hasClass("active"));
+            });
+            if (selectedCondition.length > 0) {
+                var apiSelectedCondition;
+                switch (selectedCondition[0].id) {
+                    case 'gcondition':
+                        apiSelectedCondition = 'G';
+                        break;
+                    case 'rcondition':
+                        apiSelectedCondition = 'R';
+                        break;
+                    case 'ccondition':
+                        apiSelectedCondition = 'C';
+                        break;
+                    case 'scondition':
+                        apiSelectedCondition = 'S';
+                        break;
+                }
+
+                const conditionUrl = baseURL + '/api/data/' + parseInt(experiment) + '/condition_type/' + apiSelectedCondition;
+            const groupUrl = baseURL + '/api/data/flows/group/' + parseInt(experiment) + '/zerostart/' + 1;
+            console.log(conditionUrl);
+            console.log(groupUrl);
+            fetch(conditionUrl)
+                .then(response => response.json())
+                .then(function (data) {
+                    fetch(groupUrl, {
+                        method: "POST",
+                        body:
+                            JSON.stringify({
+                                "group": data.patient_list
+                            }),
+                        headers: {
+                            "Content-type": "application/json; charset=UTF-8"
+                        }
+                    })
+                        .then(response => response.json())
+                        .then(function (data) {
+                            console.log(data);
+                            loadMapData(data)
+                        })
+                        .catch(error => callback(error, function () { alert("Server error"); }));
+                })
+                .catch(error => callback(error, function () { alert("Server error"); }));
+            }
+            
         });
 
         loadMapData();
