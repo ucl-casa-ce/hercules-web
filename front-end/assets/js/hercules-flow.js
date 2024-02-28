@@ -3206,6 +3206,10 @@ const COLOR_RANGE = [
                 return ($(this).hasClass("active"));
             });
 
+            var selectedTod = $('[id*="tod"]').filter(function () {
+                return ($(this).hasClass("active"));
+            });
+
             if (selectedCondition.length > 0) {
                 var apiSelectedCondition;
                 switch (selectedCondition[0].id) {
@@ -3254,6 +3258,42 @@ const COLOR_RANGE = [
                 console.log(dayUrl);
                 console.log(groupUrl);
                 fetch(dayUrl)
+                    .then(response => response.json())
+                    .then(function (data) {
+                        fetch(groupUrl, {
+                            method: "POST",
+                            body:
+                                JSON.stringify({
+                                    "group": data.patient_list
+                                }),
+                            headers: {
+                                "Content-type": "application/json; charset=UTF-8"
+                            }
+                        })
+                            .then(response => response.json())
+                            .then(function (data) {
+                                console.log(data);
+                                loadMapData(data)
+                            })
+                            .catch(error => callback(error, function () { alert("Server error"); }));
+                    })
+                    .catch(error => callback(error, function () { alert("Server error"); }));
+            } else if (selectedTod.length > 0) {
+                var apiSelectedTod;
+                switch (selectedTod[0].id) {
+                    case 'morning-tod':
+                        apiSelectedTod = 'morning';
+                        break;
+                    case 'afternoon-tod':
+                        apiSelectedTod = 'afternoon';
+                        break;
+                }
+
+                const todUrl = baseURL + '/api/data/' + parseInt(experiment) + '/tod/' + apiSelectedTod;
+                const groupUrl = baseURL + '/api/data/flows/group/' + parseInt(experiment) + '/zerostart/' + 0;
+                console.log(todUrl);
+                console.log(groupUrl);
+                fetch(todUrl)
                     .then(response => response.json())
                     .then(function (data) {
                         fetch(groupUrl, {
