@@ -3201,6 +3201,11 @@ const COLOR_RANGE = [
             var selectedCondition = $('[id*="condition"]').filter(function () {
                 return ($(this).hasClass("active"));
             });
+
+            var selectedDay = $('[id*="day"]').filter(function () {
+                return ($(this).hasClass("active"));
+            });
+
             if (selectedCondition.length > 0) {
                 var apiSelectedCondition;
                 switch (selectedCondition[0].id) {
@@ -3219,32 +3224,34 @@ const COLOR_RANGE = [
                 }
 
                 const conditionUrl = baseURL + '/api/data/' + parseInt(experiment) + '/condition_type/' + apiSelectedCondition;
-            const groupUrl = baseURL + '/api/data/flows/group/' + parseInt(experiment) + '/zerostart/' + 1;
-            console.log(conditionUrl);
-            console.log(groupUrl);
-            fetch(conditionUrl)
-                .then(response => response.json())
-                .then(function (data) {
-                    fetch(groupUrl, {
-                        method: "POST",
-                        body:
-                            JSON.stringify({
-                                "group": data.patient_list
-                            }),
-                        headers: {
-                            "Content-type": "application/json; charset=UTF-8"
-                        }
-                    })
-                        .then(response => response.json())
-                        .then(function (data) {
-                            console.log(data);
-                            loadMapData(data)
+                const groupUrl = baseURL + '/api/data/flows/group/' + parseInt(experiment) + '/zerostart/' + 1;
+                console.log(conditionUrl);
+                console.log(groupUrl);
+                fetch(conditionUrl)
+                    .then(response => response.json())
+                    .then(function (data) {
+                        fetch(groupUrl, {
+                            method: "POST",
+                            body:
+                                JSON.stringify({
+                                    "group": data.patient_list
+                                }),
+                            headers: {
+                                "Content-type": "application/json; charset=UTF-8"
+                            }
                         })
-                        .catch(error => callback(error, function () { alert("Server error"); }));
-                })
-                .catch(error => callback(error, function () { alert("Server error"); }));
-            }
-            
+                            .then(response => response.json())
+                            .then(function (data) {
+                                console.log(data);
+                                loadMapData(data)
+                            })
+                            .catch(error => callback(error, function () { alert("Server error"); }));
+                    })
+                    .catch(error => callback(error, function () { alert("Server error"); }));
+            } else if (selectedDay.length > 0) {
+
+             }
+
         });
 
         loadMapData();
