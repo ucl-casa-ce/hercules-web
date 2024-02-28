@@ -3249,8 +3249,32 @@ const COLOR_RANGE = [
                     })
                     .catch(error => callback(error, function () { alert("Server error"); }));
             } else if (selectedDay.length > 0) {
-
-             }
+                const dayUrl = baseURL + '/api/data/' + parseInt(experiment) + '/dow/' + selectedDay[0].id;
+                const groupUrl = baseURL + '/api/data/flows/group/' + parseInt(experiment) + '/zerostart/' + 0;
+                console.log(dayUrl);
+                console.log(groupUrl);
+                fetch(dayUrl)
+                    .then(response => response.json())
+                    .then(function (data) {
+                        fetch(groupUrl, {
+                            method: "POST",
+                            body:
+                                JSON.stringify({
+                                    "group": data.patient_list
+                                }),
+                            headers: {
+                                "Content-type": "application/json; charset=UTF-8"
+                            }
+                        })
+                            .then(response => response.json())
+                            .then(function (data) {
+                                console.log(data);
+                                loadMapData(data)
+                            })
+                            .catch(error => callback(error, function () { alert("Server error"); }));
+                    })
+                    .catch(error => callback(error, function () { alert("Server error"); }));
+            }
 
         });
 
