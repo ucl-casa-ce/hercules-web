@@ -3096,10 +3096,6 @@ const COLOR_RANGE = [
         function loadMapData(data) {
             const TripsLayer = deck.TripsLayer;
             const LOOP_LENGTH = 5920;
-            const VENDOR_COLORS = [
-                [255, 0, 0],
-                [0, 0, 0], 
-            ];
             let currentTime = 0;
             
             const tripProps = {
@@ -3108,8 +3104,8 @@ const COLOR_RANGE = [
                 getPath: (d) => d.path,
                 getTimestamps: (d) => d.timestamps,
                 getColor: (d) => d.vendor,//d.vendor
-                opacity: 3,
-                widthMinPixels: 4,
+                opacity: 0.005,
+                widthMinPixels: 2,
                 trailLength: 250000,
                 currentTime,
                 shadowEnabled: false,
