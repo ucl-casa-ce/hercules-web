@@ -11,13 +11,16 @@
   <link rel="stylesheet" href="assets/vendors/flag-icon-css/css/flag-icon.min.css" />
   <link rel="stylesheet" href="assets/vendors/owl-carousel-2/owl.carousel.min.css" />
   <link rel="stylesheet" href="assets/vendors/owl-carousel-2/owl.theme.default.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/css/bootstrap-slider.min.css" />
   <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="stylesheet" href="assets/css/style-flow.css" />
   <link rel="stylesheet" href="assets/css/maps-deckgl.css" />
   <link rel="shortcut icon" href="assets/images/favicon.png" />
 
   <script src="https://unpkg.com/deck.gl@8.9.22/dist.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
   <script src="https://unpkg.com/@deck.gl/core@^8.9.22/dist.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/bootstrap-slider.min.js"></script>
 
 </head>
 
@@ -108,8 +111,10 @@
                 <div class="card-body">
                   <h4 class="card-title">Visualisation</h4>
                   <h4 class="card-title">Time slider</h4>
-                  <input type="range" class="form-control-range" id="formControlRange" min="0" max="5920">
                   <br />
+                  <input id="timeSlider" data-slider-handle="square" type="number" style="width: 100%;"/>
+                  <br />
+                  <br /> 
                   <h4 class="card-title">Patients in this experiment</h4>
                   <p class="card-description"> Select a patient to start animation </p>
                   <div class="table-responsive">
