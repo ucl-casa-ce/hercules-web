@@ -3031,6 +3031,8 @@ const COLOR_RANGE = [
             $('[id*="condition"]').removeClass("active");
             $('[id*="day"]').removeClass("active");
             $('[id*="-tod"]').removeClass("active");
+
+           
         });
 
         function lookupPatient(pat_id, callback) {
@@ -3095,7 +3097,32 @@ const COLOR_RANGE = [
 
         function loadMapData(data) {
             const TripsLayer = deck.TripsLayer;
-            const LOOP_LENGTH = 5920;
+            const LOOP_LENGTH = data==null? 5920 : data.ticks;
+            console.log("LOOP_LENGTH "+ LOOP_LENGTH);
+
+            var minutes = parseInt(LOOP_LENGTH / 32);
+            console.log("minutes "+ minutes);
+
+            if(data != null){    
+                $("#timeSlider").slider("destroy");
+                $("#timeSlider").slider({
+                    ticks: [0, minutes],
+                    ticks_labels: ['0', minutes + ' m'],
+                    ticks_snap_bounds: 0,
+                    tooltip: 'always'
+                });
+              
+            } else {
+                $("#timeSlider").slider({
+                    ticks: [0, 60],
+                    ticks_labels: ['0', '60 m'],
+                    ticks_snap_bounds: 0,
+                    tooltip: 'always'
+                });
+            }
+            
+            var mySlider = $("#timeSlider").slider();
+
             const VENDOR_COLORS = [
                 [255, 0, 0],
                 [0, 0, 0], 
@@ -3124,6 +3151,7 @@ const COLOR_RANGE = [
 
             const animate = () => {
                 currentTime = (currentTime + 1) % LOOP_LENGTH;
+                mySlider.slider('setValue', parseInt(currentTime / 32));
                 const tripsLayer = new TripsLayer({
                     ...tripProps,
                     currentTime,
