@@ -113,8 +113,12 @@
                   <h4 class="card-title">Time slider</h4>
                   <br />
                   <input id="timeSlider" data-slider-handle="square" type="number" style="width: 100%;"/>
+
+                  <div id="deck-gl-wrapper">
+                    <div id="tooltip"></div>
+                    <div id="deck-gl"></div>
+                  </div>
                   <br />
-                  <br /> 
                   <h4 class="card-title">Patients in this experiment</h4>
                   <p class="card-description"> Select a patient to start animation </p>
                   <div class="table-responsive">
@@ -123,13 +127,6 @@
                     </select>
                   </div>
                   <br />
-
-                  <div id="deck-gl-wrapper">
-                    <div id="tooltip"></div>
-                    <div id="deck-gl"></div>
-                  </div>
-                  <br />
-
                   <button id="reset" class="btn btn-primary" type="button">Reset all filters</button>
                   
                 </div>
