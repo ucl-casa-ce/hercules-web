@@ -3026,7 +3026,7 @@ const COLOR_RANGE = [
         $('#patient-menu').on('change', function (e) {
             var valueSelected = this.value;
             lookupPatient(valueSelected, function (patData) {
-                loadMapData(patData);
+                loadMapData(patData, 1);
             });
             $('[id*="condition"]').removeClass("active");
             $('[id*="day"]').removeClass("active");
@@ -3095,7 +3095,7 @@ const COLOR_RANGE = [
             loadMapData();
         }
 
-        function loadMapData(data) {
+        function loadMapData(data, individual) {
             const TripsLayer = deck.TripsLayer;
             const LOOP_LENGTH = data==null? 5920 : data.ticks;
             console.log("LOOP_LENGTH "+ LOOP_LENGTH);
@@ -3166,9 +3166,9 @@ const COLOR_RANGE = [
                 data: data?.paths,
                 getPath: (d) => d.path,
                 getTimestamps: (d) => d.timestamps,
-                getColor: (d) => d.vendor,//d.vendor
-                opacity: 3,
-                widthMinPixels: 4,
+                getColor: (d) => individual!=null? VENDOR_COLORS[1] : d.vendor,//d.vendor
+                opacity: individual!=null? 3 : 0.005,
+                widthMinPixels: individual!=null? 4 : 2,
                 trailLength: 250000,
                 currentTime,
                 shadowEnabled: false,
