@@ -2938,7 +2938,7 @@ const patients4 = ["C0018",
 const INITIAL_VIEW_STATE = {
     latitude: 0.090,
     longitude: 0.171,
-    zoom: 10.99,
+    zoom: 10.7,
     bearing: 0,
     pitch: 0
 };
@@ -3012,7 +3012,7 @@ const COLOR_RANGE = [
 
             $('#patient-menu').append($('<option>', { 
                 value: null,
-                text : "Not selected" 
+                text : "No patient selected" 
             }));
 
             $.each(patientList, function (i, item) {
@@ -3141,7 +3141,7 @@ const COLOR_RANGE = [
                     ticks: ticksArray,
                     ticks_labels: ticksLabelsArray,
                     ticks_snap_bounds: 0,
-                    tooltip: 'always'
+                    tooltip: 'hide'
                 });
               
             } else {
@@ -3149,7 +3149,7 @@ const COLOR_RANGE = [
                     ticks: [0],
                     ticks_labels: ['0'],
                     ticks_snap_bounds: 0,
-                    tooltip: 'always'
+                    tooltip: 'hide'
                 });
             }
             
