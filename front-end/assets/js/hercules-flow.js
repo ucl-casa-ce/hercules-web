@@ -3105,17 +3105,49 @@ const COLOR_RANGE = [
 
             if(data != null){    
                 $("#timeSlider").slider("destroy");
+                var ticksArray ;
+                var ticksLabelsArray ;
+
+                if(minutes<15) {
+                    ticksArray = [minutes];
+                    ticksLabelsArray = ["0 min","15 min"];
+                } else if(minutes < 30){
+                    ticksArray = [0, 15, minutes];
+                    ticksLabelsArray = ["0 min","15 min", "30 min"];
+                } else if(minutes < 45){
+                    ticksArray = [0, 15, 30, minutes];
+                    ticksLabelsArray = ["0 min","15 min", "30 min", "45 min"];
+                } else if(minutes < 60){
+                    ticksArray = [0, 15, 30, 45, minutes];
+                    ticksLabelsArray = ["0 min","15 min", "30 min", "45 min", "1 hour"];
+                } else if(minutes < 75){
+                    ticksArray = [0, 15, 30, 45, 60, minutes];
+                    ticksLabelsArray = ["0 min","15 min", "30 min", "45 min", "1 hour", "1.25 hour"];
+                } else if(minutes < 90){
+                    ticksArray = [0, 15, 30, 45, 60, 75, minutes];
+                    ticksLabelsArray = ["0 min","15 min", "30 min", "45 min", "1 hour", "1.25 hour", "1.5 hour"];
+                } else if(minutes < 115){
+                    ticksArray = [0, 15, 30, 45, 60, 75, 90, minutes];
+                    ticksLabelsArray = ["0 min","15 min", "30 min", "45 min", "1 hour", "1.25 hour", "1.5 hour", "1.75 hour"];
+                } else if(minutes < 130){
+                    ticksArray = [0, 15, 30, 45, 60, 75, 90, 115, minutes];
+                    ticksLabelsArray = ["0 min", "15 min", "30 min", "45 min", "1 hour", "1.25 hour", "1.5 hour", "1.75 hour", "2 hours"];
+                } else if(minutes < 145){
+                    ticksArray = [0, 15, 30, 45, 60, 75, 90, 115, 145, minutes];
+                    ticksLabelsArray = ["0 min", "15 min", "30 min", "45 min", "1 hour", "1.25 hour", "1.5 hour", "1.75 hour", "2 hours", "2.25 hours"];
+                }
+
                 $("#timeSlider").slider({
-                    ticks: [0, minutes],
-                    ticks_labels: ['0', minutes + ' m'],
+                    ticks: ticksArray,
+                    ticks_labels: ticksLabelsArray,
                     ticks_snap_bounds: 0,
                     tooltip: 'always'
                 });
               
             } else {
                 $("#timeSlider").slider({
-                    ticks: [0, 60],
-                    ticks_labels: ['0', '60 m'],
+                    ticks: [0],
+                    ticks_labels: ['0'],
                     ticks_snap_bounds: 0,
                     tooltip: 'always'
                 });
