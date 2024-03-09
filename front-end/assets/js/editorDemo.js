@@ -53,12 +53,12 @@
   }
 
   /*Summernote editor*/
-  if ($("#summernoteExample").length) {
-    $('#summernoteExample').summernote({
-      height: 300,
-      tabsize: 2
-    });
-  }
+  // if ($("#summernoteExample").length) {
+  //   $('#summernoteExample').summernote({
+  //     height: 300,
+  //     tabsize: 2
+  //   });
+  // }
 
   /*X-editable editor*/
   if ($('#editable-form').length) {

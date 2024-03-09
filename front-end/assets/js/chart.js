@@ -80,6 +80,9 @@ $(function() {
       display: false
     },
     elements: {
+      line: {
+        tension: 0.5,
+      },
       point: {
         radius: 0
       }
@@ -165,6 +168,11 @@ $(function() {
           color: "rgba(204, 204, 204,0.1)"
         }
       }]
+    },
+    elements: {
+      line: {
+        tension: 0.5,
+      }
     }
   }
 
