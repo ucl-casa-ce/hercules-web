@@ -164,86 +164,125 @@
 
           <!-- ---------------------- CONTROLS ----------------------------------- -->
           <div class="row">
-            <div class="col-md-3 grid-margin stretch-card">
+            <div class="col-md-4 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">Filters</h4>
-                  <span class="btn-group-title">Days &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                  <div class="btn-group" role="group" aria-label="Basic example">
-                    <button id="monday" type="button" class="btn btn-outline-secondary">
-                      Monday
-                    </button>
-                    <button id="tuesday" type="button" class="btn btn-outline-secondary">
-                      Tuesday
-                    </button>
-                    <button id="wednesday" type="button" class="btn btn-outline-secondary">
-                      Wednesday
-                    </button>
-                    <button id="thursday" type="button" class="btn btn-outline-secondary">
-                      Thursday
-                    </button>
-                    <button id="friday" type="button" class="btn btn-outline-secondary">
-                      Friday
-                    </button>
+                  <div class="mt-0">
+                    <div class="accordion" id="accordion" role="tablist">
+                      <div class="card">
+                        <div class="card-header" role="tab" id="heading-1">
+                          <h6 class="mb-0">
+                            <a data-bs-toggle="collapse" href="#collapse-1" aria-expanded="true" aria-controls="collapse-1"> Highlights </a>
+                          </h6>
+                        </div>
+                        <div id="collapse-1" class="collapse show" role="tabpanel" aria-labelledby="heading-1" data-bs-parent="#accordion">
+                          <div class="card-body">
+                            <div class="row">
+                         
+                              <div class="col-9"> You can pay for the product you have purchased using credit cards, debit cards, or via online banking. We also provide cash-on-delivery services. </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="card">
+                        <div class="card-header" role="tab" id="heading-2">
+                          <h6 class="mb-0">
+                            <a class="collapsed" data-bs-toggle="collapse" href="#collapse-2" aria-expanded="false" aria-controls="collapseTwo"> Manual filters</a>
+                          </h6>
+                        </div>
+                        <div id="collapse-2" class="collapse" role="tabpanel" aria-labelledby="heading-2" data-bs-parent="#accordion">
+                          <div class="card-body"> <ol class="ps-3 mt-0">
+                            <span class="btn-group-title">Days &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                              <button id="monday" type="button" class="btn btn-outline-secondary">
+                                Monday
+                              </button>
+                              <button id="tuesday" type="button" class="btn btn-outline-secondary">
+                                Tuesday
+                              </button>
+                              <button id="wednesday" type="button" class="btn btn-outline-secondary">
+                                Wednesday
+                              </button>
+                              <button id="thursday" type="button" class="btn btn-outline-secondary">
+                                Thursday
+                              </button>
+                              <button id="friday" type="button" class="btn btn-outline-secondary">
+                                Friday
+                              </button>
+                            </div>
+          
+                            <br /><br />
+                            <span class="btn-group-title">Condition type</span>
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                              <button id="gcondition" type="button" class="btn btn-outline-secondary">
+                                G - Glaucoma
+                              </button>
+                              <button id="rcondition" type="button" class="btn btn-outline-secondary">
+                                R - Retina
+                              </button>
+                              <button id="ccondition" type="button" class="btn btn-outline-secondary">
+                                C - Cataract
+                              </button>
+                              <button id="scondition" type="button" class="btn btn-outline-secondary">
+                                S - Staff
+                              </button>
+                            </div>
+          
+                            <br /><br />
+                            <span class="btn-group-title">Time of day</span>
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                              <button id="morning-tod" type="button" class="btn btn-outline-secondary">
+                                Morning
+                              </button>
+                              <button id="afternoon-tod" type="button" class="btn btn-outline-secondary">
+                                Afternoon
+                              </button>
+                            </div>
+          
+                            <br /><br />
+                            <span class="btn-group-title">Visit length</span>
+                            <div class="input-group col-xs-1">
+                              <p class="col-sm-2 col-form-label" >From</p>
+                              <input id="from" type="text" class="col-sm-1 form-control" placeholder="10">
+                              <p style ="margin-left: 10px;"class="col-form-label" ></p>
+                              <p class="col-2 col-form-label text-muted" > Min</p>
+                              <p class="col-sm-2 col-form-label" >To</p>
+                              <input id="to" type="text" class="form-control" placeholder="40">
+                              <p style ="margin-left: 10px;"class="col-form-label" ></p>
+                              <p class="col-2 col-form-label text-muted" > Min</p>
+                              
+                            </div>
+                            <br />
+          
+                            <span class="input-group-append">
+                              <button id="visualise-results" class="btn btn-primary" type="button">Visualise results</button>
+                            </span>
+                            <br />
+                            <br />
+          
+                            <div class="table-responsive">
+                              <select id="patient-menu" class="form-select" aria-label="Default select example">
+                                <option selected>No patient selected</option>
+                              </select>
+                            </div>
+                            <br />
+                            <button id="reset" class="btn btn-primary" type="button">Reset all filters</button>
+          
+                          </div>
+                        </div>
+                      </div>
+                      <div class="card">
+                        <div class="card-header" role="tab" id="heading-3">
+                          <h6 class="mb-0">
+                            <a class="collapsed" data-bs-toggle="collapse" href="#collapse-3" aria-expanded="false" aria-controls="collapse-3"> Can I add money to the wallet? </a>
+                          </h6>
+                        </div>
+                        <div id="collapse-3" class="collapse" role="tabpanel" aria-labelledby="heading-3" data-bs-parent="#accordion">
+                          <div class="card-body"> You can add money to the wallet for any future transaction from your bank account using net-banking, or credit/debit card transaction. The money in the wallet can be used for an easier and faster transaction. </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-
-                  <br /><br />
-                  <span class="btn-group-title">Condition type</span>
-                  <div class="btn-group" role="group" aria-label="Basic example">
-                    <button id="gcondition" type="button" class="btn btn-outline-secondary">
-                      G - Glaucoma
-                    </button>
-                    <button id="rcondition" type="button" class="btn btn-outline-secondary">
-                      R - Retina
-                    </button>
-                    <button id="ccondition" type="button" class="btn btn-outline-secondary">
-                      C - Cataract
-                    </button>
-                    <button id="scondition" type="button" class="btn btn-outline-secondary">
-                      S - Staff
-                    </button>
-                  </div>
-
-                  <br /><br />
-                  <span class="btn-group-title">Time of day</span>
-                  <div class="btn-group" role="group" aria-label="Basic example">
-                    <button id="morning-tod" type="button" class="btn btn-outline-secondary">
-                      Morning
-                    </button>
-                    <button id="afternoon-tod" type="button" class="btn btn-outline-secondary">
-                      Afternoon
-                    </button>
-                  </div>
-
-                  <br /><br />
-                  <span class="btn-group-title">Visit length</span>
-                  <div class="input-group col-xs-1">
-                    <p class="col-sm-2 col-form-label" >From</p>
-                    <input id="from" type="text" class="col-sm-1 form-control" placeholder="10">
-                    <p style ="margin-left: 10px;"class="col-form-label" ></p>
-                    <p class="col-2 col-form-label text-muted" > Min</p>
-                    <p class="col-sm-2 col-form-label" >To</p>
-                    <input id="to" type="text" class="form-control" placeholder="40">
-                    <p style ="margin-left: 10px;"class="col-form-label" ></p>
-                    <p class="col-2 col-form-label text-muted" > Min</p>
-                    
-                  </div>
-                  <br />
-
-                  <span class="input-group-append">
-                    <button id="visualise-results" class="btn btn-primary" type="button">Visualise results</button>
-                  </span>
-                  <br />
-                  <br />
-
-                  <div class="table-responsive">
-                    <select id="patient-menu" class="form-select" aria-label="Default select example">
-                      <option selected>No patient selected</option>
-                    </select>
-                  </div>
-                  <br />
-                  <button id="reset" class="btn btn-primary" type="button">Reset all filters</button>
-
                 </div>
               </div>
             </div>
@@ -252,18 +291,13 @@
            <!-- ----------------------   MAP  ------------------------------------- -->
 
           
-            <div class="col-9 grid-margin">
-              <div class="card">
-                <div class="card-body">
-
-                  <div id="deck-gl-wrapper">
-                    <div id="tooltip"></div>
-                    <div id="deck-gl"></div>
-                  </div>
-                  <br />
-                  
-                  
+            <div class="col-8 grid-margin">
+              <div class="mt-1 card">
+                <div class="card mt-1 col-8 grid-margin" id="deck-gl-wrapper">
+                  <div id="tooltip"></div>
+                  <div id="deck-gl"></div>
                 </div>
+                <br />
               </div>
             </div>
           </div>
