@@ -2993,6 +2993,23 @@ const COLOR_RANGE = [
             }
         });
 
+         var softSlider = document.getElementById('soft-limit');
+
+        noUiSlider.create(softSlider, {
+        start: [0],
+        tooltips: false,
+        connect: true,
+        range: {
+            min: 0,
+            max: 100
+        },
+        pips: {
+            mode: 'values',
+            values: [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
+            density: 10
+        }
+        });
+
         function updatePatientList(expID){
             var patientList;
             if(expID =="1"){
