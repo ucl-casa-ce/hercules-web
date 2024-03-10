@@ -104,7 +104,6 @@
               </li>
             </ul>
             <ul class="navbar-nav navbar-nav-right">
-              <input id="timeSlider" data-slider-handle="square" type="number" style="padding-top: 23px; width: 500px;"/>
               <li class="nav-item dropdown d-none d-lg-block">
                 <a class="nav-link btn btn-success create-new-button" id="createbuttonDropdown" data-bs-toggle="dropdown" aria-expanded="false" href="#">+</a>
                 <div class="dropdown-menu dropdown-menu-end navbar-dropdown preview-list" aria-labelledby="createbuttonDropdown">
@@ -289,17 +288,24 @@
           
 
            <!-- ----------------------   MAP  ------------------------------------- -->
+           <div class="col-8 grid-margin">
+            <div class="mt-0 stretch-card">
+              <div class="card mt-0 col-8" >
+                <input id="timeSlider" data-slider-handle="square" type="number" style="padding-left: 70px; width: 100%;"/>
 
-          
-            <div class="col-8 grid-margin">
-              <div class="mt-1 card">
-                <div class="card mt-1 col-8 grid-margin" id="deck-gl-wrapper">
-                  <div id="tooltip"></div>
-                  <div id="deck-gl"></div>
-                </div>
-                <br />
               </div>
+              <br />
             </div>
+            <div class="mt-2 card">
+              <div class=" mt-1 col-8 grid-margin" id="deck-gl-wrapper">
+                <div id="tooltip"></div>
+                <div id="deck-gl"></div>
+              </div>
+              <br />
+            </div>
+          </div>
+          
+            
           </div>
           
         </div>
