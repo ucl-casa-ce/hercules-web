@@ -2993,7 +2993,7 @@ const COLOR_RANGE = [
             }
         });
 
-         var softSlider = document.getElementById('soft-limit');
+        var softSlider = document.getElementById('soft-limit');
 
         noUiSlider.create(softSlider, {
         start: [0],
@@ -3001,12 +3001,12 @@ const COLOR_RANGE = [
         connect: true,
         range: {
             min: 0,
-            max: 100
+            max: 60
         },
         pips: {
             mode: 'values',
-            values: [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
-            density: 10
+            values: range(0, 61, 15),
+            density: 15
         }
         });
 
@@ -3112,65 +3112,60 @@ const COLOR_RANGE = [
             loadMapData();
         }
 
+        //Taken from https://stackoverflow.com/questions/8273047/
+        function range(start, stop, step) {
+            if (typeof stop == 'undefined') {
+                // one param defined
+                stop = start;
+                start = 0;
+            }
+        
+            if (typeof step == 'undefined') {
+                step = 1;
+            }
+        
+            if ((step > 0 && start >= stop) || (step < 0 && start <= stop)) {
+                return [];
+            }
+        
+            var result = [];
+            for (var i = start; step > 0 ? i < stop : i > stop; i += step) {
+                result.push(i);
+            }
+        
+            return result;
+        };
+
         function loadMapData(data, individual) {
             const TripsLayer = deck.TripsLayer;
-            const LOOP_LENGTH = data==null? 5920 : data.ticks;
+            const LOOP_LENGTH = data==null? 0 : data.ticks;
             console.log("LOOP_LENGTH "+ LOOP_LENGTH);
 
             var minutes = parseInt(LOOP_LENGTH / 32);
+            var hours = parseInt(Math.floor(minutes / 60));
             console.log("minutes "+ minutes);
 
-            if(data != null){    
-                $("#timeSlider").slider("destroy");
-                var ticksArray ;
-                var ticksLabelsArray ;
+            if (data != null) {
 
-                if(minutes<15) {
-                    ticksArray = [minutes];
-                    ticksLabelsArray = ["0 min","15 min"];
-                } else if(minutes < 30){
-                    ticksArray = [0, 15, minutes];
-                    ticksLabelsArray = ["0 min","15 min", "30 min"];
-                } else if(minutes < 45){
-                    ticksArray = [0, 15, 30, minutes];
-                    ticksLabelsArray = ["0 min","15 min", "30 min", "45 min"];
-                } else if(minutes < 60){
-                    ticksArray = [0, 15, 30, 45, minutes];
-                    ticksLabelsArray = ["0 min","15 min", "30 min", "45 min", "1 hour"];
-                } else if(minutes < 75){
-                    ticksArray = [0, 15, 30, 45, 60, minutes];
-                    ticksLabelsArray = ["0 min","15 min", "30 min", "45 min", "1 hour", "1.25 hour"];
-                } else if(minutes < 90){
-                    ticksArray = [0, 15, 30, 45, 60, 75, minutes];
-                    ticksLabelsArray = ["0 min","15 min", "30 min", "45 min", "1 hour", "1.25 hour", "1.5 hour"];
-                } else if(minutes < 115){
-                    ticksArray = [0, 15, 30, 45, 60, 75, 90, minutes];
-                    ticksLabelsArray = ["0 min","15 min", "30 min", "45 min", "1 hour", "1.25 hour", "1.5 hour", "1.75 hour"];
-                } else if(minutes < 130){
-                    ticksArray = [0, 15, 30, 45, 60, 75, 90, 115, minutes];
-                    ticksLabelsArray = ["0 min", "15 min", "30 min", "45 min", "1 hour", "1.25 hour", "1.5 hour", "1.75 hour", "2 hours"];
-                } else if(minutes < 145){
-                    ticksArray = [0, 15, 30, 45, 60, 75, 90, 115, 145, minutes];
-                    ticksLabelsArray = ["0 min", "15 min", "30 min", "45 min", "1 hour", "1.25 hour", "1.5 hour", "1.75 hour", "2 hours", "2.25 hours"];
-                }
-
-                $("#timeSlider").slider({
-                    ticks: ticksArray,
-                    ticks_labels: ticksLabelsArray,
-                    ticks_snap_bounds: 0,
-                    tooltip: 'hide'
+                softSlider.noUiSlider.updateOptions({
+                    start: [0],
+                    tooltips: false,
+                    connect: true,
+                    range: {
+                        min: 0,
+                        max: minutes
+                    },
+                    pips: {
+                        mode: 'values',
+                        values: range(0, minutes, 15),
+                        density: 15
+                    }
                 });
-              
+
             } else {
-                $("#timeSlider").slider({
-                    ticks: [0],
-                    ticks_labels: ['0'],
-                    ticks_snap_bounds: 0,
-                    tooltip: 'hide'
-                });
+               //reset time slider if needed
             }
             
-            var mySlider = $("#timeSlider").slider();
 
             const VENDOR_COLORS = [
                 [255, 0, 0],
@@ -3200,7 +3195,13 @@ const COLOR_RANGE = [
 
             const animate = () => {
                 currentTime = (currentTime + 1) % LOOP_LENGTH;
-                mySlider.slider('setValue', parseInt(currentTime / 32));
+                if(LOOP_LENGTH != 0){
+                    var currentMinutes = currentTime / 32;
+                    softSlider.noUiSlider.set(parseInt(currentMinutes));
+                    $('#time-index').text(convertMinsToHrsMins(currentMinutes));
+                    $('#play-button').removeClass("mdi-play");
+                    $('#play-button').addClass("mdi-stop");
+                }
                 const tripsLayer = new TripsLayer({
                     ...tripProps,
                     currentTime,
@@ -3215,6 +3216,14 @@ const COLOR_RANGE = [
                 window.requestAnimationFrame(animate);
             };
 
+            // taken from https://stackoverflow.com/questions/4687723/
+            function convertMinsToHrsMins(minutes) {
+                var h = parseInt(Math.floor(minutes / 60));
+                var m = parseInt(minutes % 60);
+                h = h < 10 ? '0' + h : h; 
+                m = m < 10 ? '0' + m : m; 
+                return h + ':' + m + ':00' ;
+            }
 
             async function initMap() {
                 console.log("initMap()");
@@ -3240,16 +3249,9 @@ const COLOR_RANGE = [
             document.getElementById('deck-gl-wrapper').appendChild(mainDeck.canvas);
         }
 
-        function createBitmapLayer(initialViewState) {
-            return new BitmapLayer({
-                id: 'background-image',
-                image: './assets/floorplans/' + backgroundImage,
-                coordinateSystem: COORDINATE_SYSTEM.CARTESIAN,
-                //ransparentColor: [0, 0, 0, 255],
-                tintColor: [52, 52, 52],
-                bounds: [-initialViewState.width / 2, initialViewState.height / 2, initialViewState.width / 2, -initialViewState.height / 2],
-            });
-        }
+        $('#play-button').click(function() {
+            loadMapData();
+        });
 
         $('#reset').click(function() {
             location.reload();
