@@ -2938,7 +2938,7 @@ const patients4 = ["C0018",
 const INITIAL_VIEW_STATE = {
     latitude: 0.090,
     longitude: 0.171,
-    zoom: 10.7,
+    zoom: 10.76,
     bearing: 0,
     pitch: 0
 };
