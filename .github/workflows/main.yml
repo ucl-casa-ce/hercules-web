@@ -1,8 +1,6 @@
 name: Build and Publish the Website to a Docker image in GitHub Packages
 
-on:
-  push:
-    branches: [ main ]
+on: workflow_dispatch
 
 env:
   REGISTRY: ghcr.io
