@@ -2,9 +2,7 @@ name: Build and Publish the Website to a Docker image in GitHub Packages
 
 on:
   push:
-    tags:
-      - build
-
+    branches: [ main ]
 
 env:
   REGISTRY: ghcr.io
