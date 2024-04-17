@@ -8,7 +8,7 @@ var mapGLLayers = [];
 var mainDeck;
 
 var url = new URL(window.location.origin);
-url.port = '3000';
+url.port = '32769';
 const baseURL = url.toString();
 
 const patients1 = ["G0132",

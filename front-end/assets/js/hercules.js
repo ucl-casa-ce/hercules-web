@@ -7,7 +7,7 @@ var layers = [];
 var mapGLLayers = [];
 
 var url = new URL(window.location.origin);
-url.port = '3000';
+url.port = '32769';
 const baseURL = url.toString();
 
 const initialViewState = {
