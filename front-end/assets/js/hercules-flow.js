@@ -3185,6 +3185,7 @@ const COLOR_RANGE = [
                 currentTime,
                 shadowEnabled: false,
             };
+            
 
             const bitmapProps = {
                 id: 'bitmap-layer',
