@@ -266,3 +266,6 @@ xcuserdata
 
 # Deprecated classes
 *.moved-aside
+playground/Deck.gl/assets/
+playground/corona-free-dark-bootstrap-admin-template-master/
+docs/corona-cp/
