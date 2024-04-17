@@ -7,7 +7,9 @@ var layers = [];
 var mapGLLayers = [];
 var mainDeck;
 
-const baseURL = 'http://localhost:3000';
+var url = new URL(window.location.origin);
+url.port = '3000';
+const baseURL = url.toString();
 
 const patients1 = ["G0132",
 "G0167",
@@ -3053,7 +3055,7 @@ const COLOR_RANGE = [
         });
 
         function lookupPatient(pat_id, callback) {
-            const url = baseURL + '/api/data/flows/single/' + parseInt(experiment) + '/' + pat_id;
+            const url = baseURL + 'api/data/flows/single/' + parseInt(experiment) + '/' + pat_id;
             console.log(url);
             fetch(url)
                 .then(response => response.json())
@@ -3062,7 +3064,7 @@ const COLOR_RANGE = [
         }
 
         function lookupPatients(callback) {
-            const url = baseURL + '/api/data/flows/group/' + parseInt(experiment);
+            const url = baseURL + 'api/data/flows/group/' + parseInt(experiment);
             console.log(url);
             fetch(url, {
      
@@ -3307,8 +3309,8 @@ const COLOR_RANGE = [
                         break;
                 }
 
-                const conditionUrl = baseURL + '/api/data/' + parseInt(experiment) + '/condition_type/' + apiSelectedCondition;
-                const groupUrl = baseURL + '/api/data/flows/group/' + parseInt(experiment) + '/zerostart/' + 1;
+                const conditionUrl = baseURL + 'api/data/' + parseInt(experiment) + '/condition_type/' + apiSelectedCondition;
+                const groupUrl = baseURL + 'api/data/flows/group/' + parseInt(experiment) + '/zerostart/' + 1;
                 console.log(conditionUrl);
                 console.log(groupUrl);
                 fetch(conditionUrl)
@@ -3333,8 +3335,8 @@ const COLOR_RANGE = [
                     })
                     .catch(error => callback(error, function () { alert("Server error"); }));
             } else if (selectedDay.length > 0) {
-                const dayUrl = baseURL + '/api/data/' + parseInt(experiment) + '/dow/' + selectedDay[0].id;
-                const groupUrl = baseURL + '/api/data/flows/group/' + parseInt(experiment) + '/zerostart/' + 0;
+                const dayUrl = baseURL + 'api/data/' + parseInt(experiment) + '/dow/' + selectedDay[0].id;
+                const groupUrl = baseURL + 'api/data/flows/group/' + parseInt(experiment) + '/zerostart/' + 0;
                 console.log(dayUrl);
                 console.log(groupUrl);
                 fetch(dayUrl)
@@ -3369,8 +3371,8 @@ const COLOR_RANGE = [
                         break;
                 }
 
-                const todUrl = baseURL + '/api/data/' + parseInt(experiment) + '/tod/' + apiSelectedTod;
-                const groupUrl = baseURL + '/api/data/flows/group/' + parseInt(experiment) + '/zerostart/' + 0;
+                const todUrl = baseURL + 'api/data/' + parseInt(experiment) + '/tod/' + apiSelectedTod;
+                const groupUrl = baseURL + 'api/data/flows/group/' + parseInt(experiment) + '/zerostart/' + 0;
                 console.log(todUrl);
                 console.log(groupUrl);
                 fetch(todUrl)
