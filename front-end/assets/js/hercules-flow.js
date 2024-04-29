@@ -3106,6 +3106,7 @@ const COLOR_RANGE = [
         }
 
         changeExperiment = function changeExperiment(expID) {
+            $("#dropdownMenuButtonExperiment").text("Experiment " + parseInt(expID));
             $("#exp"+experiment).removeClass("active");
             experiment = parseInt(expID);
             $("#exp"+experiment).addClass("active");
