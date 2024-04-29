@@ -3266,18 +3266,21 @@ const COLOR_RANGE = [
             $('[id*="condition"]').removeClass("active");
             console.log(this.id);
             $(this).addClass("active");
+            $("#dropdownCondition").text(this.text);
         });
 
         $('[id*="day"]').click(function () {
             $('[id*="day"]').removeClass("active");
             console.log(this.id);
             $(this).addClass("active");
+            $("#dropdownDay").text(this.text);
         });
 
         $('[id*="-tod"]').click(function () {
             $('[id*="-tod"]').removeClass("active");
             console.log(this.id);
             $(this).addClass("active");
+            $("#dropdownTod").text(this.text);
         });
 
         $('#visualise-results').click(function () {
@@ -3309,7 +3312,7 @@ const COLOR_RANGE = [
                         apiSelectedCondition = 'S';
                         break;
                 }
-
+                
                 const conditionUrl = baseURL + 'api/data/' + parseInt(experiment) + '/condition_type/' + apiSelectedCondition;
                 const groupUrl = baseURL + 'api/data/flows/group/' + parseInt(experiment) + '/zerostart/' + 1;
                 console.log(conditionUrl);
