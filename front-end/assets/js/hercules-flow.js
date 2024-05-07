@@ -6,6 +6,9 @@ var backgroundImage = null;
 var layers = [];
 var mapGLLayers = [];
 var mainDeck;
+var playbackIsActive = false;
+var firstLoad = true;
+var manualTime = 0; //to be decided if to be removed
 
 var url = new URL(window.location.origin);
 url.port = '32769';
@@ -3012,6 +3015,18 @@ const COLOR_RANGE = [
         }
         });
 
+        softSlider.noUiSlider.on('start', function (values, handle) {
+            //playbackIsActive = true;
+            console.log("start");
+            //stepSliderValueElement.innerHTML = values[handle];
+        });
+
+        softSlider.noUiSlider.on('end', function (values, handle) {
+            console.log("end");
+            manualTime = parseFloat(values[handle]);
+            //console.log("manualTime "+ manualTime);
+        });
+
         function updatePatientList(expID){
             var patientList;
             if(expID =="1"){
@@ -3053,6 +3068,7 @@ const COLOR_RANGE = [
 
            
         });
+
 
         function lookupPatient(pat_id, callback) {
             const url = baseURL + 'api/data/flows/single/' + parseInt(experiment) + '/' + pat_id;
@@ -3164,6 +3180,7 @@ const COLOR_RANGE = [
                         density: 15
                     }
                 });
+                //playbackIsActive = false;
 
             } else {
                //reset time slider if needed
@@ -3198,26 +3215,36 @@ const COLOR_RANGE = [
 
 
             const animate = () => {
-                currentTime = (currentTime + 1) % LOOP_LENGTH;
-                if(LOOP_LENGTH != 0){
-                    var currentMinutes = currentTime / 32;
-                    softSlider.noUiSlider.set(parseInt(currentMinutes));
-                    $('#time-index').text(convertMinsToHrsMins(currentMinutes));
-                    $('#play-button').removeClass("mdi-play");
-                    $('#play-button').addClass("mdi-stop");
-                }
-                const tripsLayer = new TripsLayer({
-                    ...tripProps,
-                    currentTime,
-                });
-                const bitmapLayer = new deck.BitmapLayer({
-                    ...bitmapProps
-                });
-                mainDeck.setProps({
-                    layers: [bitmapLayer, tripsLayer],
-                });
+                console.log("animate loop");
+                if (playbackIsActive || firstLoad) {
+                    currentTime = (currentTime + 1) % LOOP_LENGTH;
+                    console.log("currentTime animate played"+ currentTime);
+                    if (LOOP_LENGTH != 0) {
+                        var currentMinutes = currentTime / 32;
+                        softSlider.noUiSlider.set(parseInt(currentMinutes));
+                        $('#time-index').text(convertMinsToHrsMins(currentMinutes));
+                        //$('#play-button').removeClass("mdi-play");
+                        //$('#play-button').addClass("mdi-pause");
+                    }
+                    const tripsLayer = new TripsLayer({
+                        ...tripProps,
+                        currentTime,
+                    });
+                    const bitmapLayer = new deck.BitmapLayer({
+                        ...bitmapProps
+                    });
+                    mainDeck.setProps({
+                        layers: [bitmapLayer, tripsLayer],
+                    });
 
-                window.requestAnimationFrame(animate);
+                    window.requestAnimationFrame(animate);
+                    firstLoad = false;
+                } else {
+                    //currentTime = manualTime * 32;
+                    console.log("currentTime pasued"+ currentTime);
+                    //playbackIsActive = false;
+                    window.requestAnimationFrame(animate);
+                }
             };
 
             // taken from https://stackoverflow.com/questions/4687723/
@@ -3253,8 +3280,18 @@ const COLOR_RANGE = [
             document.getElementById('deck-gl-wrapper').appendChild(mainDeck.canvas);
         }
 
-        $('#play-button').click(function() {
-            loadMapData();
+        $('#playback-button').click(function() {
+            if(playbackIsActive){
+                playbackIsActive = false;
+                $('#play-button').removeClass("mdi-pause");
+                $('#play-button').addClass("mdi-play");
+            } else {
+                playbackIsActive = true;
+                $('#play-button').removeClass("mdi-play");
+                $('#play-button').addClass("mdi-pause");
+                window.requestAnimationFrame(animate);
+            }
+            //loadMapData();
         });
 
         $('#reset').click(function() {
