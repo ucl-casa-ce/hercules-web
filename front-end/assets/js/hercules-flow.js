@@ -3271,12 +3271,12 @@ const COLOR_RANGE = [
         }
 
         $('#playback-button').click(function() {
-            if(playbackIsActive){
-                playbackIsActive = false;
+            if(isAnimating){
+                isAnimating = false;
                 $('#play-button').removeClass("mdi-pause");
                 $('#play-button').addClass("mdi-play");
             } else {
-                playbackIsActive = true;
+                isAnimating = true;
                 $('#play-button').removeClass("mdi-play");
                 $('#play-button').addClass("mdi-pause");
                 window.requestAnimationFrame(animate);
@@ -3360,7 +3360,7 @@ const COLOR_RANGE = [
                             .then(response => response.json())
                             .then(function (data) {
                                 console.log(data);
-                                loadMapData(data)
+                                loadMapData(data, null, apiSelectedCondition +" condition");
                             })
                             .catch(error => callback(error, function () { alert("Server error"); }));
                     })
@@ -3386,7 +3386,7 @@ const COLOR_RANGE = [
                             .then(response => response.json())
                             .then(function (data) {
                                 console.log(data);
-                                loadMapData(data)
+                                loadMapData(data, null, selectedDay[0].id);
                             })
                             .catch(error => callback(error, function () { alert("Server error"); }));
                     })
@@ -3422,7 +3422,7 @@ const COLOR_RANGE = [
                             .then(response => response.json())
                             .then(function (data) {
                                 console.log(data);
-                                loadMapData(data)
+                                loadMapData(data, null, apiSelectedTod);
                             })
                             .catch(error => callback(error, function () { alert("Server error"); }));
                     })
