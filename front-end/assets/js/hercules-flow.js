@@ -6,7 +6,7 @@ var backgroundImage = null;
 var layers = [];
 var mapGLLayers = [];
 var mainDeck;
-var playbackIsActive = false;
+var isAnimating = false;
 var firstLoad = true;
 var manualTime = 0; //to be decided if to be removed
 
@@ -3016,7 +3016,7 @@ const COLOR_RANGE = [
         });
 
         softSlider.noUiSlider.on('start', function (values, handle) {
-            //playbackIsActive = true;
+            //isAnimating = true;
             console.log("start");
             //stepSliderValueElement.innerHTML = values[handle];
         });
@@ -3060,7 +3060,7 @@ const COLOR_RANGE = [
         $('#patient-menu').on('change', function (e) {
             var valueSelected = this.value;
             lookupPatient(valueSelected, function (patData) {
-                loadMapData(patData, 1);
+                loadMapData(patData, 1, "Patient " + valueSelected);
             });
             $('[id*="condition"]').removeClass("active");
             $('[id*="day"]').removeClass("active");
@@ -3155,7 +3155,7 @@ const COLOR_RANGE = [
             return result;
         };
 
-        function loadMapData(data, individual) {
+        function loadMapData(data, individual, playbackName) {
             const TripsLayer = deck.TripsLayer;
             const LOOP_LENGTH = data==null? 0 : data.ticks;
             console.log("LOOP_LENGTH "+ LOOP_LENGTH);
@@ -3180,7 +3180,7 @@ const COLOR_RANGE = [
                         density: 15
                     }
                 });
-                //playbackIsActive = false;
+                //isAnimating = false;
 
             } else {
                //reset time slider if needed
@@ -3213,12 +3213,12 @@ const COLOR_RANGE = [
                 image: './assets/floorplans/' + backgroundImage
             };
 
-
+            $("#playback-name").text(playbackName);
             const animate = () => {
-                console.log("animate loop");
-                if (playbackIsActive || firstLoad) {
+                //console.log("animate loop");
+                if (isAnimating || firstLoad) {
                     currentTime = (currentTime + 1) % LOOP_LENGTH;
-                    console.log("currentTime animate played"+ currentTime);
+                    //console.log("currentTime animate played"+ currentTime);
                     if (LOOP_LENGTH != 0) {
                         var currentMinutes = currentTime / 32;
                         softSlider.noUiSlider.set(parseInt(currentMinutes));
@@ -3241,8 +3241,8 @@ const COLOR_RANGE = [
                     firstLoad = false;
                 } else {
                     //currentTime = manualTime * 32;
-                    console.log("currentTime pasued"+ currentTime);
-                    //playbackIsActive = false;
+                    //console.log("currentTime pasued"+ currentTime);
+                    //isAnimating = false;
                     window.requestAnimationFrame(animate);
                 }
             };
