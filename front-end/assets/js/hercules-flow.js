@@ -2982,22 +2982,6 @@ const COLOR_RANGE = [
             table.append(newRow);
         }
 
-        $("#addPatient").click(function () {
-            var userEntry = $("#patient_entry").val();
-            userEntry = userEntry.replace(/[^a-zA-Z0-9]/g, '');
-            if (userEntry != "") {
-                lookupPatient(userEntry, function (patData) {
-                    console.log(patData);
-                    //if (patData.patient.length == 0) {
-                    //    alert("Patient ID not found");
-                    //} else {
-                    //    addLayerRow(patData);
-                    //}
-                    loadMapData(patData);
-                });
-            }
-        });
-
         var softSlider = document.getElementById('soft-limit');
 
         function updatePips(value, type){
