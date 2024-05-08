@@ -3000,6 +3000,10 @@ const COLOR_RANGE = [
 
         var softSlider = document.getElementById('soft-limit');
 
+        function updatePips(value, type){
+            return value + " min";
+        }
+
         noUiSlider.create(softSlider, {
         start: [0],
         tooltips: false,
@@ -3011,7 +3015,8 @@ const COLOR_RANGE = [
         pips: {
             mode: 'values',
             values: range(0, 61, 15),
-            density: 15
+            density: 15,
+            format: {to: updatePips}
         }
         });
 
@@ -3177,7 +3182,8 @@ const COLOR_RANGE = [
                     pips: {
                         mode: 'values',
                         values: range(0, minutes, 15),
-                        density: 15
+                        density: 15,
+                        format: {to: updatePips}
                     }
                 });
                 //isAnimating = false;
