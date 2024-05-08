@@ -3050,6 +3050,7 @@ const COLOR_RANGE = [
             var valueSelected = this.value;
             lookupPatient(valueSelected, function (patData) {
                 loadMapData(patData, 1, "Patient " + valueSelected);
+                startPlayback();
             });
             $('[id*="condition"]').removeClass("active");
             $('[id*="day"]').removeClass("active");
@@ -3270,16 +3271,24 @@ const COLOR_RANGE = [
             document.getElementById('deck-gl-wrapper').appendChild(mainDeck.canvas);
         }
 
+        function pausePlayback(){
+            isAnimating = false;
+            $('#play-button').removeClass("mdi-pause");
+            $('#play-button').addClass("mdi-play");
+        }
+
+        function startPlayback(){
+            isAnimating = true;
+            $('#play-button').removeClass("mdi-play");
+            $('#play-button').addClass("mdi-pause");
+            window.requestAnimationFrame(animate);
+        }
+
         $('#playback-button').click(function() {
             if(isAnimating){
-                isAnimating = false;
-                $('#play-button').removeClass("mdi-pause");
-                $('#play-button').addClass("mdi-play");
+                pausePlayback();
             } else {
-                isAnimating = true;
-                $('#play-button').removeClass("mdi-play");
-                $('#play-button').addClass("mdi-pause");
-                window.requestAnimationFrame(animate);
+                startPlayback();
             }
             //loadMapData();
         });
@@ -3361,6 +3370,7 @@ const COLOR_RANGE = [
                             .then(function (data) {
                                 console.log(data);
                                 loadMapData(data, null, apiSelectedCondition +" condition");
+                                startPlayback();
                             })
                             .catch(error => callback(error, function () { alert("Server error"); }));
                     })
@@ -3387,6 +3397,7 @@ const COLOR_RANGE = [
                             .then(function (data) {
                                 console.log(data);
                                 loadMapData(data, null, selectedDay[0].id);
+                                startPlayback();
                             })
                             .catch(error => callback(error, function () { alert("Server error"); }));
                     })
@@ -3423,6 +3434,7 @@ const COLOR_RANGE = [
                             .then(function (data) {
                                 console.log(data);
                                 loadMapData(data, null, apiSelectedTod);
+                                startPlayback();
                             })
                             .catch(error => callback(error, function () { alert("Server error"); }));
                     })
