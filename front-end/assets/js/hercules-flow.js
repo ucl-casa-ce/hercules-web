@@ -3005,15 +3005,12 @@ const COLOR_RANGE = [
         });
 
         softSlider.noUiSlider.on('start', function (values, handle) {
-            //isAnimating = true;
             console.log("start");
-            //stepSliderValueElement.innerHTML = values[handle];
         });
 
         softSlider.noUiSlider.on('end', function (values, handle) {
             console.log("end");
             manualTime = parseFloat(values[handle]);
-            //console.log("manualTime "+ manualTime);
         });
 
         function updatePatientList(expID){
@@ -3111,6 +3108,7 @@ const COLOR_RANGE = [
             }
         }
 
+      
         changeExperiment = function changeExperiment(expID) {
             $("#dropdownMenuButtonExperiment").text("Experiment " + parseInt(expID));
             $("#exp"+experiment).removeClass("active");
@@ -3119,6 +3117,11 @@ const COLOR_RANGE = [
             backgroundImage = "p" + experiment + "-ubi-grid.png";
             updatePatientList(experiment);
             loadMapData();
+
+            setTimeout(function() {
+                isAnimating = true;
+                console.log("Delayed");
+            }, 200);
         }
 
         //Taken from https://stackoverflow.com/questions/8273047/
@@ -3171,10 +3174,28 @@ const COLOR_RANGE = [
                         format: {to: updatePips}
                     }
                 });
-                //isAnimating = false;
 
             } else {
                //reset time slider if needed
+               softSlider.noUiSlider.updateOptions({
+                start: [0],
+                tooltips: false,
+                connect: true,
+                range: {
+                    min: 0,
+                    max: 60
+                },
+                pips: {
+                    mode: 'values',
+                    values: range(0, 61, 15),
+                    density: 15,
+                    format: {to: updatePips}
+                }
+                });
+                //LOOP_LENGTH = 0;
+                //currentTime = 0;
+                $("#playback-name").text("Nothing selected");
+
             }
             
 
@@ -3233,7 +3254,6 @@ const COLOR_RANGE = [
                 } else {
                     //currentTime = manualTime * 32;
                     //console.log("currentTime pasued"+ currentTime);
-                    //isAnimating = false;
                     window.requestAnimationFrame(animate);
                 }
             };
