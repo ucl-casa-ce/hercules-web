@@ -2981,20 +2981,6 @@ const COLOR_RANGE = [
             updatePatientList(experiment);
         }
 
-        function addTableRow(data) {
-            const table = $('#dataTable');
-            if (!table || table.length === 0) {
-                console.error('Error: table not found');
-                return;
-            }
-            const newRow = $('<tr>');
-            $.each(data, function (index, value) {
-                const newCell = $('<td>').text(value);
-                newRow.append(newCell);
-            });
-            table.append(newRow);
-        }
-
         var softSlider = document.getElementById('soft-limit');
 
         function updatePips(value, type){
@@ -3111,22 +3097,6 @@ const COLOR_RANGE = [
                 .catch(error => callback(error, function(){alert("Server error");}));
         }
 
-        function loadTableData(data) {
-            // loop around data json array
-            $(".num_rows").html(data.length);
-
-            var count = data.length;
-            if (count > 100) {
-                count = 100;
-            }
-
-            for (var i = 0; i < count; i++) {
-                var row = data[i];
-                addTableRow([i + 1, row.patient_id, row.location, row.start_time, row.end_time, row.step_length]);
-            }
-        }
-
-      
         changeExperiment = function changeExperiment(expID) {
             $("#dropdownMenuButtonExperiment").text("Experiment " + parseInt(expID));
             $("#exp"+experiment).removeClass("active");
