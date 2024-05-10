@@ -6,9 +6,22 @@ var backgroundImage = null;
 var layers = [];
 var mapGLLayers = [];
 var mainDeck;
+
+//A flag to pause/play the animation.
 var isAnimating = false;
+
+//A flag to kick off the first animation when the page is loaded (just used once).
 var firstLoad = true;
-var manualTime = 0; //to be decided if to be removed
+
+//this a manual ticks coming from the slider when the user selects a time manually
+var manualTime = -1; 
+
+//this flag is set to 1 to indicate that the slider is clicked while being dragged. It is set to 0 when the
+//click is released (the user no longer is dragging the slider)
+var manualPressed = 0; 
+
+//A function resposible of animating each frame (called on each tick to animate the frame)
+var animate; 
 
 var url = new URL(window.location.origin);
 url.port = '32769';
@@ -3006,11 +3019,16 @@ const COLOR_RANGE = [
 
         softSlider.noUiSlider.on('start', function (values, handle) {
             console.log("start");
+            //pausePlayback();
+            manualPressed = 1;
         });
 
         softSlider.noUiSlider.on('end', function (values, handle) {
-            console.log("end");
             manualTime = parseFloat(values[handle]);
+            console.log("end: "+ manualTime);
+            manualPressed = 0;
+            
+            //startPlayback();
         });
 
         function updatePatientList(expID){
@@ -3226,17 +3244,21 @@ const COLOR_RANGE = [
             };
 
             $("#playback-name").text(playbackName);
-            const animate = () => {
-                //console.log("animate loop");
+            animate = () => {
                 if (isAnimating || firstLoad) {
                     currentTime = (currentTime + 1) % LOOP_LENGTH;
-                    //console.log("currentTime animate played"+ currentTime);
+                    if(manualTime != -1)
+                    {
+                        console.log("currentTime MANUAL: " + currentTime);
+                        currentTime = parseInt(manualTime * 32);
+                        manualTime = -1;
+                    }
+                    console.log("currentTime: " + currentTime);
                     if (LOOP_LENGTH != 0) {
                         var currentMinutes = currentTime / 32;
-                        softSlider.noUiSlider.set(parseInt(currentMinutes));
+                        if(manualPressed != 1)
+                            softSlider.noUiSlider.set(parseInt(currentMinutes));
                         $('#time-index').text(convertMinsToHrsMins(currentMinutes));
-                        //$('#play-button').removeClass("mdi-play");
-                        //$('#play-button').addClass("mdi-pause");
                     }
                     const tripsLayer = new TripsLayer({
                         ...tripProps,
@@ -3252,9 +3274,25 @@ const COLOR_RANGE = [
                     window.requestAnimationFrame(animate);
                     firstLoad = false;
                 } else {
-                    //currentTime = manualTime * 32;
-                    //console.log("currentTime pasued"+ currentTime);
-                    window.requestAnimationFrame(animate);
+                    if(manualTime == 81)
+                    {
+                        let currentTime = 300; //parseInt(manualTime * 32);
+                        console.log("currentTime MANUAL: " + currentTime);
+                        const tripsLayer = new TripsLayer({
+                            ...tripProps,
+                            getColor: (d) =>  VENDOR_COLORS[0],//d.vendor
+                            currentTime,
+                        });
+                        const bitmapLayer = new deck.BitmapLayer({
+                            ...bitmapProps
+                        });
+                        mainDeck.setProps({
+                            layers: [bitmapLayer, tripsLayer],
+                        });
+                        manualTime = -1;
+                    }
+                    if(manualPressed == 1)
+                        window.requestAnimationFrame(animate);
                 }
             };
 
