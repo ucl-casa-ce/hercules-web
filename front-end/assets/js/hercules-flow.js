@@ -3005,7 +3005,7 @@ const COLOR_RANGE = [
 
         softSlider.noUiSlider.on('start', function (values, handle) {
             console.log("start");
-            //pausePlayback();
+            pausePlayback();
             manualPressed = 1;
         });
 
@@ -3014,7 +3014,7 @@ const COLOR_RANGE = [
             console.log("end: "+ manualTime);
             manualPressed = 0;
             
-            //startPlayback();
+            startPlayback();
         });
 
         function updatePatientList(expID){
@@ -3244,23 +3244,6 @@ const COLOR_RANGE = [
                     window.requestAnimationFrame(animate);
                     firstLoad = false;
                 } else {
-                    if(manualTime == 81)
-                    {
-                        let currentTime = 300; //parseInt(manualTime * 32);
-                        console.log("currentTime MANUAL: " + currentTime);
-                        const tripsLayer = new TripsLayer({
-                            ...tripProps,
-                            getColor: (d) =>  VENDOR_COLORS[0],//d.vendor
-                            currentTime,
-                        });
-                        const bitmapLayer = new deck.BitmapLayer({
-                            ...bitmapProps
-                        });
-                        mainDeck.setProps({
-                            layers: [bitmapLayer, tripsLayer],
-                        });
-                        manualTime = -1;
-                    }
                     if(manualPressed == 1)
                         window.requestAnimationFrame(animate);
                 }
