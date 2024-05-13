@@ -3343,6 +3343,17 @@ const COLOR_RANGE = [
                 return ($(this).hasClass("active"));
             });
 
+            requestData(selectedCondition, selectedDay, selectedTod);
+
+        });
+
+        var valueSelected = "G0503";
+            lookupPatient(valueSelected, function (patData) {
+                loadMapData(patData, 1, "Patient " + valueSelected);
+                startPlayback();
+            });
+
+        function requestData(selectedCondition, selectedDay, selectedTod){
             if (selectedCondition.length > 0) {
                 var apiSelectedCondition;
                 switch (selectedCondition[0].id) {
@@ -3451,10 +3462,7 @@ const COLOR_RANGE = [
                     })
                     .catch(error => callback(error, function () { alert("Server error"); }));
             }
-
-        });
-
-        loadMapData();
+        }
 
     });
 })(jQuery);
