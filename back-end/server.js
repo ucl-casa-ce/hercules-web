@@ -409,8 +409,8 @@ app.post('/api/data/flows/group/:expID/zerostart/:zerostart', async (req, res) =
   var json_body = req.body;
   var group_array = json_body.group;
   var expID_group = "p"+expID+"_input";
+  var expID_grouped = "p"+expID+"_grouped_data"; 
 
-  
   console.log(JSON.stringify(group_array).replace(/"/g, "'"));
   var groupList = JSON.stringify(group_array).replace(/"/g, "'");
 
@@ -418,13 +418,16 @@ app.post('/api/data/flows/group/:expID/zerostart/:zerostart', async (req, res) =
   console.log(sql); 
   const result = await pool.query(sql);
 
+  var ticksSql = format("SELECT MAX(CAST(visit_length_minutes AS DECIMAL(7,2))) * 32 AS ticks FROM %I WHERE patient_id = ANY(array%s);", expID_grouped, groupList);  
+  console.log(ticksSql); 
+  const ticksResult = await pool.query(ticksSql);
+
   var flowObject = {};  
   var flowPathObject = {};
   flowObject.startTime = result.rows[0].starttime;
   flowObject.endTime = result.rows[0].endtime;
 
-  var timeDiff = moment(flowObject.endTime).diff(moment(flowObject.startTime), 'seconds');
-  flowObject.ticks = Math.round(timeDiff * TICKS_PER_SEC);
+  flowObject.ticks = Math.ceil(ticksResult.rows[0].ticks);
 
   flowObject.paths = [];
   
