@@ -10,3 +10,17 @@
 #playback-name {
 	color: #0090e7;
 }
+
+.select2-selection {
+	width: 101% !important;
+	border-color: #2c2e33 !important; 
+    background: #191c24 !important;
+}
+
+.select2-selection__rendered{
+	color: #a9a9a9 !important;
+}
+
+.select2-results__option[aria-selected=true]{
+	background-color: #5f5f5f !important;
+}

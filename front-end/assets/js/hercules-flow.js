@@ -3017,6 +3017,8 @@ const COLOR_RANGE = [
             startPlayback();
         });
 
+        $(".js-example-basic-single").select2();
+        
         function updatePatientList(expID){
             var patientList;
             if(expID =="1"){
@@ -3036,7 +3038,7 @@ const COLOR_RANGE = [
 
             $('#patient-menu').append($('<option>', { 
                 value: null,
-                text : "No patient selected" 
+                text : "Search patients" 
             }));
 
             $.each(patientList, function (i, item) {
