@@ -3225,7 +3225,7 @@ const COLOR_RANGE = [
                         currentTime = parseInt(manualTime * 32);
                         manualTime = -1;
                     }
-                    console.log("currentTime: " + currentTime);
+                    //console.log("currentTime: " + currentTime);
                     if (LOOP_LENGTH != 0) {
                         var currentMinutes = currentTime / 32;
                         if(manualPressed != 1)
