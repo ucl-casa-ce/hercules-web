@@ -3083,31 +3083,33 @@ const COLOR_RANGE = [
                 .catch(error => callback(error, function(){alert("Server error");}));
         }
 
-        function lookupPatients(callback) {
-            const url = baseURL + 'api/data/flows/group/' + parseInt(experiment);
-            console.log(url);
-            fetch(url, {
-     
-                // Adding method type
+        function lookupExperimentPatients(callback) {
+            const groupUrl = baseURL + 'api/data/flows/group/' + parseInt(experiment) + '/zerostart/' + 1;
+            console.log(groupUrl);
+            var patientList;
+            if(experiment =="1"){
+                patientList = patients1;
+            } else if (experiment =="2"){
+                patientList = patients2;
+            } else if (experiment =="3"){
+                patientList = patients3;
+            } else if (experiment =="4"){
+                patientList = patients4;
+            }
+
+            fetch(groupUrl, {
                 method: "POST",
-                 
-                // Adding body or contents to send
-                body: JSON.stringify({
-                    "group": [
-                      "R0502",
-                      "R0510",
-                      "C0018"
-                    ]
-                  }),
-                 
-                // Adding headers to the request
+                body:
+                    JSON.stringify({
+                        "group": patientList
+                    }),
                 headers: {
                     "Content-type": "application/json; charset=UTF-8"
                 }
             })
                 .then(response => response.json())
                 .then(data => callback(data))
-                .catch(error => callback(error, function(){alert("Server error");}));
+                .catch(error => callback(error, function () { alert("Server error"); }));
         }
 
         changeExperiment = function changeExperiment(expID) {
@@ -3116,13 +3118,14 @@ const COLOR_RANGE = [
             experiment = parseInt(expID);
             $("#exp"+experiment).addClass("active");
             backgroundImage = "p" + experiment + "-ubi-grid.png";
-            updatePatientList(experiment);
-            loadMapData();
+            isAnimating = false;
 
-            setTimeout(function() {
-                isAnimating = true;
-                console.log("Delayed");
-            }, 200);
+            updatePatientList(experiment);
+
+            lookupExperimentPatients(function (patData) {
+                loadMapData(patData, null, "Experiment " + parseInt(experiment));
+                console.log("changeExperiment");
+            });
         }
 
         //Taken from https://stackoverflow.com/questions/8273047/
@@ -3394,9 +3397,9 @@ const COLOR_RANGE = [
 
         });
 
-        var valueSelected = "G0503";
-            lookupPatient(valueSelected, function (patData) {
-                loadMapData(patData, 1, "Patient " + valueSelected);
+
+        lookupExperimentPatients(function (patData) {
+                loadMapData(patData, null, "Experiment " + parseInt(experiment));
                 startPlayback();
             });
 
