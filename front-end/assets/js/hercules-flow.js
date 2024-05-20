@@ -3009,9 +3009,9 @@ const COLOR_RANGE = [
             manualPressed = 1;
         });
 
-        softSlider.noUiSlider.on('end', function (values, handle) {
+        softSlider.noUiSlider.on('change', function (values, handle) {
             manualTime = parseFloat(values[handle]);
-            console.log("end: "+ manualTime);
+            console.log("change: "+ manualTime);
             manualPressed = 0;
             
             startPlayback();
