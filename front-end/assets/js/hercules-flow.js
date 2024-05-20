@@ -3245,7 +3245,7 @@ const COLOR_RANGE = [
                     });
                     
                     window.requestAnimationFrame(animate);
-                    console.log("requestAnimationFrame: isAnimating");
+                    //console.log("requestAnimationFrame: isAnimating");
                     firstLoad = false;
                 } else {
                     //if(manualPressed == 1)
@@ -3280,7 +3280,8 @@ const COLOR_RANGE = [
                         })
                     ]
                 });
-                window.requestAnimationFrame(animate);
+                startPlayback();
+                console.log("requestAnimationFrame: initMap");
             }
 
             window.initMap = initMap;
@@ -3297,10 +3298,13 @@ const COLOR_RANGE = [
         }
 
         function startPlayback(){
-            isAnimating = true;
-            $('#play-button').removeClass("mdi-play");
-            $('#play-button').addClass("mdi-pause");
-            window.requestAnimationFrame(animate);
+            if(!isAnimating){
+                isAnimating = true;
+                $('#play-button').removeClass("mdi-play");
+                $('#play-button').addClass("mdi-pause");
+                window.requestAnimationFrame(animate);
+                console.log("requestAnimationFrame: startPlayback");
+            }
         }
 
         $('#playback-button').click(function() {
