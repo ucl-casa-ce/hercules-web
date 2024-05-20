@@ -3162,6 +3162,17 @@ const COLOR_RANGE = [
             console.log("minutes "+ minutes);
 
             if (data != null) {
+                var rangeVal, density;
+                if(minutes> 0 && minutes<= 45){
+                    rangeVal = range(0, minutes, 15);
+                    density = 15;
+                } else if(minutes > 120 && minutes <= 150){
+                    rangeVal = range(0, minutes, 30);
+                    density = 30;
+                } else {
+                    rangeVal = range(0, minutes, 30);
+                    density = 30;
+                }
 
                 softSlider.noUiSlider.updateOptions({
                     start: [0],
@@ -3173,8 +3184,8 @@ const COLOR_RANGE = [
                     },
                     pips: {
                         mode: 'values',
-                        values: range(0, minutes, 15),
-                        density: 15,
+                        values: rangeVal,
+                        density: density,
                         format: {to: updatePips}
                     }
                 });
