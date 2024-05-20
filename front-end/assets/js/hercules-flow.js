@@ -23,6 +23,9 @@ var manualPressed = 0;
 //A function resposible of animating each frame (called on each tick to animate the frame)
 var animate; 
 
+//This variable is used to compate current minute and past minute, this useful for updating the slider
+var previousMinutes = -1;
+
 var url = new URL(window.location.origin);
 url.port = '32769';
 const baseURL = url.toString();
@@ -3228,10 +3231,12 @@ const COLOR_RANGE = [
                     }
                     //console.log("currentTime: " + currentTime);
                     if (LOOP_LENGTH != 0) {
-                        var currentMinutes = currentTime / 32;
-                        if(manualPressed != 1)
-                            softSlider.noUiSlider.set(parseInt(currentMinutes));
+                        var currentMinutes = Math.round(currentTime / 32);
+                        if(manualPressed != 1 && previousMinutes != currentMinutes){
+                            softSlider.noUiSlider.set(parseInt(currentMinutes)); 
+                        }
                         $('#time-index').text(convertMinsToHrsMins(currentMinutes));
+                        previousMinutes = currentMinutes;
                     }
                     const tripsLayer = new TripsLayer({
                         ...tripProps,
