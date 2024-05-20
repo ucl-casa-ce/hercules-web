@@ -3206,7 +3206,7 @@ const COLOR_RANGE = [
                 getColor: (d) => individual!=null? VENDOR_COLORS[0] : d.vendor,//d.vendor
                 opacity: individual!=null? 3 : 0.09,
                 widthMinPixels: individual!=null? 4 : 2.5,
-                trailLength: 150,
+                trailLength: individual!=null? 10000 : 150,
                 currentTime,
                 shadowEnabled: false,
             };
