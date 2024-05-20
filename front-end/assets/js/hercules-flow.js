@@ -3218,6 +3218,7 @@ const COLOR_RANGE = [
             $("#playback-name").text(playbackName);
             animate = () => {
                 if (isAnimating || firstLoad) {
+                    //console.log("cuurenttime old: " + currentTime);
                     currentTime = (currentTime + 1) % LOOP_LENGTH;
                     if(manualTime != -1)
                     {
@@ -3242,12 +3243,17 @@ const COLOR_RANGE = [
                     mainDeck.setProps({
                         layers: [bitmapLayer, tripsLayer],
                     });
-
+                    
                     window.requestAnimationFrame(animate);
+                    console.log("requestAnimationFrame: isAnimating");
                     firstLoad = false;
                 } else {
-                    if(manualPressed == 1)
-                        window.requestAnimationFrame(animate);
+                    //if(manualPressed == 1)
+                    //{
+                        //window.requestAnimationFrame(animate);
+                        //console.log("requestAnimationFrame: manualPressed");
+                    //}
+
                 }
             };
 
