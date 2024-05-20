@@ -3230,8 +3230,12 @@ const COLOR_RANGE = [
             animate = () => {
                 if (isAnimating || firstLoad) {
                     //console.log("cuurenttime old: " + currentTime);
-                    currentTime = (currentTime + 1) % LOOP_LENGTH;
-                    if(manualTime != -1)
+                    if(individual != null)
+                        currentTime = (currentTime + 1) % LOOP_LENGTH;
+                    else
+                        currentTime = (currentTime + 3) % LOOP_LENGTH;
+                    
+                        if(manualTime != -1)
                     {
                         console.log("currentTime MANUAL: " + currentTime);
                         currentTime = parseInt(manualTime * 32);
