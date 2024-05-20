@@ -26,6 +26,8 @@ var animate;
 //This variable is used to compate current minute and past minute, this useful for updating the slider
 var previousMinutes = -1;
 
+var isHoveringOnSlider = false;
+
 var url = new URL(window.location.origin);
 url.port = '32769';
 const baseURL = url.toString();
@@ -2993,6 +2995,7 @@ const COLOR_RANGE = [
         noUiSlider.create(softSlider, {
         start: [0],
         tooltips: false,
+        behaviour: 'hover-snap',
         connect: true,
         range: {
             min: 0,
@@ -3018,6 +3021,11 @@ const COLOR_RANGE = [
             manualPressed = 0;
             
             startPlayback();
+        });
+
+        softSlider.noUiSlider.on('hover', function (values, handle) {
+            isHoveringOnSlider = true;
+            //console.log("hover: "+ values[handle]);
         });
 
         $(".js-example-basic-single").select2();
@@ -3232,8 +3240,26 @@ const COLOR_RANGE = [
                     //console.log("currentTime: " + currentTime);
                     if (LOOP_LENGTH != 0) {
                         var currentMinutes = Math.round(currentTime / 32);
-                        if(manualPressed != 1 && previousMinutes != currentMinutes){
+                        /* 
+                            This condition is crucial for a smooth control of the slider; 
+                            When the slider is being constantly updated during playback time, touch and drag events
+                            are paused during the update, thus the user has to click several times to 'accidentally'
+                            have one click while it's not being updated.
+                            As a results, this condition disables the slider update to help the user in these states:
+                                - Slider is being clicked by the user.
+                                - The playback minutes count hasn't changed (in other words, no need to update the 
+                                    slider every frame).
+                                - User is hovering on the slider, this is as an anticipation for an incoming
+                                    click (Otherwise the user might need to click several times as mentioned above).
+                        */    
+                        if(manualPressed != 1 && previousMinutes != currentMinutes && !isHoveringOnSlider){
                             softSlider.noUiSlider.set(parseInt(currentMinutes)); 
+                        }
+
+                        //Hovering is considered finised when the minutes count changes, if the user is still hovering,
+                        //the noUiSlier will keep updating it accordingly. 
+                        if(previousMinutes != currentMinutes){
+                            isHoveringOnSlider = false;
                         }
                         $('#time-index').text(convertMinsToHrsMins(currentMinutes));
                         previousMinutes = currentMinutes;
