@@ -24214,13 +24214,13 @@ div.tagsinput {
 .circle-loader:before, .circle-loader:after {
   content: "";
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border-radius: 100%;
-  border: 10px solid transparent;
-  border-top-color: #ffab00;
+  top: 21px;
+  left: 33px;
+  width: 35%;
+  height: 35%;
+  border-radius: 88%;
+  border: 3px solid transparent;
+  border-top-color: #0289ff;
 }
 
 .circle-loader:before {
@@ -24230,6 +24230,7 @@ div.tagsinput {
 
 .circle-loader:after {
   border-top-color: #e4eaec;
+  visibility: hidden;
 }
 
 @keyframes spin {
@@ -24292,18 +24293,18 @@ div.tagsinput {
 }
 /* Bar loader */
 .bar-loader {
-  width: 50px;
-  height: 50px;
+  width: 49px;
+  height: 13px;
   border-radius: 100%;
   position: relative;
-  margin: 0 auto;
+  margin: 0px auto;
 }
 
 .bar-loader span {
   display: inline-block;
-  width: 5px;
-  height: 30px;
-  background-color: rgba(252, 66, 74, 0.7);
+  width: 4px;
+  height: 13px;
+  background-color: rgb(1 136 255);
 }
 
 .bar-loader span:nth-child(1) {
