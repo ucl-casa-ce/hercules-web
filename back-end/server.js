@@ -402,10 +402,11 @@ app.post('/api/data/:expID/period', async (req, res) => {
 // and could be 0 when all ticks are wanted to be relative to the earliest start time
 //For example, this means flows/group/ID/zerostart/0 when user selects a day of week, 
 //and flows/group/ID/zerostart/1 when user selects condition type.
-app.post('/api/data/flows/group/:expID/zerostart/:zerostart', async (req, res) => {
+app.post('/api/data/flows/group/:expID/zerostart/:zerostart/colourconfig/:colourConfig', async (req, res) => {
   try {
   var expID = parseInt(req.params.expID);
   var zerostart = parseInt(req.params.zerostart);
+  var colourConfig = parseInt(req.params.colourConfig);
   var json_body = req.body;
   var group_array = json_body.group;
   var expID_group = "p"+expID+"_input";
@@ -444,9 +445,9 @@ app.post('/api/data/flows/group/:expID/zerostart/:zerostart', async (req, res) =
       var pat_result = await pool.query(sql);
       var patientPath;
       if(zerostart == 1){
-        patientPath = getPatientPath(pat_result.rows, moment(pat_result.rows[0].start_time));
+        patientPath = getPatientPath(pat_result.rows, moment(pat_result.rows[0].start_time), colourConfig);
       } else {
-        patientPath = getPatientPath(pat_result.rows, moment(flowObject.startTime));
+        patientPath = getPatientPath(pat_result.rows, moment(flowObject.startTime), colourConfig);
       }
       flowObject.paths.push(patientPath);
 
@@ -513,9 +514,21 @@ async function getPatientInfo(expID, patientID){
 };
 
 // Function to take patient array and return the path object for the flow
-function getPatientPath(patient_db_array, overall_startTime){
+function getPatientPath(patient_db_array, overall_startTime, colourConfig){
   var patient_flowPath_obj = {};
-  patient_flowPath_obj.vendor = getRandomRgb();   // Colour
+  if(colourConfig == null || colourConfig == 0){ // Random colours for all pathes, this is the default option
+    patient_flowPath_obj.vendor = getRandomRgb(); 
+  } else if (colourConfig == 1){ //Colouring according to patient type
+    if(patient_db_array[0].patient_id.startsWith("G"))
+      patient_flowPath_obj.vendor = [200,0,0];
+    else if (patient_db_array[0].patient_id.startsWith("R"))
+      patient_flowPath_obj.vendor = [0,200,0];
+    else if (patient_db_array[0].patient_id.startsWith("C"))
+      patient_flowPath_obj.vendor = [0,120,250];
+    else if (patient_db_array[0].patient_id.startsWith("S"))
+      patient_flowPath_obj.vendor = [0,0,0];
+  }
+
   patient_flowPath_obj.patID = patient_db_array[0].patient_id;   // Source
   patient_flowPath_obj.path = [];
   patient_flowPath_obj.timestamps = [];  
