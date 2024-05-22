@@ -2,6 +2,7 @@ var deckgl = null;
 var experiment = null;
 var changeExperiment = null;
 var backgroundImage = null;
+var errorCallback;
 
 var layers = [];
 var mapGLLayers = [];
@@ -3077,10 +3078,11 @@ const COLOR_RANGE = [
         function lookupPatient(pat_id, callback) {
             const url = baseURL + 'api/data/flows/single/' + parseInt(experiment) + '/' + pat_id;
             console.log(url);
+            showLoading();
             fetch(url)
                 .then(response => response.json())
                 .then(data => callback(data))
-                .catch(error => callback(error, function(){alert("Server error");}));
+                .catch(error => errorCallback(error, function(){}));
         }
 
         function lookupExperimentPatients(callback) {
@@ -3097,6 +3099,7 @@ const COLOR_RANGE = [
                 patientList = patients4;
             }
 
+            showLoading();
             fetch(groupUrl, {
                 method: "POST",
                 body:
@@ -3109,7 +3112,7 @@ const COLOR_RANGE = [
             })
                 .then(response => response.json())
                 .then(data => callback(data))
-                .catch(error => callback(error, function () { alert("Server error"); }));
+                .catch(error => errorCallback(error, function () { }));
         }
 
         changeExperiment = function changeExperiment(expID) {
@@ -3241,13 +3244,14 @@ const COLOR_RANGE = [
             };
 
             $("#playback-name").text(playbackName);
+            hideLoading();
             animate = () => {
                 if (isAnimating || firstLoad) {
                     //console.log("cuurenttime old: " + currentTime);
                     if(individual != null)
                         currentTime = (currentTime + 1) % LOOP_LENGTH;
                     else
-                        currentTime = (currentTime + 3) % LOOP_LENGTH;
+                        currentTime = (currentTime + 2) % LOOP_LENGTH;
                     
                         if(manualTime != -1)
                     {
@@ -3356,6 +3360,14 @@ const COLOR_RANGE = [
             }
         }
 
+        function showLoading(){
+            $(".circle-loader").show();
+        }
+
+        function hideLoading(){
+            $(".circle-loader").hide();
+        }
+        
         $('#playback-button').click(function() {
             if(isAnimating){
                 pausePlayback();
@@ -3392,6 +3404,7 @@ const COLOR_RANGE = [
         });
 
         $('#visualise-results').click(function () {
+            pausePlayback();
             var selectedCondition = $('[id*="condition"]').filter(function () {
                 return ($(this).hasClass("active"));
             });
@@ -3413,6 +3426,13 @@ const COLOR_RANGE = [
                 loadMapData(patData, null, "Experiment " + parseInt(experiment));
                 startPlayback();
             });
+
+        errorCallback = function showError(error, func){
+            console.log("Server error: " + error);
+            hideLoading();
+            alert("Sorry for the inconvenience, there was a server-side error.");
+            func();
+        }
 
         function requestData(selectedCondition, selectedDay, selectedTod){
             if (selectedCondition.length > 0) {
@@ -3436,6 +3456,8 @@ const COLOR_RANGE = [
                 const groupUrl = baseURL + 'api/data/flows/group/' + parseInt(experiment) + '/zerostart/' + 1;
                 console.log(conditionUrl);
                 console.log(groupUrl);
+
+                showLoading();
                 fetch(conditionUrl)
                     .then(response => response.json())
                     .then(function (data) {
@@ -3455,14 +3477,15 @@ const COLOR_RANGE = [
                                 loadMapData(data, null, apiSelectedCondition +" condition");
                                 startPlayback();
                             })
-                            .catch(error => callback(error, function () { alert("Server error"); }));
+                            .catch(error => errorCallback(error, function () {}));
                     })
-                    .catch(error => callback(error, function () { alert("Server error"); }));
+                    .catch(error => errorCallback(error, function () {}));
             } else if (selectedDay.length > 0) {
                 const dayUrl = baseURL + 'api/data/' + parseInt(experiment) + '/dow/' + selectedDay[0].id;
                 const groupUrl = baseURL + 'api/data/flows/group/' + parseInt(experiment) + '/zerostart/' + 0;
                 console.log(dayUrl);
                 console.log(groupUrl);
+                showLoading();
                 fetch(dayUrl)
                     .then(response => response.json())
                     .then(function (data) {
@@ -3482,9 +3505,9 @@ const COLOR_RANGE = [
                                 loadMapData(data, null, selectedDay[0].id);
                                 startPlayback();
                             })
-                            .catch(error => callback(error, function () { alert("Server error"); }));
+                            .catch(error => errorCallback(error, function () { }));
                     })
-                    .catch(error => callback(error, function () { alert("Server error"); }));
+                    .catch(error => errorCallback(error, function () { }));
             } else if (selectedTod.length > 0) {
                 var apiSelectedTod;
                 switch (selectedTod[0].id) {
@@ -3500,6 +3523,7 @@ const COLOR_RANGE = [
                 const groupUrl = baseURL + 'api/data/flows/group/' + parseInt(experiment) + '/zerostart/' + 0;
                 console.log(todUrl);
                 console.log(groupUrl);
+                showLoading();
                 fetch(todUrl)
                     .then(response => response.json())
                     .then(function (data) {
@@ -3519,9 +3543,9 @@ const COLOR_RANGE = [
                                 loadMapData(data, null, apiSelectedTod);
                                 startPlayback();
                             })
-                            .catch(error => callback(error, function () { alert("Server error"); }));
+                            .catch(error => errorCallback(error, function () { }));
                     })
-                    .catch(error => callback(error, function () { alert("Server error"); }));
+                    .catch(error => errorCallback(error, function () { }));
             }
         }
 
