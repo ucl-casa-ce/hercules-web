@@ -520,13 +520,13 @@ function getPatientPath(patient_db_array, overall_startTime, colourConfig){
     patient_flowPath_obj.vendor = getRandomRgb(); 
   } else if (colourConfig == 1){ //Colouring according to patient type
     if(patient_db_array[0].patient_id.startsWith("G"))
-      patient_flowPath_obj.vendor = [200,0,0];
+      patient_flowPath_obj.vendor = [200,0,0,100];
     else if (patient_db_array[0].patient_id.startsWith("R"))
-      patient_flowPath_obj.vendor = [0,200,0];
+      patient_flowPath_obj.vendor = [0,200,0,100];
     else if (patient_db_array[0].patient_id.startsWith("C"))
-      patient_flowPath_obj.vendor = [0,120,250];
+      patient_flowPath_obj.vendor = [0,120,250,100];
     else if (patient_db_array[0].patient_id.startsWith("S"))
-      patient_flowPath_obj.vendor = [0,0,0];
+      patient_flowPath_obj.vendor = [0,0,0,1];
   }
 
   patient_flowPath_obj.patID = patient_db_array[0].patient_id;   // Source
@@ -558,7 +558,7 @@ function getRandomRgb() {
   var r = num >> 16;
   var g = num >> 8 & 255;
   var b = num & 255;
-  return [r,g,b];
+  return [r,g,b,1];
 }
 
 function removeDuplicatesFromObject(obj) {
