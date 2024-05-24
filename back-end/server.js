@@ -526,7 +526,7 @@ function getPatientPath(patient_db_array, overall_startTime, colourConfig){
     else if (patient_db_array[0].patient_id.startsWith("C"))
       patient_flowPath_obj.vendor = [0,120,250,100];
     else if (patient_db_array[0].patient_id.startsWith("S"))
-      patient_flowPath_obj.vendor = [0,0,0,1];
+      patient_flowPath_obj.vendor = [255,255,255,100];
   }
 
   patient_flowPath_obj.patID = patient_db_array[0].patient_id;   // Source
