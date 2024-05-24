@@ -3,6 +3,8 @@ var experiment = null;
 var changeExperiment = null;
 var backgroundImage = null;
 var errorCallback;
+var mapData;
+var currentTime = 0;
 
 var layers = [];
 var mapGLLayers = [];
@@ -3156,6 +3158,7 @@ const COLOR_RANGE = [
         };
 
         function loadMapData(data, individual, playbackName) {
+            mapData = data;
             const TripsLayer = deck.TripsLayer;
             const LOOP_LENGTH = data==null? 0 : data.ticks;
             console.log("LOOP_LENGTH "+ LOOP_LENGTH);
@@ -3221,15 +3224,15 @@ const COLOR_RANGE = [
                 [255, 0, 0],
                 [0, 0, 0], 
             ];
-            let currentTime = 0;
+            //currentTime = 0;
             
             const tripProps = {
                 id: "trips",
-                data: data?.paths,
+                data: mapData?.paths,
                 getPath: (d) => d.path,
                 getTimestamps: (d) => d.timestamps,
                 getColor: (d) => individual!=null? VENDOR_COLORS[0] : d.vendor,//d.vendor
-                opacity: individual!=null? 3 : 0.09,
+                //opacity: individual!=null? 3 : 0.09,
                 widthMinPixels: individual!=null? 4 : 2.5,
                 trailLength: individual!=null? 10000 : 150,
                 currentTime,
@@ -3395,6 +3398,37 @@ const COLOR_RANGE = [
             $(this).addClass("active");
             $("#dropdownDay").text(this.text);
         });
+
+        function updateVendorValues(data, type, isHidden) {
+            data.paths.forEach(path => {
+                if (path.patID.toLowerCase().startsWith(type)) {
+                    if(isHidden)
+                        path.vendor = [path.vendor[0], path.vendor[1], path.vendor[2], 0];
+                    else
+                        path.vendor = [path.vendor[0], path.vendor[1], path.vendor[2], 100];
+                }
+            });
+        }
+
+        $('[id*="legend"]').click(function () {
+            var content = this.id;
+            const lastChar = content.match(/.$/)[0];
+
+            if($(this).css("text-decoration").includes("line-through")){
+                $(this).css("text-decoration", "auto");
+                $(this).css("color", "#ffffff");
+                console.log(content);
+                updateVendorValues(mapData, lastChar, false);
+            } else {
+                $(this).css("text-decoration", "line-through");
+                $(this).css("color", "#555555");
+                console.log(content);
+                updateVendorValues(mapData, lastChar, true);
+            }
+            loadMapData(mapData, null, "Reloaded");
+        });
+
+   
 
         $('[id*="-tod"]').click(function () {
             $('[id*="-tod"]').removeClass("active");

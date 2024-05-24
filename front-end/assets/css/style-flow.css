@@ -24,3 +24,44 @@
 .select2-results__option[aria-selected=true]{
 	background-color: #5f5f5f !important;
 }
+
+.my-legend .legend-title {
+    text-align: left;
+    margin-bottom: 8px;
+    font-size: 90%;
+	color: #0090e7;
+	font-size: 0.9375rem;
+    }
+  .my-legend .legend-scale ul {
+    list-style: none;
+	max-width: fit-content;
+    margin-inline: auto;
+    margin-right: auto;
+    margin-left: auto;
+    padding: inherit;
+    }
+  .my-legend .legend-scale ul li {
+    display: block;
+    float: left;
+    width: 55px;
+    margin-bottom: 6px;
+    text-align: center;
+    font-size: 80%;
+    list-style: none;
+    }
+  .my-legend ul.legend-labels li span {
+    display: block;
+    float: left;
+    height: 15px;
+    width: 50px;
+    }
+  .my-legend .legend-source {
+    font-size: 70%;
+    color: #999;
+    clear: both;
+    }
+  .my-legend a {
+    color: #777;
+    }
+
+	
