@@ -3088,7 +3088,7 @@ const COLOR_RANGE = [
         }
 
         function lookupExperimentPatients(callback) {
-            const groupUrl = baseURL + 'api/data/flows/group/' + parseInt(experiment) + '/zerostart/' + 1;
+            const groupUrl = baseURL + 'api/data/flows/group/' + parseInt(experiment) + '/zerostart/' + 1 +'/colourconfig/' + 1;
             console.log(groupUrl);
             var patientList;
             if(experiment =="1"){
@@ -3384,6 +3384,10 @@ const COLOR_RANGE = [
             location.reload();
         });
 
+        $('#changeColour').click(function() {
+            updateVendorValues2(mapData);
+            loadMapData(mapData, null, "Reloaded");
+        });
 
         $('[id*="condition"]').click(function () {
             $('[id*="condition"]').removeClass("active");
@@ -3409,6 +3413,45 @@ const COLOR_RANGE = [
                 }
             });
         }
+
+        function updateVendorValues2(data) {
+            let maxTimestamp = 0;
+            data.paths.forEach(path => {
+                const pathMaxTimestamp = Math.max(...path.timestamps);
+                if (pathMaxTimestamp > maxTimestamp) {
+                    maxTimestamp = pathMaxTimestamp;
+                }
+            });
+        
+            console.log("maxTimestamp" + maxTimestamp);
+            // Step 2: Update the first part of each vendor color based on the relative value
+            data.paths.forEach(path => {
+                // Calculate the relative value
+                const lastTimestamp = path.timestamps[path.timestamps.length - 1];
+
+                path.vendor = interpolateColor(lastTimestamp, 0, maxTimestamp);
+            });
+        }
+
+        // Helper function to interpolate between colors
+    function interpolateColor(value, min, max) {
+        const ratio = (value - min) / (max - min);
+        if (ratio <= 0.33) {
+            // Interpolate from green to yellow
+            const green = Math.floor(255 * (3 - 3 * ratio));
+            return [255, green, 0, 100]; // Yellow to Green
+        } else if (ratio <= 0.66) {
+            // Interpolate from yellow to orange
+            const red = 255;
+            const green = Math.floor(255 * (2 - 3 * ratio));
+            return [red, green, 0, 100]; // Orange to Yellow
+        } else {
+            // Interpolate from orange to red
+            const red = 255;
+            const green = Math.floor(255 * (1 - 3 * ratio));
+            return [red, green, 0, 255]; // Red to Orange
+        }
+    }
 
         $('[id*="legend"]').click(function () {
             var content = this.id;
@@ -3487,7 +3530,7 @@ const COLOR_RANGE = [
                 }
                 
                 const conditionUrl = baseURL + 'api/data/' + parseInt(experiment) + '/condition_type/' + apiSelectedCondition;
-                const groupUrl = baseURL + 'api/data/flows/group/' + parseInt(experiment) + '/zerostart/' + 1;
+                const groupUrl = baseURL + 'api/data/flows/group/' + parseInt(experiment) + '/zerostart/' + 1 +'/colourconfig/' + 0;
                 console.log(conditionUrl);
                 console.log(groupUrl);
 
@@ -3516,7 +3559,7 @@ const COLOR_RANGE = [
                     .catch(error => errorCallback(error, function () {}));
             } else if (selectedDay.length > 0) {
                 const dayUrl = baseURL + 'api/data/' + parseInt(experiment) + '/dow/' + selectedDay[0].id;
-                const groupUrl = baseURL + 'api/data/flows/group/' + parseInt(experiment) + '/zerostart/' + 0;
+                const groupUrl = baseURL + 'api/data/flows/group/' + parseInt(experiment) + '/zerostart/' + 0 +'/colourconfig/' + 1;
                 console.log(dayUrl);
                 console.log(groupUrl);
                 showLoading();
@@ -3554,7 +3597,7 @@ const COLOR_RANGE = [
                 }
 
                 const todUrl = baseURL + 'api/data/' + parseInt(experiment) + '/tod/' + apiSelectedTod;
-                const groupUrl = baseURL + 'api/data/flows/group/' + parseInt(experiment) + '/zerostart/' + 0;
+                const groupUrl = baseURL + 'api/data/flows/group/' + parseInt(experiment) + '/zerostart/' + 0 +'/colourconfig/' + 1;
                 console.log(todUrl);
                 console.log(groupUrl);
                 showLoading();
