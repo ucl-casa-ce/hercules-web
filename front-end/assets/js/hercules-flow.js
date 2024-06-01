@@ -3128,7 +3128,12 @@ const COLOR_RANGE = [
             updatePatientList(experiment);
 
             lookupExperimentPatients(function (patData) {
-                loadMapData(patData, null, "Experiment " + parseInt(experiment));
+                // show dates
+                //P1: 11/10/2021 - 12/11/2021 -  5w 
+                //P2: 30/11/2021 - 06/12/2021 -  1w
+                //P3: 23/02/2022 - 06/05/2022 - 12w 
+                //P4: 07/09/2022 - 27/02/2023 - 30w 
+                loadMapData(patData, null, parseInt(experiment));
                 console.log("changeExperiment");
             });
         }
@@ -3157,7 +3162,7 @@ const COLOR_RANGE = [
             return result;
         };
 
-        function loadMapData(data, individual, playbackName) {
+        function loadMapData(data, individual, experimentNo) {
             mapData = data;
             const TripsLayer = deck.TripsLayer;
             const LOOP_LENGTH = data==null? 0 : data.ticks;
@@ -3246,7 +3251,19 @@ const COLOR_RANGE = [
                 image: './assets/floorplans/' + backgroundImage
             };
 
-            $("#playback-name").text(playbackName);
+             //P1: 11/10/2021 - 12/11/2021 -  5w 
+                //P2: 30/11/2021 - 06/12/2021 -  1w
+                //P3: 23/02/2022 - 06/05/2022 - 12w 
+                //P4: 07/09/2022 - 27/02/2023 - 30w 
+            if(experimentNo === 1)
+                $("#playback-name").text("P1 11/10/2021-12/11/2021 -  5w");
+            else if(experimentNo === 2)
+                $("#playback-name").text("P2 30/11/2021-06/12/2021 -  1w");
+            else if(experimentNo === 3)
+                $("#playback-name").text("P3 23/02/2022-06/05/2022 - 12w");
+            else if(experimentNo === 4)
+                $("#playback-name").text("P4 07/09/2022-27/02/2023 - 30w");
+
             hideLoading();
             animate = () => {
                 if (isAnimating || firstLoad) {
