@@ -64,4 +64,29 @@
     color: #777;
     }
 
+	.small-card{
+		height: 90px;
+		padding: 0.6rem 1.5625rem !important;
+	}
+
+#playback-button {
+	width: 35px;
+    height: 35px;
+}
+
+.card .card-body {
+    padding: 1rem;
+}
+
+.accordion .card .card-body{
+	padding: 0 1rem 1rem 1.5rem;
+}
+
+#deck-gl-wrapper {
+    position: relative;
+    height: 600px !important;
+    width: 100%;
+}
+
+
 	
