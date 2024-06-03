@@ -3162,7 +3162,7 @@ const COLOR_RANGE = [
             return result;
         };
 
-        function loadMapData(data, individual, experimentNo, resetCurrentTime) {
+        function loadMapData(data, individual, experimentName, resetCurrentTime) {
             //By default this causes the playback to reset, except in hiding 
             //patient type case, the playback should continue from the same position
             if(resetCurrentTime)
@@ -3266,14 +3266,16 @@ const COLOR_RANGE = [
                 //P2: 30/11/2021 - 06/12/2021 -  1w
                 //P3: 23/02/2022 - 06/05/2022 - 12w 
                 //P4: 07/09/2022 - 27/02/2023 - 30w 
-            if(experimentNo === 1)
+            if(experimentName === 1)
                 $("#playback-name").text("P1 11/10/2021-12/11/2021 -  5w");
-            else if(experimentNo === 2)
+            else if(experimentName === 2)
                 $("#playback-name").text("P2 30/11/2021-06/12/2021 -  1w");
-            else if(experimentNo === 3)
+            else if(experimentName === 3)
                 $("#playback-name").text("P3 23/02/2022-06/05/2022 - 12w");
-            else if(experimentNo === 4)
+            else if(experimentName === 4)
                 $("#playback-name").text("P4 07/09/2022-27/02/2023 - 30w");
+            else if(experimentName != null)
+                $("#playback-name").text(experimentName);
 
             hideLoading();
             animate = () => {
@@ -3427,7 +3429,7 @@ const COLOR_RANGE = [
 
         $('#changeColour').click(function() {
             updateVendorValues2(mapData);
-            loadMapData(mapData, null, "Reloaded", false);
+            loadMapData(mapData, null, null, false);
         });
 
         $('[id*="condition"]').click(function () {
@@ -3512,7 +3514,7 @@ const COLOR_RANGE = [
                 console.log(content);
                 updateVendorValues(mapData, lastChar, true);
             }
-            loadMapData(mapData, null, "Reloaded", false);
+            loadMapData(mapData, null, null, false);
         });
 
    
