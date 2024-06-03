@@ -50,7 +50,7 @@
   .my-legend .legend-scale ul li {
 	display: block;
     float: left;
-    width: 75px;
+    width: 68px;
     margin-bottom: 6px;
     text-align: center;
     font-size: 88%;
@@ -60,7 +60,7 @@
 	display: block;
     float: left;
 	height: 22px;
-    width: 69px;
+    width: 63px;
     }
 
 	li[id^="legend"]:hover {
