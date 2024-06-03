@@ -3495,12 +3495,15 @@ const COLOR_RANGE = [
 
             if($(this).css("text-decoration").includes("line-through")){
                 $(this).css("text-decoration", "auto");
-                $(this).css("color", "#ffffff");
+                if(content === "legend-s")
+                    $(this).css("color", "#000000");
+                else
+                    $(this).css("color", "#ffffff");
                 console.log(content);
                 updateVendorValues(mapData, lastChar, false);
             } else {
                 $(this).css("text-decoration", "line-through");
-                $(this).css("color", "#555555");
+                $(this).css("color", "#C1C1C1");
                 console.log(content);
                 updateVendorValues(mapData, lastChar, true);
             }
