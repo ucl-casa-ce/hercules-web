@@ -3075,7 +3075,77 @@ const COLOR_RANGE = [
 
            
         });
+        
 
+        $('#cubicle-change').click(function() {
+            changeExperiment(1, false);
+            var valueSelected = "G0501";
+
+            lookupPatient(valueSelected, function (patData) {
+                loadMapData(patData, 1, "Patient " + valueSelected, true);
+                startPlayback();
+            });
+        });
+
+        $('#slowest-patient').click(function() {
+            changeExperiment(4, false);
+            var valueSelected = "R2347";
+
+            lookupPatient(valueSelected, function (patData) {
+                loadMapData(patData, 1, "Patient " + valueSelected, true);
+                startPlayback();
+            });
+        });
+        
+        $('#wanderer-patient').click(function() {
+            changeExperiment(4, false);
+            var valueSelected = "G3129";
+
+            lookupPatient(valueSelected, function (patData) {
+                loadMapData(patData, 1, "Patient " + valueSelected, true);
+                startPlayback();
+            });
+        });
+         
+        $('#no-patient').click(function() {
+            changeExperiment(1, false);
+            var valueSelected = "R0718";
+
+            lookupPatient(valueSelected, function (patData) {
+                loadMapData(patData, 1, "Patient " + valueSelected, true);
+                startPlayback();
+            });
+        });
+
+        $('#fastest-patient').click(function() {
+            changeExperiment(2, false);
+            var valueSelected = "G1304";
+
+            lookupPatient(valueSelected, function (patData) {
+                loadMapData(patData, 1, "Patient " + valueSelected, true);
+                startPlayback();
+            });
+        });
+
+        $('#uncomlpete-glaucoma').click(function() {
+            changeExperiment(3, false);
+            var valueSelected = "G4013";
+
+            lookupPatient(valueSelected, function (patData) {
+                loadMapData(patData, 1, "Patient " + valueSelected, true);
+                startPlayback();
+            });
+        });
+
+        $('#uncomlpete-cataract').click(function() {
+            changeExperiment(4, false);
+            var valueSelected = "C0314";
+
+            lookupPatient(valueSelected, function (patData) {
+                loadMapData(patData, 1, "Patient " + valueSelected, true);
+                startPlayback();
+            });
+        });
 
         function lookupPatient(pat_id, callback) {
             const url = baseURL + 'api/data/flows/single/' + parseInt(experiment) + '/' + pat_id;
@@ -3117,7 +3187,7 @@ const COLOR_RANGE = [
                 .catch(error => errorCallback(error, function () { }));
         }
 
-        changeExperiment = function changeExperiment(expID) {
+        changeExperiment = function changeExperiment(expID, loadAllTraces = true) {
             $("#dropdownMenuButtonExperiment").text("Experiment " + parseInt(expID));
             $("#exp"+experiment).removeClass("active");
             experiment = parseInt(expID);
@@ -3127,6 +3197,7 @@ const COLOR_RANGE = [
 
             updatePatientList(experiment);
 
+            if(loadAllTraces)
             lookupExperimentPatients(function (patData) {
                 // show dates
                 //P1: 11/10/2021 - 12/11/2021 -  5w 
