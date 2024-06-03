@@ -3297,7 +3297,7 @@ const COLOR_RANGE = [
                         currentTime = LOOP_LENGTH;
                         pausePlayback();
                     }
-                    console.log("currentTime + LOOP_LENGTH: " + currentTime + " + " + LOOP_LENGTH);
+                    //console.log("currentTime + LOOP_LENGTH: " + currentTime + " + " + LOOP_LENGTH);
                     if (LOOP_LENGTH != 0) {
                         var currentMinutes = Math.round(currentTime / 32);
                         /* 
@@ -3338,14 +3338,7 @@ const COLOR_RANGE = [
                     window.requestAnimationFrame(animate);
                     //console.log("requestAnimationFrame: isAnimating");
                     firstLoad = false;
-                } else {
-                    //if(manualPressed == 1)
-                    //{
-                        //window.requestAnimationFrame(animate);
-                        //console.log("requestAnimationFrame: manualPressed");
-                    //}
-
-                }
+                } 
             };
 
             // taken from https://stackoverflow.com/questions/4687723/
