@@ -3066,7 +3066,7 @@ const COLOR_RANGE = [
         $('#patient-menu').on('change', function (e) {
             var valueSelected = this.value;
             lookupPatient(valueSelected, function (patData) {
-                loadMapData(patData, 1, "Patient " + valueSelected);
+                loadMapData(patData, 1, "Patient " + valueSelected, true);
                 startPlayback();
             });
             $('[id*="condition"]').removeClass("active");
@@ -3133,7 +3133,7 @@ const COLOR_RANGE = [
                 //P2: 30/11/2021 - 06/12/2021 -  1w
                 //P3: 23/02/2022 - 06/05/2022 - 12w 
                 //P4: 07/09/2022 - 27/02/2023 - 30w 
-                loadMapData(patData, null, parseInt(experiment));
+                loadMapData(patData, null, parseInt(experiment), true);
                 console.log("changeExperiment");
             });
         }
@@ -3162,7 +3162,12 @@ const COLOR_RANGE = [
             return result;
         };
 
-        function loadMapData(data, individual, experimentNo) {
+        function loadMapData(data, individual, experimentNo, resetCurrentTime) {
+            //By default this causes the playback to reset, except in hiding 
+            //patient type case, the playback should continue from the same position
+            if(resetCurrentTime)
+                currentTime = 0;
+
             var pageWidth = $(document).width()
             console.log("Width" + pageWidth);
             var deckglHeight = Math.round(pageWidth * 0.36); //0.36 is the magic number for the precentage of map to screen width
@@ -3285,7 +3290,14 @@ const COLOR_RANGE = [
                         currentTime = parseInt(manualTime * 32);
                         manualTime = -1;
                     }
-                    //console.log("currentTime: " + currentTime);
+
+                    //Auto pause the playback when loop ends
+                    if(currentTime === LOOP_LENGTH - 2 || currentTime === LOOP_LENGTH - 1)
+                    {
+                        currentTime = LOOP_LENGTH;
+                        pausePlayback();
+                    }
+                    console.log("currentTime + LOOP_LENGTH: " + currentTime + " + " + LOOP_LENGTH);
                     if (LOOP_LENGTH != 0) {
                         var currentMinutes = Math.round(currentTime / 32);
                         /* 
@@ -3422,7 +3434,7 @@ const COLOR_RANGE = [
 
         $('#changeColour').click(function() {
             updateVendorValues2(mapData);
-            loadMapData(mapData, null, "Reloaded");
+            loadMapData(mapData, null, "Reloaded", false);
         });
 
         $('[id*="condition"]').click(function () {
@@ -3507,7 +3519,7 @@ const COLOR_RANGE = [
                 console.log(content);
                 updateVendorValues(mapData, lastChar, true);
             }
-            loadMapData(mapData, null, "Reloaded");
+            loadMapData(mapData, null, "Reloaded", false);
         });
 
    
@@ -3539,7 +3551,7 @@ const COLOR_RANGE = [
 
 
         lookupExperimentPatients(function (patData) {
-                loadMapData(patData, null, parseInt(experiment));
+                loadMapData(patData, null, parseInt(experiment), true);
                 startPlayback();
             });
 
@@ -3590,7 +3602,7 @@ const COLOR_RANGE = [
                             .then(response => response.json())
                             .then(function (data) {
                                 console.log(data);
-                                loadMapData(data, null, apiSelectedCondition +" condition");
+                                loadMapData(data, null, apiSelectedCondition +" condition", true);
                                 startPlayback();
                             })
                             .catch(error => errorCallback(error, function () {}));
@@ -3618,7 +3630,7 @@ const COLOR_RANGE = [
                             .then(response => response.json())
                             .then(function (data) {
                                 console.log(data);
-                                loadMapData(data, null, selectedDay[0].id);
+                                loadMapData(data, null, selectedDay[0].id, true);
                                 startPlayback();
                             })
                             .catch(error => errorCallback(error, function () { }));
@@ -3656,7 +3668,7 @@ const COLOR_RANGE = [
                             .then(response => response.json())
                             .then(function (data) {
                                 console.log(data);
-                                loadMapData(data, null, apiSelectedTod);
+                                loadMapData(data, null, apiSelectedTod, true);
                                 startPlayback();
                             })
                             .catch(error => errorCallback(error, function () { }));
