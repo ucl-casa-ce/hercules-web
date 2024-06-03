@@ -2964,7 +2964,7 @@ const patients4 = ["C0018",
 const INITIAL_VIEW_STATE = {
     latitude: 0.090,
     longitude: 0.171,
-    zoom: 10.76,
+    zoom: 11.2, //default for screen width 1686, will be changed dynamically during page load 
     bearing: 0,
     pitch: 0
 };
@@ -3163,6 +3163,12 @@ const COLOR_RANGE = [
         };
 
         function loadMapData(data, individual, experimentNo) {
+            var pageWidth = $(document).width()
+            console.log("Width" + pageWidth);
+            var deckglHeight = Math.round(pageWidth * 0.36); //0.36 is the magic number for the precentage of map to screen width
+            $("#deck-gl-wrapper")[0].style.setProperty("height", deckglHeight + "px", "important"); 
+            console.log("deckglHeight: " + deckglHeight + "px");
+
             mapData = data;
             const TripsLayer = deck.TripsLayer;
             const LOOP_LENGTH = data==null? 0 : data.ticks;
@@ -3341,6 +3347,19 @@ const COLOR_RANGE = [
 
             async function initMap() {
                 console.log("initMap()");
+
+                var pageWidth = $(document).width()
+                //Width 1686 80%   deckHeight:607, zoom: 11.2   === 150.5
+                //Width 1499 90%   deckHeight:540, zoom: 11   === 136.2
+                //Width 1349 100%  deckHeight:486, zoom:10.8  === 124.9
+                if(pageWidth >= 1686){
+                    INITIAL_VIEW_STATE.zoom = pageWidth/150.5;
+                } else if(pageWidth < 1686 && pageWidth >= 1499){
+                    INITIAL_VIEW_STATE.zoom = pageWidth/136.2;
+                } else if(pageWidth < 1499 && pageWidth >= 1349){
+                    INITIAL_VIEW_STATE.zoom = pageWidth/124.9;
+                }
+
                 mainDeck = new deck.Deck({
                     container: 'deck-gl-wrapper',
                     initialViewState: INITIAL_VIEW_STATE,
@@ -3517,7 +3536,7 @@ const COLOR_RANGE = [
 
 
         lookupExperimentPatients(function (patData) {
-                loadMapData(patData, null, "Experiment " + parseInt(experiment));
+                loadMapData(patData, null, parseInt(experiment));
                 startPlayback();
             });
 
