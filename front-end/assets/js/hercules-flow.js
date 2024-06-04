@@ -3431,11 +3431,11 @@ const COLOR_RANGE = [
                 //Width 1499 90%   deckHeight:540, zoom: 11   === 136.2
                 //Width 1349 100%  deckHeight:486, zoom:10.8  === 124.9
                 if(pageWidth >= 1686){
-                    INITIAL_VIEW_STATE.zoom = pageWidth/150.5;
+                    INITIAL_VIEW_STATE.zoom = 10.2;
                 } else if(pageWidth < 1686 && pageWidth >= 1499){
-                    INITIAL_VIEW_STATE.zoom = pageWidth/136.2;
+                    INITIAL_VIEW_STATE.zoom = 10.2;
                 } else if(pageWidth < 1499 && pageWidth >= 1349){
-                    INITIAL_VIEW_STATE.zoom = pageWidth/124.9;
+                    INITIAL_VIEW_STATE.zoom = 10.2;
                 }
 
                 mainDeck = new deck.Deck({
