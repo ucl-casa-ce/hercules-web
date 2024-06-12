@@ -2964,7 +2964,7 @@ const patients4 = ["C0018",
 const INITIAL_VIEW_STATE = {
     latitude: 0.090,
     longitude: 0.171,
-    zoom: 11.2, //default for screen width 1686, will be changed dynamically during page load 
+    zoom: 10.5, //default for screen width 1686, will be changed dynamically during page load 
     bearing: 0,
     pitch: 0
 };
@@ -3426,18 +3426,6 @@ const COLOR_RANGE = [
             async function initMap() {
                 console.log("initMap()");
 
-                var pageWidth = $(document).width()
-                //Width 1686 80%   deckHeight:607, zoom: 11.2   === 150.5
-                //Width 1499 90%   deckHeight:540, zoom: 11   === 136.2
-                //Width 1349 100%  deckHeight:486, zoom:10.8  === 124.9
-                if(pageWidth >= 1686){
-                    INITIAL_VIEW_STATE.zoom = 10.2;
-                } else if(pageWidth < 1686 && pageWidth >= 1499){
-                    INITIAL_VIEW_STATE.zoom = 10.2;
-                } else if(pageWidth < 1499 && pageWidth >= 1349){
-                    INITIAL_VIEW_STATE.zoom = 10.2;
-                }
-
                 mainDeck = new deck.Deck({
                     container: 'deck-gl-wrapper',
                     initialViewState: INITIAL_VIEW_STATE,
@@ -3448,8 +3436,20 @@ const COLOR_RANGE = [
                         new deck.BitmapLayer({
                             bitmapProps
                         })
-                    ]
+                    ],
+                    onAfterRender
                 });
+                
+                //Auto zoom inside our pre-determined longitude & latitude (0 to 0.344410000) and (0 to 0.182090000)
+                function onAfterRender() {
+                    const viewport = mainDeck.layerManager.layers[1].context.viewport;
+                    const {longitude, latitude, zoom} = viewport.fitBounds([[0, 0],[0.344410000, 0.182090000]], {padding: 0, duration: 1000});
+                      //console.log("onAfterRender: "+longitude +", " + latitude + ", " + zoom);
+                      mainDeck.setProps({
+                      initialViewState: {longitude, latitude, zoom}
+                    });
+              }
+
                 startPlayback();
                 console.log("requestAnimationFrame: initMap");
             }
@@ -3460,6 +3460,8 @@ const COLOR_RANGE = [
 
             document.getElementById('deck-gl-wrapper').appendChild(mainDeck.canvas);
         }
+
+        
 
         function pausePlayback(){
             isAnimating = false;
