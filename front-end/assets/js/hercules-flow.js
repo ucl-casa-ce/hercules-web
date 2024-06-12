@@ -3239,10 +3239,10 @@ const COLOR_RANGE = [
             if(resetCurrentTime)
                 currentTime = 0;
 
-            var pageWidth = $(document).width()
-            console.log("Width" + pageWidth);
-            var deckglHeight = Math.round(pageWidth * 0.36); //0.36 is the magic number for the precentage of map to screen width
-            $("#deck-gl-wrapper")[0].style.setProperty("height", deckglHeight + "px", "important"); 
+            var pageHeight = $(document).height()
+            console.log("pageHeight: " + pageHeight);
+            var deckglHeight = Math.round(pageHeight * 0.7); //0.36 is the magic number for the precentage of map to screen width
+            //$("#deck-gl-wrapper")[0].style.setProperty("height", deckglHeight + "px", "important"); 
             console.log("deckglHeight: " + deckglHeight + "px");
 
             mapData = data;
