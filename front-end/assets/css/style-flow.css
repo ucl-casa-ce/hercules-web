@@ -25,63 +25,16 @@
 	background-color: #5f5f5f !important;
 }
 
-.my-legend .legend-title {
+.legend-title {
     text-align: left;
-    margin-bottom: 8px;
-    font-size: 90%;
 	color: #0090e7;
 	font-size: 0.9375rem;
     }
 
-	@media only screen and (max-width: 1600px) {
-		.my-legend .legend-title {
-			margin-bottom: 2px;
-			}
-	}
-
-  .my-legend .legend-scale ul {
-    list-style: none;
-	max-width: fit-content;
-    margin-inline: auto;
-    margin-right: auto;
-    margin-left: auto;
-    padding: inherit;
-    }
-  .my-legend .legend-scale ul li {
-	display: block;
-    float: left;
-    width: 68px;
-    margin-bottom: 6px;
-    text-align: center;
-    font-size: 88%;
-    list-style: none;
-    }
-  .my-legend ul.legend-labels li span {
-	display: block;
-    float: left;
-	height: 22px;
-    width: 63px;
-    }
-
-	li[id^="legend"]:hover {
-    cursor: pointer;
-	}
-  .my-legend .legend-source {
-    font-size: 70%;
-    color: #999;
-    clear: both;
-    }
-  .my-legend a {
-    color: #777;
-    }
-
-	#legend-s{
-		color: black; 
-	}
-	.small-card{
-		height: 90px;
-		padding: 0.6rem 1.5625rem !important;
-	}
+.small-card{
+	height: 90px;
+	padding: 0.6rem 1.5625rem !important;
+}
 
 #playback-button {
 	width: 35px;
@@ -107,5 +60,6 @@
 	margin-right: 0.3rem !important;
 }
 
-
-	
+[id^="legend"] {
+    padding: 4px 7px;
+}
