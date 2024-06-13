@@ -459,7 +459,8 @@ app.post('/api/data/flows/group/:expID/zerostart/:zerostart/colourconfig/:colour
     console.error(err);
     res.status(500).json({ error: 'Internal server error' });
   }
-});
+}) ;
+
 
 // Pass a single patient and return the flow data for that patient
 app.get('/api/data/flows/single/:expID/:pat_id', async (req, res) => {
@@ -520,9 +521,9 @@ function getPatientPath(patient_db_array, overall_startTime, colourConfig){
     patient_flowPath_obj.vendor = getRandomRgb(); 
   } else if (colourConfig == 1){ //Colouring according to patient type
     if(patient_db_array[0].patient_id.startsWith("G"))
-      patient_flowPath_obj.vendor = [200,0,0,100];
-    else if (patient_db_array[0].patient_id.startsWith("R"))
       patient_flowPath_obj.vendor = [0,200,0,100];
+    else if (patient_db_array[0].patient_id.startsWith("R"))
+      patient_flowPath_obj.vendor = [200,0,0,100];
     else if (patient_db_array[0].patient_id.startsWith("C"))
       patient_flowPath_obj.vendor = [0,120,250,100];
     else if (patient_db_array[0].patient_id.startsWith("S"))
