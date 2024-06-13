@@ -3073,6 +3073,7 @@ const COLOR_RANGE = [
             $('[id*="day"]').removeClass("active");
             $('[id*="-tod"]').removeClass("active");
 
+            resetLegend();
            
         });
         
@@ -3155,6 +3156,7 @@ const COLOR_RANGE = [
                 .then(response => response.json())
                 .then(data => callback(data))
                 .catch(error => errorCallback(error, function(){}));
+            resetLegend();
         }
 
         function lookupExperimentPatients(callback) {
@@ -3206,6 +3208,7 @@ const COLOR_RANGE = [
                 //P4: 07/09/2022 - 27/02/2023 - 30w 
                 loadMapData(patData, null, parseInt(experiment), true);
                 console.log("changeExperiment");
+                resetLegend();
             });
         }
 
@@ -3569,21 +3572,32 @@ const COLOR_RANGE = [
         }
     }
 
+    function resetLegend(){
+        for (const element of $('[id*="legend"]')) {
+            $(element).css("text-decoration", "auto");
+            var style = $(element).attr('style');
+            style = style.replace("color: rgb(175, 175, 175) !important;","");
+            $(element).attr('style', style);
+        }
+    }
+
         $('[id*="legend"]').click(function () {
             var content = this.id;
             const lastChar = content.match(/.$/)[0];
 
             if($(this).css("text-decoration").includes("line-through")){
                 $(this).css("text-decoration", "auto");
-                if(content === "legend-s")
-                    $(this).css("color", "#000000");
-                else
-                    $(this).css("color", "#ffffff");
+                var style = $(this).attr('style');
+                style = style.replace("color: rgb(175, 175, 175) !important;","");
+                $(this).attr('style', style);
+
                 console.log(content);
                 updateVendorValues(mapData, lastChar, false);
             } else {
                 $(this).css("text-decoration", "line-through");
-                $(this).css("color", "#C1C1C1");
+                var style = $(this).attr('style');
+                var styles = "color: #afafaf !important; " +' ' +style;
+                $(this).attr('style', styles);
                 console.log(content);
                 updateVendorValues(mapData, lastChar, true);
             }
