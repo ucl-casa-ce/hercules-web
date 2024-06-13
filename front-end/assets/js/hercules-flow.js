@@ -3329,6 +3329,17 @@ const COLOR_RANGE = [
                 shadowEnabled: false,
             };
             
+            const iconProps = {
+                id: 'IconLayer',
+                data: mapData?.paths,
+                getColor: d => [Math.sqrt(d.exits), 140, 0],
+                getIcon: d => 'marker',
+                getPosition: d => d.path[currentTime],
+                getSize: 40,
+                iconAtlas: 'https://raw.githubusercontent.com/visgl/deck.gl-data/master/website/icon-atlas.png',
+                iconMapping: 'https://raw.githubusercontent.com/visgl/deck.gl-data/master/website/icon-atlas.json',
+                pickable: true
+            };
 
             const bitmapProps = {
                 id: 'bitmap-layer',
@@ -3407,6 +3418,12 @@ const COLOR_RANGE = [
                     const bitmapLayer = new deck.BitmapLayer({
                         ...bitmapProps
                     });
+
+                    //const iconLayer = new deck.IconLayer({
+                    //    ...iconProps,
+                    //    getPosition: d => d.path[currentTime],
+                    //  });
+
                     mainDeck.setProps({
                         layers: [bitmapLayer, tripsLayer],
                     });
@@ -3438,7 +3455,10 @@ const COLOR_RANGE = [
                         }),
                         new deck.BitmapLayer({
                             bitmapProps
-                        })
+                        }),
+                        //new deck.IconLayer({
+                        //    iconProps
+                        //  })
                     ],
                     onAfterRender
                 });
