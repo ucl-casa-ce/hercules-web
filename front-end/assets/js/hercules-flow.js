@@ -3077,6 +3077,15 @@ const COLOR_RANGE = [
            
         });
         
+        $('#triple-lane-glaucoma').click(function() {
+            changeExperiment(1, false);
+            var valueSelected = "G0530";
+
+            lookupPatient(valueSelected, function (patData) {
+                loadMapData(patData, 1, "Patient " + valueSelected, true);
+                startPlayback();
+            });
+        });
 
         $('#cubicle-change').click(function() {
             changeExperiment(1, false);
@@ -3118,7 +3127,7 @@ const COLOR_RANGE = [
             });
         });
 
-        $('#fastest-patient').click(function() {
+        $('#uncomlpete-glaucoma2').click(function() {
             changeExperiment(2, false);
             var valueSelected = "G1304";
 
