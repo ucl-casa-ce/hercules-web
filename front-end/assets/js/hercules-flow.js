@@ -3667,9 +3667,9 @@ const COLOR_RANGE = [
             });
 
         errorCallback = function showError(error, func){
-            console.log("Server error: " + error);
+            console.log("+++++++++++++++++++++ Server error: " + error);
             hideLoading();
-            alert("Sorry for the inconvenience, there was a server-side error.");
+            //alert("Sorry for the inconvenience, there was a server-side error.");
             func();
         }
 
