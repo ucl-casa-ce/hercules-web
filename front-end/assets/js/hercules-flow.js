@@ -31,8 +31,8 @@ var previousMinutes = -1;
 
 var isHoveringOnSlider = false;
 
-var url = new URL(window.location.origin);
-url.port = '32769';
+var url = new URL("https://hercules.cetools.org/v1/api");
+url.port = '80';
 const baseURL = url.toString();
 
 const patients1 = ["G0132",
