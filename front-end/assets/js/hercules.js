@@ -7,7 +7,7 @@ var layers = [];
 var mapGLLayers = [];
 
 var url = new URL("https://hercules.cetools.org/v1/");
-url.port = '80';
+url.port = '443';
 const baseURL = url.toString();
 
 const initialViewState = {
