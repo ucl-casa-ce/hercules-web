@@ -6,7 +6,7 @@ var backgroundImage = null;
 var layers = [];
 var mapGLLayers = [];
 
-var url = new URL("https://hercules.cetools.org/v1/api");
+var url = new URL("https://hercules.cetools.org/v1/");
 url.port = '80';
 const baseURL = url.toString();
 
