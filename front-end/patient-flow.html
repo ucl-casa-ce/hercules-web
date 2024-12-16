@@ -14,16 +14,17 @@
   <link rel="stylesheet" href="assets/vendors/select2/select2.min.css">
   <link rel="stylesheet" href="assets/vendors/select2-bootstrap-theme/select2-bootstrap.min.css">
   <link rel="stylesheet" href="assets/vendors/nouislider/nouislider.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/css/bootstrap-slider.min.css" />
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/css/bootstrap-slider.min.css" />
   <link rel="stylesheet" href="assets/css/style.css" />
   <link rel="stylesheet" href="assets/css/style-flow.css" />
   <link rel="stylesheet" href="assets/css/maps-deckgl.css" />
   <link rel="shortcut icon" href="assets/images/favicon.png" />
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
 
-<!-- Latest compiled and minified JavaScript -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
 
   <script src="https://unpkg.com/deck.gl@8.9.22/dist.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
@@ -92,110 +93,114 @@
     <div style="min-height: calc(120vh - 70px);" class="container-fluid page-body-wrapper">
       <!-- partial:partials/_navbar.html -->
       <nav class="navbar p-0 fixed-top d-flex flex-row">
-          <div class="navbar-brand-wrapper d-flex d-lg-none align-items-center justify-content-center">
-            <a class="navbar-brand brand-logo-mini" href="../../index.html"><img src="../../../assets/images/logo-mini.svg" alt="logo" /></a>
-          </div>
-          <div class="navbar-menu-wrapper flex-grow d-flex align-items-stretch">
-            <button class="navbar-toggler align-self-center" type="button" data-toggle="minimize" disabled>
-              <span class="mdi mdi-menu"></span>
-            </button>
-            <ul class="navbar-nav w-100">
-              <li class="nav-item w-25">
-                <form class="nav-link mt-2 mt-md-0 d-none d-lg-flex search">
-                  <select id="patient-menu" class="js-example-basic-single select2-hidden-accessible" style="width:100%" data-select2-id="1" tabindex="-1"
-                    aria-hidden="true">
-                    <option value="option" data-select2-id="3">Search patients</option>
-                  </select>
-                </form>
-              </li>
-              <li class="nav-item">
-                <li class="nav-item dropdown d-none d-lg-block">
-                  <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButtonExperiment"
-                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Experiment 1 </button>
+        <div class="navbar-brand-wrapper d-flex d-lg-none align-items-center justify-content-center">
+          <a class="navbar-brand brand-logo-mini" href="../../index.html"><img
+              src="../../../assets/images/logo-mini.svg" alt="logo" /></a>
+        </div>
+        <div class="navbar-menu-wrapper flex-grow d-flex align-items-stretch">
+          <button class="navbar-toggler align-self-center" type="button" data-toggle="minimize" disabled>
+            <span class="mdi mdi-menu"></span>
+          </button>
+          <ul class="navbar-nav w-100">
+            <li class="nav-item w-25">
+              <form class="nav-link mt-2 mt-md-0 d-none d-lg-flex search">
+                <select id="patient-menu" class="js-example-basic-single select2-hidden-accessible" style="width:100%"
+                  data-select2-id="1" tabindex="-1" aria-hidden="true">
+                  <option value="option" data-select2-id="3">Search patients</option>
+                </select>
+              </form>
+            </li>
+            <li class="nav-item">
+            <li class="nav-item dropdown d-none d-lg-block">
+              <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButtonExperiment"
+                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Experiment 1 </button>
 
-                  <div class="dropdown-menu dropdown-menu-end navbar-dropdown preview-list" aria-labelledby="createbuttonDropdown">
-                    <a class="dropdown-item preview-item" onclick="changeExperiment(1);">
-                      <div class="preview-thumbnail">
-                        <div class="preview-icon bg-dark rounded-circle">
-                          <i class="mdi mdi-pound text-primary"></i>
-                        </div>
-                      </div>
-                      <div class="preview-item-content">
-                        <p class="preview-subject ellipsis mb-1">Experiment #1 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
-                        <p style="color: #bfbfbf; font-weight: 150;font-size: 0.675rem;" 
-                         class="p-0 mt-2 mb-1 text-left card-description">
-                         1028 Patients
-                        </p>
-                      </div>
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item preview-item" onclick="changeExperiment(2);">
-                      <div class="preview-thumbnail">
-                        <div class="preview-icon bg-dark rounded-circle">
-                          <i class="mdi mdi-pound text-primary"></i>
-                        </div>
-                      </div>
-                      <div class="preview-item-content">
-                        <p class="preview-subject ellipsis mb-1">Experiment #2</p>
-                        <p style="color: #bfbfbf; font-weight: 150;font-size: 0.675rem;" 
-                         class="p-0 mt-2 mb-1 text-left card-description">
-                         187 Patients
-                        </p>
-                      </div>
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item preview-item" onclick="changeExperiment(3);">
-                      <div class="preview-thumbnail">
-                        <div class="preview-icon bg-dark rounded-circle">
-                          <i class="mdi mdi-pound text-primary"></i>
-                        </div>
-                      </div>
-                      <div class="preview-item-content">
-                        <p class="preview-subject ellipsis mb-1">Experiment #3</p>
-                        <p style="color: #bfbfbf; font-weight: 150;font-size: 0.675rem;" 
-                         class="p-0 mt-2 mb-1 text-left card-description">
-                         1086 Patients
-                        </p>
-                      </div>
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item preview-item" onclick="changeExperiment(4);">
-                      <div class="preview-thumbnail">
-                        <div class="preview-icon bg-dark rounded-circle">
-                          <i class="mdi mdi-pound text-primary"></i>
-                        </div>
-                      </div>
-                      <div class="preview-item-content">
-                        <p class="preview-subject ellipsis mb-1">Experiment #4</p>
-                        <p style="color: #bfbfbf; font-weight: 150;font-size: 0.675rem;" 
-                         class="p-0 mt-2 mb-1 text-left card-description">
-                         1033 Patients
-                        </p>
-                      </div>
-                    </a>
+              <div class="dropdown-menu dropdown-menu-end navbar-dropdown preview-list"
+                aria-labelledby="createbuttonDropdown">
+                <a class="dropdown-item preview-item" onclick="changeExperiment(1);">
+                  <div class="preview-thumbnail">
+                    <div class="preview-icon bg-dark rounded-circle">
+                      <i class="mdi mdi-pound text-primary"></i>
+                    </div>
                   </div>
-                </li> 
-              </li>
-            </ul>
-            <ul class="navbar-nav navbar-nav-right">
-              <li class="nav-item dropdown d-none d-lg-block">
-                <div class="circle-loader"></div>
-              </li>
-              <li class="nav-item dropdown d-none d-lg-block">
-                <a style="padding: 1px 5px;font-weight: 400;" class="btn btn-inverse-primary" id="createbuttonDropdown" data-bs-toggle="modal" data-bs-target="#exampleModal-2" aria-expanded="false" href="#">v1.1.1</a>
-              </li>
-            </ul>
-            <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
-              <span class="mdi mdi-format-line-spacing"></span>
-            </button>
-          </div>
-        </nav>
+                  <div class="preview-item-content">
+                    <p class="preview-subject ellipsis mb-1">Experiment #1 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+                    <p style="color: #bfbfbf; font-weight: 150;font-size: 0.675rem;"
+                      class="p-0 mt-2 mb-1 text-left card-description">
+                      1028 Patients
+                    </p>
+                  </div>
+                </a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item preview-item" onclick="changeExperiment(2);">
+                  <div class="preview-thumbnail">
+                    <div class="preview-icon bg-dark rounded-circle">
+                      <i class="mdi mdi-pound text-primary"></i>
+                    </div>
+                  </div>
+                  <div class="preview-item-content">
+                    <p class="preview-subject ellipsis mb-1">Experiment #2</p>
+                    <p style="color: #bfbfbf; font-weight: 150;font-size: 0.675rem;"
+                      class="p-0 mt-2 mb-1 text-left card-description">
+                      187 Patients
+                    </p>
+                  </div>
+                </a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item preview-item" onclick="changeExperiment(3);">
+                  <div class="preview-thumbnail">
+                    <div class="preview-icon bg-dark rounded-circle">
+                      <i class="mdi mdi-pound text-primary"></i>
+                    </div>
+                  </div>
+                  <div class="preview-item-content">
+                    <p class="preview-subject ellipsis mb-1">Experiment #3</p>
+                    <p style="color: #bfbfbf; font-weight: 150;font-size: 0.675rem;"
+                      class="p-0 mt-2 mb-1 text-left card-description">
+                      1086 Patients
+                    </p>
+                  </div>
+                </a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item preview-item" onclick="changeExperiment(4);">
+                  <div class="preview-thumbnail">
+                    <div class="preview-icon bg-dark rounded-circle">
+                      <i class="mdi mdi-pound text-primary"></i>
+                    </div>
+                  </div>
+                  <div class="preview-item-content">
+                    <p class="preview-subject ellipsis mb-1">Experiment #4</p>
+                    <p style="color: #bfbfbf; font-weight: 150;font-size: 0.675rem;"
+                      class="p-0 mt-2 mb-1 text-left card-description">
+                      1033 Patients
+                    </p>
+                  </div>
+                </a>
+              </div>
+            </li>
+            </li>
+          </ul>
+          <ul class="navbar-nav navbar-nav-right">
+            <li class="nav-item dropdown d-none d-lg-block">
+              <div class="circle-loader"></div>
+            </li>
+            <li class="nav-item dropdown d-none d-lg-block">
+              <a style="padding: 1px 5px;font-weight: 400;" class="btn btn-inverse-primary" id="createbuttonDropdown"
+                data-bs-toggle="modal" data-bs-target="#exampleModal-2" aria-expanded="false" href="#">v1.1.1</a>
+            </li>
+          </ul>
+          <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
+            data-toggle="offcanvas">
+            <span class="mdi mdi-format-line-spacing"></span>
+          </button>
+        </div>
+      </nav>
       <!-- partial -->
       <div class="main-panel" style="padding-top: 50px">
         <div class="content-wrapper">
 
           <!-- ---------------------- CONTROLS ----------------------------------- -->
-      <div class="row">
+          <div class="row">
             <div style="width: 25%; margin-left: -14px;" class="col-md-3 grid-margin">
               <div style="margin-bottom: 13px;" class="card">
                 <div class="card-body">
@@ -217,25 +222,36 @@
                       <div class="card">
                         <div class="card-header" role="tab" id="heading-1">
                           <h6 class="mb-0">
-                            <a data-bs-toggle="collapse" href="#collapse-1" aria-expanded="true" aria-controls="collapse-1"> Quick highlights </a>
+                            <a data-bs-toggle="collapse" href="#collapse-1" aria-expanded="true"
+                              aria-controls="collapse-1"> Quick highlights </a>
                           </h6>
                         </div>
-                        <div id="collapse-1" class="collapse show" role="tabpanel" aria-labelledby="heading-1" data-bs-parent="#accordion">
+                        <div id="collapse-1" class="collapse show" role="tabpanel" aria-labelledby="heading-1"
+                          data-bs-parent="#accordion">
                           <div class="card-body">
                             <div class="row">
                               <div>
-                                <div  class="template-demo">
-                                  <button id="cubicle-change"  type="button" class="btn-custom btn btn-inverse-secondary">Cubicle change</button>
-                                  <button id="triple-lane-glaucoma"  type="button" class="btn-custom btn btn-inverse-secondary">Triple cubicle change</button>
-                                  <button id="slowest-patient" type="button" class="btn-custom btn btn-inverse-secondary">Slowest patient</button>
-                                  <button id="uncomlpete-glaucoma2" type="button" class="btn-custom btn btn-inverse-secondary">Uncomplete Glaucoma</button>
-                                  <button id="wanderer-patient" type="button" class="btn-custom btn btn-inverse-secondary">Left tag at reception</button>
-                                  <button id="no-patient" type="button" class="btn-custom btn btn-inverse-secondary">No patient</button>
-                                  <button id="uncomlpete-glaucoma" type="button" class="btn-custom btn btn-inverse-secondary">Uncomplete Glaucoma 2</button>
-                                  <button id="uncomlpete-cataract" type="button" class="btn-custom btn btn-inverse-secondary">Uncomplete Cataract</button>
-                                  <br/>
-                                  <br/>
-                                  <button id="changeColour" type="button" class="btn-custom btn btn-inverse-success">Slow to fast colouring </button>
+                                <div class="template-demo">
+                                  <button id="cubicle-change" type="button"
+                                    class="btn-custom btn btn-inverse-secondary">Cubicle change</button>
+                                  <button id="triple-lane-glaucoma" type="button"
+                                    class="btn-custom btn btn-inverse-secondary">Triple cubicle change</button>
+                                  <button id="slowest-patient" type="button"
+                                    class="btn-custom btn btn-inverse-secondary">Slowest patient</button>
+                                  <button id="uncomlpete-glaucoma2" type="button"
+                                    class="btn-custom btn btn-inverse-secondary">Uncomplete Glaucoma</button>
+                                  <button id="wanderer-patient" type="button"
+                                    class="btn-custom btn btn-inverse-secondary">Left tag at reception</button>
+                                  <button id="no-patient" type="button" class="btn-custom btn btn-inverse-secondary">No
+                                    patient</button>
+                                  <button id="uncomlpete-glaucoma" type="button"
+                                    class="btn-custom btn btn-inverse-secondary">Uncomplete Glaucoma 2</button>
+                                  <button id="uncomlpete-cataract" type="button"
+                                    class="btn-custom btn btn-inverse-secondary">Uncomplete Cataract</button>
+                                  <br />
+                                  <br />
+                                  <button id="changeColour" type="button"
+                                    class="btn-custom btn btn-inverse-success">Slow to fast colouring </button>
                                 </div>
                               </div>
                             </div>
@@ -245,58 +261,69 @@
                       <div class="card">
                         <div class="card-header" role="tab" id="heading-2">
                           <h6 class="mb-0">
-                            <a class="collapsed" data-bs-toggle="collapse" href="#collapse-2" aria-expanded="false" aria-controls="collapseTwo"> Filters</a>
+                            <a class="collapsed" data-bs-toggle="collapse" href="#collapse-2" aria-expanded="false"
+                              aria-controls="collapseTwo"> Filters</a>
                           </h6>
                         </div>
-                        <div id="collapse-2" class="collapse" role="tabpanel" aria-labelledby="heading-2" data-bs-parent="#accordion">
-                          <div class="card-body"> <ol class="ps-3 mt-0">
-                            <span class="btn-group-title">Days &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                        <div id="collapse-2" class="collapse" role="tabpanel" aria-labelledby="heading-2"
+                          data-bs-parent="#accordion">
+                          <div class="card-body">
+                            <ol class="ps-3 mt-0">
+                              <span class="btn-group-title">Days &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
 
-                            <div class="dropdown">
-                              <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownDay" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Select a day </button>
-                              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2" style="">
-                                <a id="monday" class="dropdown-item" href="#">Monday</a>
-                                <a id="tuesday" class="dropdown-item" href="#">Tuesday</a>
-                                <a id="wednesday" class="dropdown-item" href="#">Wednesday</a>
-                                <a id="thursday" class="dropdown-item" href="#">Thursday</a>
-                                <a id="friday" class="dropdown-item" href="#">Friday</a>
+                              <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownDay"
+                                  data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Select a day
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2" style="">
+                                  <a id="monday" class="dropdown-item" href="#">Monday</a>
+                                  <a id="tuesday" class="dropdown-item" href="#">Tuesday</a>
+                                  <a id="wednesday" class="dropdown-item" href="#">Wednesday</a>
+                                  <a id="thursday" class="dropdown-item" href="#">Thursday</a>
+                                  <a id="friday" class="dropdown-item" href="#">Friday</a>
+                                </div>
                               </div>
-                            </div>
 
-                            <br />
-                            <span class="btn-group-title">Time of day</span>
+                              <br />
+                              <span class="btn-group-title">Time of day</span>
 
-                            <div class="dropdown">
-                              <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownTod" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Select time of day </button>
-                              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2" style="">
-                                <a id="morning-tod" class="dropdown-item" href="#">Morning</a>
-                                <a id="afternoon-tod" class="dropdown-item" href="#">Afternoon</a>
+                              <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownTod"
+                                  data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Select time of
+                                  day </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2" style="">
+                                  <a id="morning-tod" class="dropdown-item" href="#">Morning</a>
+                                  <a id="afternoon-tod" class="dropdown-item" href="#">Afternoon</a>
+                                </div>
                               </div>
-                            </div>
 
-                            <br />
-          
-                            <span class="input-group-append">
-                              <button id="visualise-results" class="btn btn-primary" type="button">Visualise results</button>
-                            </span>
-                            <br />
-                            <br />
+                              <br />
 
-                            <button id="reset" class="btn btn-primary" type="button">Reset all filters</button>
-          
+                              <span class="input-group-append">
+                                <button id="visualise-results" class="btn btn-primary" type="button">Visualise
+                                  results</button>
+                              </span>
+                              <br />
+                              <br />
+
+                              <button id="reset" class="btn btn-primary" type="button">Reset all filters</button>
+
                           </div>
                         </div>
                       </div>
                       <div class="card">
                         <div class="card-header" role="tab" id="heading-3">
                           <h6 class="mb-0">
-                            <a class="collapsed" data-bs-toggle="collapse" href="#collapse-3" aria-expanded="false" aria-controls="collapse-3"> Further information</a>
+                            <a class="collapsed" data-bs-toggle="collapse" href="#collapse-3" aria-expanded="false"
+                              aria-controls="collapse-3"> Further information</a>
                           </h6>
                         </div>
-                        <div id="collapse-3" class="collapse" role="tabpanel" aria-labelledby="heading-3" data-bs-parent="#accordion">
+                        <div id="collapse-3" class="collapse" role="tabpanel" aria-labelledby="heading-3"
+                          data-bs-parent="#accordion">
                           <div class="card-body"> This project is available on this link:
-                            <a href="https://github.com/djdunc/hercules/" target="_blank">https://github.com/djdunc/hercules/</a>
-                            </div>
+                            <a href="https://github.com/djdunc/hercules/"
+                              target="_blank">https://github.com/djdunc/hercules/</a>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -304,39 +331,40 @@
                 </div>
               </div>
             </div>
-          
- 
-           <!-- ----------------------   MAP  ------------------------------------- -->
-           <div style="height: 100%; width: 75%; position: fixed;right: 0px; padding-left: 3%;" class="col-8 grid-margin">
-            <div style="" class="mt-0 stretch-card">
-              <div class="card mt-0 col-8">
-                <div style="padding: 18px;" class="card-body small-card">
-                  <div class="row">
-                    <div class="row col-4" style="width: 35.333333%;">
-                      <h4 id="playback-name" >Nothing selected</h4>
-                      <h2 id="time-index" class="col-8">00:00:00</h2>
-                      <button  id="playback-button" type="button" class="col-6 btn btn-inverse-primary btn-icon">
-                        <i id="play-button" class="mdi mdi-play"></i>
-                      </button>
-                    </div>
-                    <div style="margin-top: 20px !important;" class="col-sm mt-0 pt-0 w-100 mx-auto">
-                      <div id="soft-limit" class="ul-slider slider-primary mb-4"></div>
+
+
+            <!-- ----------------------   MAP  ------------------------------------- -->
+            <div style="height: 100%; width: 75%; position: fixed;right: 0px; padding-left: 3%;"
+              class="col-8 grid-margin">
+              <div style="" class="mt-0 stretch-card">
+                <div class="card mt-0 col-8">
+                  <div style="padding: 18px;" class="card-body small-card">
+                    <div class="row">
+                      <div class="row col-4" style="width: 35.333333%;">
+                        <h4 id="playback-name">Nothing selected</h4>
+                        <h2 id="time-index" class="col-8">00:00:00</h2>
+                        <button id="playback-button" type="button" class="col-6 btn btn-inverse-primary btn-icon">
+                          <i id="play-button" class="mdi mdi-play"></i>
+                        </button>
+                      </div>
+                      <div style="margin-top: 20px !important;" class="col-sm mt-0 pt-0 w-100 mx-auto">
+                        <div id="soft-limit" class="ul-slider slider-primary mb-4"></div>
+                      </div>
                     </div>
                   </div>
+                </div>
+                <br />
               </div>
-              </div>
-              <br />
-            </div>
               <div style="height: 78% !important;" class="mt-2 cardcol-8 grid-margin" id="deck-gl-wrapper">
                 <div id="tooltip"></div>
                 <div id="deck-gl"></div>
               </div>
               <br />
+            </div>
+
+
           </div>
-          
-            
-          </div>
-          
+
         </div>
 
         <footer class="footer">
@@ -370,7 +398,8 @@
 
   <script src="assets/js/hercules-flow.js"></script>
 
-  <div class="modal fade" id="exampleModal-2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel-2" aria-hidden="true">
+  <div class="modal fade" id="exampleModal-2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel-2"
+    aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -380,9 +409,10 @@
           </button>
         </div>
         <div class="modal-body">
-          
+
           <div>
-            <div style="padding: 4px; font-size: large; font-weight: 600;" class="badge badge-outline-primary">1.1.1</div>
+            <div style="padding: 4px; font-size: large; font-weight: 600;" class="badge badge-outline-primary">1.1.1
+            </div>
             <br />
             <ul>
               <li> Temporary fix for an error message on Safari. </li>
@@ -390,19 +420,21 @@
           </div>
 
           <div>
-            <div style="padding: 4px; font-size: large; font-weight: 600;" class="badge badge-outline-primary">1.1.0</div>
+            <div style="padding: 4px; font-size: large; font-weight: 600;" class="badge badge-outline-primary">1.1.0
+            </div>
             <br />
             <ul>
               <li> Fixed responsive layout. </li>
               <li> Fix legend buttons and their behaviour. </li>
-              <li> Change Glaucoma and Retina colours.  </li>
+              <li> Change Glaucoma and Retina colours. </li>
               <li> Enhance floorplans: hide unimportant details and increase font size. </li>
               <li> Add more highlights and fix the naming of old ones. </li>
             </ul>
           </div>
 
           <div>
-            <div style="padding: 4px; font-size: large; font-weight: 600;" class="badge badge-outline-primary">1.0.0</div>
+            <div style="padding: 4px; font-size: large; font-weight: 600;" class="badge badge-outline-primary">1.0.0
+            </div>
             <br />
             <ul>
               <li> Change experiment naming. </li>
@@ -414,7 +446,8 @@
           </div>
 
           <div>
-            <div style="padding: 4px; font-size: large; font-weight: 600;" class="badge badge-outline-primary">0.4.0</div>
+            <div style="padding: 4px; font-size: large; font-weight: 600;" class="badge badge-outline-primary">0.4.0
+            </div>
             <br />
             <ul>
               <li> Fixed: Patient group playback is fully working now. </li>
@@ -430,18 +463,20 @@
           </div>
 
           <div>
-            <div style="padding: 4px; font-size: large; font-weight: 600;" class="badge badge-outline-primary">0.3.0</div>
+            <div style="padding: 4px; font-size: large; font-weight: 600;" class="badge badge-outline-primary">0.3.0
+            </div>
             <br />
             <ul>
-              <li> Upgraded the playback tools (now you can know which patient you are 
+              <li> Upgraded the playback tools (now you can know which patient you are
                 watching, also pause and resume the playback) </li>
-              <li> New feature: draggable time index. You can drag the slider manualy to go to a 
+              <li> New feature: draggable time index. You can drag the slider manualy to go to a
                 specific time index. </li>
               <li> Auto play a patient when loading the website.</li>
             </ul>
           </div>
           <div>
-            <div style="padding: 4px; font-size: large; font-weight: 600;" class="badge badge-outline-primary">0.2.0</div>
+            <div style="padding: 4px; font-size: large; font-weight: 600;" class="badge badge-outline-primary">0.2.0
+            </div>
             <br />
             <ul>
               <li>Added the changelog diaglog.</li>
@@ -452,7 +487,8 @@
             </ul>
           </div>
           <div>
-            <div style="padding: 4px; font-size: large; font-weight: 600;" class="badge badge-outline-primary">0.1.1</div>
+            <div style="padding: 4px; font-size: large; font-weight: 600;" class="badge badge-outline-primary">0.1.1
+            </div>
             <br />
             <ul>
               <li>Fixed the scroll on the map side, now only the fliters side is scrollable.</li>
