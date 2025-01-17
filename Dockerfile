@@ -66,7 +66,7 @@ COPY sql_data/install.sh /opt/sql/
 COPY sql_data/install_docker.sql /opt/sql/
 
 # Script waits and checks for postgres to be ready
-RUN ["/opt/sql/install.sh"]
+# RUN ["/opt/sql/install.sh"]
 
 # ---- Setup nginx ---------------------------------
 # Run command as root

@@ -32,8 +32,8 @@ var previousMinutes = -1;
 
 var isHoveringOnSlider = false;
 
-var url = new URL("https://hercules.cetools.org/v1/");
-url.port = '443';
+var url = new URL("http://127.0.0.1/");
+url.port = '3000';
 const baseURL = url.toString();
 
 const patients1 = ["G0132",
@@ -2960,7 +2960,32 @@ const patients4 = ["C0018",
     "R4214",
     "R4215",
     "R4216",
-    "R4217"];
+    "R4217",
+    "S0003",
+    "S0005",
+    "S0006",
+    "S0007",
+    "S0008",
+    "S0009",
+    "S0010",
+    "S0016",
+    "S0017",
+    "S0018",
+    "S0019",
+    "S0020",
+    "S0021",
+    "S0022",
+    "S0026",
+    "S0027",
+    "S0028",
+    "S0029",
+    "S0030",
+    "S0031",
+    "S0032",
+    "S0033",
+    "S0034",
+    "S0035",
+];
 
 const INITIAL_VIEW_STATE = {
     latitude: 0.090,
@@ -3200,29 +3225,6 @@ const COLOR_RANGE = [
         }
 
         changeExperiment = function changeExperiment(expID, loadAllTraces = true) {
-            $("#dropdownMenuButtonExperiment").text("Experiment " + parseInt(expID));
-            $("#exp" + experiment).removeClass("active");
-            experiment = parseInt(expID);
-            $("#exp" + experiment).addClass("active");
-            backgroundImage = "p" + experiment + "-ubi-grid.png";
-            isAnimating = false;
-
-            updatePatientList(experiment);
-
-            if (loadAllTraces)
-                lookupExperimentPatients(function (patData) {
-                    // show dates
-                    //P1: 11/10/2021 - 12/11/2021 -  5w 
-                    //P2: 30/11/2021 - 06/12/2021 -  1w
-                    //P3: 23/02/2022 - 06/05/2022 - 12w 
-                    //P4: 07/09/2022 - 27/02/2023 - 30w 
-                    loadMapData(patData, null, parseInt(experiment), true);
-                    console.log("changeExperiment");
-                    resetLegend();
-                });
-        }
-
-        TESTchangeExperiment = function TESTchangeExperiment(expID, loadAllTraces = true) {
             $("#dropdownMenuButtonExperiment").text("Experiment " + parseInt(expID));
             $("#exp" + experiment).removeClass("active");
             experiment = parseInt(expID);
