@@ -58,6 +58,8 @@ RUN chmod +x /etc/init.d/postgresql
 
 USER postgres
 RUN /etc/init.d/postgresql start && psql --command "CREATE USER docker WITH SUPERUSER PASSWORD 'docker';" && createdb -O docker hercules
+RUN mkdir /etc/postgresql/15
+RUN mkdir /etc/postgresql/15/main
 RUN echo "host all  all    0.0.0.0/0  md5" >> /etc/postgresql/15/main/pg_hba.conf
 RUN echo "listen_addresses='*'" >> /etc/postgresql/15/main/postgresql.conf
 
