@@ -49,30 +49,35 @@ RUN git clone https://github.com/djdunc/hercules.git /opt/hercules
 # Postgres with Postgis
 RUN apt-get update
 RUN apt-get install wget nginx -y
+RUN apt-get install dos2unix -y
 
 RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
 RUN sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
 RUN apt-get update -y
-RUN apt-get install postgresql postgresql-client postgis postgresql-15-postgis-3  -y
+RUN apt-get install postgresql-17 postgresql-client-17 postgis postgresql-17-postgis-3  -y
 RUN chmod +x /etc/init.d/postgresql
 
 USER postgres
 RUN /etc/init.d/postgresql start && psql --command "CREATE USER docker WITH SUPERUSER PASSWORD 'docker';" && createdb -O docker hercules
-RUN mkdir /etc/postgresql/15
-RUN mkdir /etc/postgresql/15/main
-RUN echo "host all  all    0.0.0.0/0  md5" >> /etc/postgresql/15/main/pg_hba.conf
-RUN echo "listen_addresses='*'" >> /etc/postgresql/15/main/postgresql.conf
+#RUN mkdir /etc/postgresql/15
+#RUN mkdir /etc/postgresql/15/main
+RUN echo "host all  all    0.0.0.0/0  md5" >> /etc/postgresql/17/main/pg_hba.conf
+RUN echo "listen_addresses='*'" >> /etc/postgresql/17/main/postgresql.conf
 
 # ---- Copy Data Into the Database -------------------------------------
 COPY sql_data/install.sh /opt/sql/
 COPY sql_data/install_docker.sql /opt/sql/
 
 # Script waits and checks for postgres to be ready
-RUN ["/opt/sql/install.sh"]
+
+#Fix characters encoding..
+USER root
+RUN dos2unix /opt/sql/install.sh
+RUN bash /opt/sql/install.sh
+#RUN ["/opt/sql/install.sh"]
 
 # ---- Setup nginx ---------------------------------
 # Run command as root
-USER root
 RUN rm /etc/nginx/sites-enabled/default
 COPY ./setup/nginx.conf /etc/nginx/sites-available/default
 # Link the config file from sites-available to sites-enabled   
