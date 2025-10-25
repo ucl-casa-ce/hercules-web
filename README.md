@@ -7,6 +7,8 @@ This repository contains the visualisation application for the Hercules Project.
 
 https://github.com/user-attachments/assets/4d0146e2-fe47-4b9c-9a78-59cb82032b36
 
+## How it works
+This app simply plays back patient journeys as they happened on the test day. By utilising Ubisense location data, the app utilises an open-source tool from Deck.gl ([Trips Layer](https://deck.gl/docs/api-reference/geo-layers/trips-layer)) to animate the path for each patient. The app is also capable of controlling the playback (pausing, going forward or backwards), in addition to advanced filtering according to patient cases, experiment number, or specific patient ID.
 
 ## Application architecture
 The data comes from the main [Hercules repository](https://github.com/djdunc/hercules), where a Docker script does the importing process. Data is stored in a PostgreSQL database for the API to use.
