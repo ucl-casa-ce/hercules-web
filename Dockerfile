@@ -57,7 +57,6 @@ RUN apt-get update -y
 RUN apt-get install postgresql-14 postgresql-client-14 postgresql-14-postgis-3 -y
 
 USER postgres
-RUN pg_createcluster 14 main
 RUN /etc/init.d/postgresql start &&\
     psql --command "CREATE USER docker WITH SUPERUSER PASSWORD 'docker';" &&\
     createdb -O docker hercules &&\
@@ -89,9 +88,12 @@ ENV HOME /opt/viz
 WORKDIR /opt/viz/
 RUN npm install 
 
+COPY ./setup/entrypoint.sh /
+RUN chmod +x /entrypoint.sh
+
 EXPOSE 3000
 EXPOSE 5432
 EXPOSE 80
 
-ENTRYPOINT service postgresql start && service nginx restart && npm start
+ENTRYPOINT ["/entrypoint.sh"]
 
