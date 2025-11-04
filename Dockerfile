@@ -54,27 +54,23 @@ RUN apt-get install dos2unix -y
 RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
 RUN sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
 RUN apt-get update -y
-RUN apt-get install postgresql-17 postgresql-client-17 postgis postgresql-17-postgis-3  -y
-RUN chmod +x /etc/init.d/postgresql
+RUN apt-get install postgresql-14 postgresql-client-14 postgis postgresql-14-postgis-3 -y
 
 USER postgres
-RUN /etc/init.d/postgresql start && psql --command "CREATE USER docker WITH SUPERUSER PASSWORD 'docker';" && createdb -O docker hercules
-RUN mkdir /etc/postgresql/17
-RUN mkdir /etc/postgresql/17/main
-RUN echo "host all  all    0.0.0.0/0  md5" >> /etc/postgresql/17/main/pg_hba.conf
-RUN echo "listen_addresses='*'" >> /etc/postgresql/17/main/postgresql.conf
+RUN /etc/init.d/postgresql start &&\
+    psql --command "CREATE USER docker WITH SUPERUSER PASSWORD 'docker';" &&\
+    createdb -O docker hercules &&\
+    psql -d hercules -c "CREATE EXTENSION postgis;"
 
+RUN echo "host all  all    0.0.0.0/0  md5" >> /etc/postgresql/14/main/pg_hba.conf
+RUN echo "listen_addresses='*'" >> /etc/postgresql/14/main/postgresql.conf
+
+USER root
 # ---- Copy Data Into the Database -------------------------------------
-COPY sql_data/install.sh /opt/sql/
 COPY sql_data/install_docker.sql /opt/sql/
 
 # Script waits and checks for postgres to be ready
-
-#Fix characters encoding..
-USER root
-RUN dos2unix /opt/sql/install.sh
-RUN bash /opt/sql/install.sh
-#RUN ["/opt/sql/install.sh"]
+RUN service postgresql start && psql postgresql://docker:docker@127.0.0.1/hercules < /opt/sql/install_docker.sql
 
 # ---- Setup nginx ---------------------------------
 # Run command as root
@@ -96,5 +92,5 @@ EXPOSE 3000
 EXPOSE 5432
 EXPOSE 80
 
-ENTRYPOINT service postgresql start && service nginx restart && npm start /opt/viz
+ENTRYPOINT service postgresql start && service nginx restart && npm start
 

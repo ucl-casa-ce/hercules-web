@@ -1,7 +1,5 @@
 #!/bin/bash
 
-service postgresql start 
-
 retry() {
   max_attempts="$1"; shift
   seconds="$1"; shift

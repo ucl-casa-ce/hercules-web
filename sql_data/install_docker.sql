@@ -1,7 +1,3 @@
-create database hercules;
-create user docker with encrypted password 'docker';
-grant all privileges on database hercules to docker;
-
 CREATE EXTENSION if not exists postgis;
 
 SET search_path = hercules;
