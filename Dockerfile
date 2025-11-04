@@ -54,9 +54,10 @@ RUN apt-get install dos2unix -y
 RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
 RUN sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
 RUN apt-get update -y
-RUN apt-get install postgresql-14 postgresql-client-14 postgis postgresql-14-postgis-3 -y
+RUN apt-get install postgresql-14 postgresql-client-14 postgresql-14-postgis-3 -y
 
 USER postgres
+RUN pg_createcluster 14 main
 RUN /etc/init.d/postgresql start &&\
     psql --command "CREATE USER docker WITH SUPERUSER PASSWORD 'docker';" &&\
     createdb -O docker hercules &&\
