@@ -91,8 +91,6 @@ RUN npm install
 COPY ./setup/entrypoint.sh /
 RUN chmod +x /entrypoint.sh
 
-EXPOSE 3000
-EXPOSE 5432
 EXPOSE 80
 
 ENTRYPOINT ["/entrypoint.sh"]
