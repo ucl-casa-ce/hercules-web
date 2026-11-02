@@ -6,7 +6,7 @@
 FROM ubuntu:22.04
 LABEL maintainer="steven.gray@ucl.ac.uk"
 
-ENV NODE_VERSION=16.13.0
+ENV NODE_VERSION=26.13.0
 
 # Setup Dependices and Update
 ENV DEBIAN_FRONTEND=noninteractive 
